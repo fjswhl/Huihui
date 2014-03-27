@@ -7,12 +7,13 @@
 //
 
 #import "LINAppDelegate.h"
-
+#import "pinyin.h"
 @implementation LINAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    NSLog(@"%@", [HTFirstLetter firstLetter:@"凌"]);
     return YES;
 }
 							
@@ -43,4 +44,11 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - getter
+- (MKNetworkEngine *)engine{
+    if (!_engine) {
+        _engine = [[MKNetworkEngine alloc] initWithHostName:__HOSTNAME__];
+    }
+    return _engine;
+}
 @end

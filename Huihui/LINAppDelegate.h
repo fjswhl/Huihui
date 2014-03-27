@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MKNetworkKit.h"
+#import "Addrmacro.h"
 @interface LINAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+
+@property (strong, nonatomic) MKNetworkEngine *engine;
 @end

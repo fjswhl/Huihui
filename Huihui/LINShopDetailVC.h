@@ -1,5 +1,5 @@
 //
-//  LINViewController.h
+//  LINShopDetailVC.h
 //  Huihui
 //
 //  Created by Lin on 3/24/14.
@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LINViewController : UIViewController
+@interface LINShopDetailVC : UITableViewController
 
+@property (strong, nonatomic) NSDictionary *aShop;
 @end
