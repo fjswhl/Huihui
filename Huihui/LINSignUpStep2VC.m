@@ -51,6 +51,8 @@
         }
     }];
     self.authCodeForm.delegate = self;
+    
+    [self.authCodeForm.textField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

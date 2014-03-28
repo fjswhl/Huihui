@@ -76,6 +76,11 @@
 		3E483F6E18E44C440053EB93 /* LINSignUpStep2VC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F6D18E44C440053EB93 /* LINSignUpStep2VC.m */; };
 		3E483F7118E4538C0053EB93 /* LINSignUpStep3VC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F7018E4538C0053EB93 /* LINSignUpStep3VC.m */; };
 		3E5DED4F18E45AA700D5A59A /* LINMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED4E18E45AA700D5A59A /* LINMeVC.m */; };
+		3E5DED5218E48FE300D5A59A /* LINLogInTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED5118E48FE300D5A59A /* LINLogInTextField.m */; };
+		3E5DED5518E4912800D5A59A /* LINLogInVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED5418E4912800D5A59A /* LINLogInVC.m */; };
+		3E5DED5918E4976F00D5A59A /* UIHyperlinksButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED5818E4976F00D5A59A /* UIHyperlinksButton.m */; };
+		3EF4AEF418E534AF00376DC6 /* LINRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF318E534AF00376DC6 /* LINRootVC.m */; };
+		3EF4AEF718E56D9A00376DC6 /* NSString+Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +218,16 @@
 		3E483F7018E4538C0053EB93 /* LINSignUpStep3VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINSignUpStep3VC.m; sourceTree = "<group>"; };
 		3E5DED4D18E45AA700D5A59A /* LINMeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMeVC.h; sourceTree = "<group>"; };
 		3E5DED4E18E45AA700D5A59A /* LINMeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMeVC.m; sourceTree = "<group>"; };
+		3E5DED5018E48FE300D5A59A /* LINLogInTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINLogInTextField.h; sourceTree = "<group>"; };
+		3E5DED5118E48FE300D5A59A /* LINLogInTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINLogInTextField.m; sourceTree = "<group>"; };
+		3E5DED5318E4912800D5A59A /* LINLogInVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINLogInVC.h; sourceTree = "<group>"; };
+		3E5DED5418E4912800D5A59A /* LINLogInVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINLogInVC.m; sourceTree = "<group>"; };
+		3E5DED5718E4976F00D5A59A /* UIHyperlinksButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIHyperlinksButton.h; sourceTree = "<group>"; };
+		3E5DED5818E4976F00D5A59A /* UIHyperlinksButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIHyperlinksButton.m; sourceTree = "<group>"; };
+		3EF4AEF218E534AF00376DC6 /* LINRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINRootVC.h; sourceTree = "<group>"; };
+		3EF4AEF318E534AF00376DC6 /* LINRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINRootVC.m; sourceTree = "<group>"; };
+		3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Md5.h"; sourceTree = "<group>"; };
+		3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Md5.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +257,8 @@
 		3E15C0FA18DFE97800F6512F = {
 			isa = PBXGroup;
 			children = (
+				3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */,
+				3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */,
 				3E15C10C18DFE97800F6512F /* Huihui */,
 				3E15C12B18DFE97800F6512F /* HuihuiTests */,
 				3E15C10518DFE97800F6512F /* Frameworks */,
@@ -261,6 +278,7 @@
 		3E15C10518DFE97800F6512F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E5DED5618E4975D00D5A59A /* HyperLinkButton */,
 				3E483F6B18E428D70053EB93 /* CheckBox */,
 				3E483F5F18E4222B0053EB93 /* RMStepS */,
 				3E483F4E18E41E360053EB93 /* BZGForm */,
@@ -290,6 +308,8 @@
 				3E15C11E18DFE97800F6512F /* Images.xcassets */,
 				3E15C10D18DFE97800F6512F /* Supporting Files */,
 				3E15C19D18DFF3AB00F6512F /* Addrmacro.h */,
+				3EF4AEF218E534AF00376DC6 /* LINRootVC.h */,
+				3EF4AEF318E534AF00376DC6 /* LINRootVC.m */,
 			);
 			path = Huihui;
 			sourceTree = "<group>";
@@ -481,6 +501,7 @@
 		3E483F4F18E41E810053EB93 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				3EF4AEF818E5769400376DC6 /* Login */,
 				3E5DED4C18E45A8200D5A59A /* SignUp */,
 				3E5DED4D18E45AA700D5A59A /* LINMeVC.h */,
 				3E5DED4E18E45AA700D5A59A /* LINMeVC.m */,
@@ -527,6 +548,26 @@
 				3E483F7018E4538C0053EB93 /* LINSignUpStep3VC.m */,
 			);
 			name = SignUp;
+			sourceTree = "<group>";
+		};
+		3E5DED5618E4975D00D5A59A /* HyperLinkButton */ = {
+			isa = PBXGroup;
+			children = (
+				3E5DED5718E4976F00D5A59A /* UIHyperlinksButton.h */,
+				3E5DED5818E4976F00D5A59A /* UIHyperlinksButton.m */,
+			);
+			name = HyperLinkButton;
+			sourceTree = "<group>";
+		};
+		3EF4AEF818E5769400376DC6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				3E5DED5018E48FE300D5A59A /* LINLogInTextField.h */,
+				3E5DED5118E48FE300D5A59A /* LINLogInTextField.m */,
+				3E5DED5318E4912800D5A59A /* LINLogInVC.h */,
+				3E5DED5418E4912800D5A59A /* LINLogInVC.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -635,6 +676,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF4AEF418E534AF00376DC6 /* LINRootVC.m in Sources */,
+				3E5DED5218E48FE300D5A59A /* LINLogInTextField.m in Sources */,
 				3E15C15D18DFF18E00F6512F /* NSData+ImageContentType.m in Sources */,
 				3E15C18518DFF19400F6512F /* NSDictionary+RequestEncoding.m in Sources */,
 				3E15C16318DFF18E00F6512F /* SDWebImageManager.m in Sources */,
@@ -652,6 +695,7 @@
 				3E15C19818DFF19900F6512F /* MJRefreshBaseView.m in Sources */,
 				3E15C16018DFF18E00F6512F /* SDWebImageDecoder.m in Sources */,
 				3E483F6A18E428CE0053EB93 /* QCheckBox.m in Sources */,
+				3E5DED5918E4976F00D5A59A /* UIHyperlinksButton.m in Sources */,
 				3E15C19A18DFF19900F6512F /* MJRefreshFooterView.m in Sources */,
 				3E15C18218DFF19400F6512F /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				3E15C18718DFF19400F6512F /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
@@ -659,6 +703,7 @@
 				3E483F4918E32FFF0053EB93 /* NSArray+FirstLetterArray.m in Sources */,
 				3E15C18818DFF19400F6512F /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				3E483F4A18E32FFF0053EB93 /* NSString+FirstLetter.m in Sources */,
+				3EF4AEF718E56D9A00376DC6 /* NSString+Md5.m in Sources */,
 				3E15C16218DFF18E00F6512F /* SDWebImageDownloaderOperation.m in Sources */,
 				3E15C1A418E01F9900F6512F /* Model.xcdatamodeld in Sources */,
 				3E483F4818E32FFF0053EB93 /* POAPinyin.m in Sources */,
@@ -674,6 +719,7 @@
 				3E483F5E18E422250053EB93 /* RMStep.m in Sources */,
 				3E483F5C18E422250053EB93 /* RMStepsController.m in Sources */,
 				3E15C16518DFF18E00F6512F /* UIButton+WebCache.m in Sources */,
+				3E5DED5518E4912800D5A59A /* LINLogInVC.m in Sources */,
 				3E15C16418DFF18E00F6512F /* SDWebImagePrefetcher.m in Sources */,
 				3E483F4718E32FFF0053EB93 /* pinyin.m in Sources */,
 				3E15C15F18DFF18E00F6512F /* SDWebImageCompat.m in Sources */,

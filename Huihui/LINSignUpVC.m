@@ -12,7 +12,9 @@
 #import "QCheckBox.h"
 #import "RMStepsController.h"
 #import "LINSignStepVC.h"
+#import "UIHyperlinksButton.h"
 NSString *const __apiGetVerification = @"index.php/User/getVerification";
+
 
 typedef  NS_ENUM(NSInteger, GetAuthCodeState){
     GetAuthCodeStateFormatError,
@@ -33,6 +35,7 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
 
 @property (strong, nonatomic) IBOutlet QCheckBox *check;
 
+@property (strong, nonatomic) IBOutlet UIHyperlinksButton *xieyiButton;
 
 
 @end
@@ -55,9 +58,18 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
     self.phoneForm.layer.borderColor = [UIColor colorWithRed:255/255.0 green:140/255.0 blue:0.0 alpha:1.0].CGColor;
     self.phoneForm.layer.borderWidth = 1;
     self.phoneForm.textField.keyboardType = UIKeyboardTypePhonePad;
-    [self.view addSubview:self.check];
+    [self.xieyiButton setColor:[UIColor redColor]];
     
-    self.phoneForm.textField.placeholder = @"请输入您的手机号";
+    //      如果是忘记密码,调整一下UI
+    LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
+    if (stepVC.isForgetPwd == YES) {
+        self.phoneForm.textField.placeholder = @"请输入注册时的手机号";
+        self.infoLabel.hidden = YES;
+    }else{
+        [self.view addSubview:self.check];
+        self.phoneForm.textField.placeholder = @"请输入您的手机号";
+    }
+
     __weak LINSignUpVC *weakSelf = self;
     
     [self.phoneForm setTextValidationBlock:^BOOL(NSString *text) {
@@ -111,7 +123,15 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
 
 - (void)didSelectedCheckBox:(QCheckBox *)checkbox checked:(BOOL)checked{
     if ([self.phoneForm formFieldState] == BZGFormFieldStateValid && checked == YES) {
-        self.getAuthCodeButton.enabled = YES;
+        [self setSubmitButton:YES];
+    }else{
+        [self setSubmitButton:NO];
+    }
+}
+
+- (void)setSubmitButton:(BOOL)enabled{
+    self.getAuthCodeButton.enabled = enabled;
+    if (enabled) {
         self.getAuthCodeButton.backgroundColor = [UIColor colorWithRed:250/255.0 green:140/255.0 blue:0 alpha:1.0f];
     }else{
         self.getAuthCodeButton.enabled = NO;
@@ -132,8 +152,11 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
     if ([self.phoneForm.textField isFirstResponder]) {
         [self.phoneForm.textField resignFirstResponder];
     }
+    LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
+    NSString *authCodeType = stepVC.isForgetPwd ? @"f" : @"r";
+    
     MKNetworkOperation *op = [self.engine operationWithPath:__apiGetVerification params:@{@"phone":self.phoneForm.textField.text,
-                                                                                          @"type":@"r"} httpMethod:@"POST"];
+                                                                                          @"type":authCodeType} httpMethod:@"POST"];
     
     __weak LINSignUpVC *weakSelf = self;
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -158,6 +181,26 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
 #warning wait
 }
 
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+//    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//
+    LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
+    if ([self.phoneForm formFieldState] == BZGFormFieldStateValid) {
+        if (stepVC.isForgetPwd == YES) {
+            [self setSubmitButton:YES];
+        }else{
+            if (self.check.checked == YES) {
+                [self setSubmitButton:YES];
+            }else{
+                [self setSubmitButton:NO];
+            }
+        }
+    }else{
+        [self setSubmitButton:NO];
+    }
+    return YES;
+}
 
 
 @end

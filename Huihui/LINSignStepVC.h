@@ -12,4 +12,6 @@
 @interface LINSignStepVC : RMStepsController
 @property (strong, nonatomic) NSString *phoneNumber;
 @property (strong, nonatomic) NSString *authCode;
+
+@property (assign, nonatomic) BOOL isForgetPwd;
 @end

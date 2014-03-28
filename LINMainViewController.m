@@ -9,7 +9,9 @@
 #import "LINMainViewController.h"
 #import "MKNetworkKit.h"
 #import "RatingView.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+#import "SDWebImage/SDImageCache.h"
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __shopname = @"shopname";
 NSString *const __discount = @"discount";
@@ -27,7 +29,7 @@ NSString *const __id = @"id";
 @property (strong, nonatomic) NSMutableArray *shops;
 @property (nonatomic) BOOL loadMoreCellIsShown;
 @property (nonatomic) NSInteger pageCount;
-
+@property (strong, nonatomic) NSMutableDictionary *shopImgs;
 
 @end
 
@@ -49,8 +51,7 @@ NSString *const __id = @"id";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.loadMoreCellIsShown = YES;
     self.pageCount = 1;
-    // KVO
-    [self.tableView addObserver:self forKeyPath:@"visibleCells" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
+    
     
     [self fetchGuessUlikeShopListWithPage:@"1"];
 
@@ -84,6 +85,13 @@ NSString *const __id = @"id";
     }
     return _shops;
 }
+
+- (NSMutableDictionary *)shopImgs{
+    if (!_shopImgs) {
+        _shopImgs = [NSMutableDictionary new];
+    }
+    return _shopImgs;
+}
 #pragma mark - TableView Datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -98,13 +106,13 @@ NSString *const __id = @"id";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == [self.shops count]) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"moreCell" forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"moreCell"];
         return cell;
     }
     
     
     static NSString *cellIdentifider = @"shopCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider];
     
     UILabel *shopNameLabel = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *discountLabel = (UILabel *)[cell.contentView viewWithTag:2];
@@ -123,17 +131,40 @@ NSString *const __id = @"id";
 
 
     NSDictionary *aShop = self.shops[indexPath.row];
-
+    
+//    [shopImage setImage:nil];
 //    if ([aShop[@"pic"] rangeOfString:@"png"].location != NSNotFound) {
-        [shopImage setImageWithURL:aShop[@"pic"]];
+//        NSLog(@"%@", aShop[__pic]);
+//       // [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
+//        NSFileManager *fm = [NSFileManager new];
+//        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//        NSString *d = [aShop[__pic] stringByReplacingOccurrencesOfString:@"http://xdhuihui-public.stor.sinaapp.com/upload/img/shop/" withString:@""];
+//        NSLog(@"%@", d);
+//        NSString *desSt = [docPath stringByAppendingFormat:@"/%@",d];
+//        if ([fm fileExistsAtPath:desSt]) {
+//            UIImage *img = [[UIImage alloc] initWithContentsOfFile:desSt];
+//            shopImage.image = img;
+//        }
+//    
+//    }
 //    }else{
 //        [shopImage setImage:nil];
 //    }
+  //  [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
     shopNameLabel.text = aShop[__shopname];
     discountLabel.text = aShop[__discount];
     locationLabel.text = aShop[__location];
     [ratingView displayRating:[aShop[__grade] floatValue]];
-   
+//    shopImage.image = nil;
+//    if (!self.shopImgs[indexPath]) {
+//        if (self.tableView.dragging == NO && self.tableView.decelerating == NO) {
+//            [self startImgDownload:aShop forIndexPath:indexPath];
+//        }
+//    }else{
+//        shopImage.image = self.shopImgs[indexPath];
+//    }
+    [shopImage setImageWithURL:[NSURL URLWithString:@"http://pic16.nipic.com/20110930/7995528_081419584000_2.png"]];
+    
     return cell;
 }
 
@@ -153,36 +184,77 @@ NSString *const __id = @"id";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@", indexPath);
+
     [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (self.loadMoreCellIsShown == true) {
-        return;
-    }
-    UITableViewCell *lastVisibleCell = [self.tableView.visibleCells lastObject];
-    UILabel *label = (UILabel *)[lastVisibleCell viewWithTag:1];
-    if ([label.text isEqualToString:@"正在加载..."]) {
-        
-        self.loadMoreCellIsShown = true;
-        [self fetchGuessUlikeShopListWithPage:[NSString stringWithFormat:@"%i", self.pageCount]];
-        
-    }
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    if (self.loadMoreCellIsShown == true) {
+//        return;
+//    }
+//    UITableViewCell *lastVisibleCell = [self.tableView.visibleCells lastObject];
+//    UILabel *label = (UILabel *)[lastVisibleCell viewWithTag:1];
+//    if ([label.text isEqualToString:@"正在加载..."]) {
+//        
+//        self.loadMoreCellIsShown = true;
+//        [self fetchGuessUlikeShopListWithPage:[NSString stringWithFormat:@"%i", self.pageCount]];
+//        
+//    }
+//}
+
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+	
+	CGPoint offset = aScrollView.contentOffset;
+	CGRect bounds = aScrollView.bounds;
+	CGSize size = aScrollView.contentSize;
+	UIEdgeInsets inset = aScrollView.contentInset;
+	float y = offset.y + bounds.size.height - inset.bottom;
+	float h = size.height;
+	// NSLog(@"offset: %f", offset.y);
+	// NSLog(@"content.height: %f", size.height);
+	// NSLog(@"bounds.height: %f", bounds.size.height);
+	// NSLog(@"inset.top: %f", inset.top);
+	// NSLog(@"inset.bottom: %f", inset.bottom);
+	// NSLog(@"pos: %f of %f", y, h);
+	float reload_distance = 10;
+	if(y > h + reload_distance) {
+		//NSLog(@"load more rows");
+        if (self.loadMoreCellIsShown == false) {
+            self.loadMoreCellIsShown = true;
+            [self fetchGuessUlikeShopListWithPage:[NSString stringWithFormat:@"%li", (unsigned long)self.pageCount]];
+        }
+
+	}
 }
+
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    NSArray *cells = self.tableView.visibleCells;
+//    for (UITableViewCell *cell in cells) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//        NSString *imgSt = [self.shops[indexPath.row][__pic] stringByReplacingOccurrencesOfString:@"http://xdhuihui-public.stor.sinaapp.com/upload/img/shop/" withString:@""];
+//        NSLog(@"%@", imgSt);
+//        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:self.shops[indexPath.row][__pic]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//            ;
+//        } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//            NSString *doucumentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//            [UIImageJPEGRepresentation(image, 0) writeToFile:doucumentsPath atomically:YES];
+//        }];
+//        
+//    }
+//}
 
 #pragma mark - KVO callback
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"visibleCells"]) {
-        NSArray *visibleCells = [change objectForKey:NSKeyValueChangeNewKey];
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"moreCell"];
-        if ([visibleCells containsObject:cell]) {
-            NSLog(@"dsffsf");
-        }
-    }else if ([keyPath isEqualToString:@"count"]){
-
-    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+//    if ([keyPath isEqualToString:@"visibleCells"]) {
+//        NSArray *visibleCells = [change objectForKey:NSKeyValueChangeNewKey];
+//        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"moreCell"];
+//        if ([visibleCells containsObject:cell]) {
+//            NSLog(@"dsffsf");
+//        }
+//    }else if ([keyPath isEqualToString:@"count"]){
+//
+//    }
+//}
 
 
 #pragma mark - Interaction With Server
@@ -236,6 +308,44 @@ NSString *const __id = @"id";
 - (IBAction)typeButtonEntertainmentTapped:(id)sender {
 }
 
+
+//- (void)startImgDownload:(NSDictionary *)aShop forIndexPath:(NSIndexPath *)indexPath{
+//    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:aShop[__pic]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//        ;
+//    } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//        UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:5];
+//        imgView.image = image;
+//        if (image != nil) {
+//                    self.shopImgs[indexPath] = image;
+//        }
+//
+//    }];
+//}
+//
+//- (void)loadImagesForOnscreenRows{
+//    if ([self.shops count] > 0) {
+//        NSArray *visblePaths = [self.tableView indexPathsForVisibleRows];
+//        // 如果滚动到最下面, 加载更多的cell也会在这里面
+//        
+//        for (NSInteger i = 0; i < [visblePaths count] - 1; i++) {
+//            NSIndexPath *indexPath = visblePaths[i];
+//            NSDictionary *aShop = self.shops[indexPath.row];
+//            if (!self.shopImgs[indexPath]) {
+//                [self startImgDownload:aShop forIndexPath:indexPath];
+//            }
+//        }
+//    }
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    if (!decelerate) {
+//        [self loadImagesForOnscreenRows];
+//    }
+//}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    [self loadImagesForOnscreenRows];
+//}
 @end
 
 

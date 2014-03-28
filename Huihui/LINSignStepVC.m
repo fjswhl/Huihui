@@ -17,21 +17,17 @@
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.stepsBar.translucent = NO;
-    //self.navigationController.navigationBar.shadowImage = [UIImage new];
-}
 
 - (NSArray *)stepViewControllers{
     UIViewController *firstStep = [self.storyboard instantiateViewControllerWithIdentifier:@"sign1"];
     firstStep.step.title = @"输入手机号";
     
     UIViewController *secondStep = [self.storyboard instantiateViewControllerWithIdentifier:@"sign2"];
+    
     secondStep.step.title = @"请输入验证码";
     
     UIViewController *thirdStep = [self.storyboard instantiateViewControllerWithIdentifier:@"sign3"];
-    thirdStep.step.title = @"设置密码";
+    thirdStep.step.title = self.isForgetPwd ? @"重置密码" : @"设置密码";
     return @[firstStep, secondStep, thirdStep];
 }
 

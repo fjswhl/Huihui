@@ -10,8 +10,9 @@
 #import "BZGFormField.h"
 #import "LINSignStepVC.h"
 #import "MKNetworkKit.h"
-
+#import "NSString+Md5.h"
 NSString *const __apiRegister = @"index.php/User/register";
+NSString *const __apiRestPwd = @"index.php/User/resetSecret";
 
 typedef NS_ENUM(NSInteger, LinRegisterState){
     LinRegisterStateAlreadySigned,
@@ -21,7 +22,7 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
     LinRegisterStateOK
 };
 
-@interface LINSignUpStep3VC ()
+@interface LINSignUpStep3VC ()<BZGFormFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet BZGFormField *passwordForm;
 @property (strong, nonatomic) IBOutlet BZGFormField *confirmPasswordForm;
@@ -46,6 +47,10 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.passwordForm.delegate = self;
+    self.confirmPasswordForm.delegate = self;
+    
+    
     self.passwordForm.layer.borderColor = [UIColor colorWithRed:255/255.0 green:140/255.0 blue:0.0 alpha:1.0].CGColor;
     self.passwordForm.layer.borderWidth = 1;
     
@@ -75,6 +80,17 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
             return NO;
         }
     }];
+    
+    
+    // 如果是重置密码 ,更改UI
+    LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
+    if (stepVC.isForgetPwd == YES) {
+        [self.summit setTitle:@"确认提交新密码" forState: UIControlStateDisabled];
+        [self.summit setTitle:@"确定提交新密码" forState:UIControlStateNormal];
+    }
+    
+    
+    [self.passwordForm.textField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,14 +101,24 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
 
 - (IBAction)submit:(id)sender {
     LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
-    NSLog(@"%@\n%@\n", stepVC.phoneNumber, stepVC.authCode);
     
     __weak LINSignUpStep3VC *weakSelf = self;
-    MKNetworkOperation *op = [self.engine operationWithPath:__apiRegister params:@{@"phone":stepVC.phoneNumber,
-                                                                                   @"password":weakSelf.passwordForm.textField.text,
-                                                                                   @"registerCode":stepVC.authCode} httpMethod:@"POST"];
+    MKNetworkOperation *op = nil;
+    if (stepVC.isForgetPwd == YES) {
+        op = [self.engine operationWithPath:__apiRestPwd params:@{@"phone":stepVC.phoneNumber,
+                                                                  @"password":[self.passwordForm.textField.text md5],
+                                                                  @"CheckCode":stepVC.authCode} httpMethod:@"POST"];
+        
+        NSLog(@"%@\n%@\n%@", [NSString md5:self.passwordForm.textField.text], [self.passwordForm.textField.text md5],[self.passwordForm.textField.text sha1]);
+        
+    }else{
+        op = [self.engine operationWithPath:__apiRegister params:@{@"phone":stepVC.phoneNumber,
+                                                              @"password":[NSString md5:weakSelf.passwordForm.textField.text],
+                                                              @"registerCode":stepVC.authCode} httpMethod:@"POST"];
+    }
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
+        NSLog(@"%@", dic);
         if (dic[@"error"] != nil) {
             NSString *errorCode = dic[@"error"];
             [self handleRegisterErrorWithState:[errorCode integerValue]];
@@ -119,6 +145,18 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
     }
     return _engine;
 }
+
+#pragma mark - Form Delegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([self.passwordForm formFieldState] == BZGFormFieldStateValid &&
+        [self.confirmPasswordForm formFieldState] == BZGFormFieldStateValid) {
+        [self setSubmitButton:YES];
+    }else{
+        [self setSubmitButton:NO];
+    }
+    return YES;
+}
 /*
 #pragma mark - Navigation
 
@@ -129,5 +167,15 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
     // Pass the selected object to the new view controller.
 }
 */
+- (void)setSubmitButton:(BOOL)enabled{
+    self.summit.enabled = enabled;
+    if (enabled) {
+        self.summit.backgroundColor = [UIColor colorWithRed:250/255.0 green:140/255.0 blue:0 alpha:1.0f];
+    }else{
+        self.summit.enabled = NO;
+        self.summit.backgroundColor = [UIColor lightGrayColor];
+    }
+}
+
 
 @end

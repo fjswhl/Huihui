@@ -8,12 +8,15 @@
 
 #import "LINAppDelegate.h"
 #import "pinyin.h"
+
+#import "NSString+Md5.h"
 @implementation LINAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     NSLog(@"%@", [HTFirstLetter firstLetter:@"凌"]);
+    NSLog(@"%@\n%@", [@"hh1111" md5], [NSString md5:@"hh1111"]);
     return YES;
 }
 							

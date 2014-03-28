@@ -8,6 +8,8 @@
 
 #import "LINMeVC.h"
 
+
+
 @interface LINMeVC ()
 
 @end
@@ -46,14 +48,14 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return [super numberOfSectionsInTableView:tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [super tableView:tableView numberOfRowsInSection:section];
 }
 
 /*
