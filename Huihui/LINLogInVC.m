@@ -16,6 +16,8 @@
 //  这里登入成功后会将用户名和密码保存进UserDefault
 
 NSString *const __apiLogin = @"index.php/User/loadin";
+NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
+
 @interface LINLogInVC ()
 
 @property (strong, nonatomic) IBOutlet LINLogInTextField *phoneNumberForm;
@@ -63,27 +65,57 @@ NSString *const __apiLogin = @"index.php/User/loadin";
 }
 
 - (IBAction)login:(id)sender {
-    MKNetworkOperation *op = [self.engine operationWithPath:__apiLogin params:@{@"phone":self.phoneNumberForm.text, @"password":self.pwdForm.text} httpMethod:@"POST"];
-    NSLog(@"%@,%@", self.pwdForm.text, [self.pwdForm.text md5]);
-    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+    MKNetworkOperation *getEncripCode = [self.engine operationWithPath:__apiGetScretKey params:nil httpMethod:@"POST"];
+    [getEncripCode addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+
         NSDictionary *dic = [completedOperation responseJSON];
-        NSLog(@"%@", dic);
-        if (dic[@"error"] != nil) {
-            NSLog(@"用户名密码错误");
-        }else{
-#warning wait for md5 encode
-            [[NSUserDefaults standardUserDefaults] setValue:self.phoneNumberForm.text forKey:@"phoneNumber"];
-            [[NSUserDefaults standardUserDefaults] setValue:self.pwdForm.text forKey:@"password"];
-            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
-            [rootVC setLogged:YES];
+#warning wait
+        NSNumber *number = dic[@"success"];
+        NSString *secretCode = [NSString stringWithFormat:@"%i",[number intValue]];
+        NSString *s1 = [[secretCode md5] substringToIndex:16];
+        //      密钥md5的前16位
+        
+        NSString *s2 = [[NSString encripedPwdWithOriginalString:self.pwdForm.text] substringToIndex:16];
+        //      注册时提交的密码的前16位
+
+        NSString *desPwd = [[s1 stringByAppendingString:s2] md5];
+        //      把s1和s2合并后再次md5
+        
+//        NSLog(@"%@\n%@", s1, s2);
+
+        
+        
+        MKNetworkOperation *op = [self.engine operationWithPath:__apiLogin params:@{@"phone":self.phoneNumberForm.text, @"password":desPwd} httpMethod:@"POST"];
+
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
             
-            NSLog(@"登入成功");
-        }
+            NSDictionary *dic = [completedOperation responseJSON];
+            NSLog(@"%@", dic);
+            if (dic[@"error"] != nil) {
+                NSLog(@"用户名密码错误");
+            }else{
+#warning wait for md5 encode
+                [[NSUserDefaults standardUserDefaults] setValue:self.phoneNumberForm.text forKey:@"phoneNumber"];
+                [[NSUserDefaults standardUserDefaults] setValue:self.pwdForm.text forKey:@"password"];
+                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+                [rootVC setLogged:YES];
+                
+                NSLog(@"登入成功");
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+        }];
+        [self.engine enqueueOperation:op];
+        NSLog(@"%@", desPwd);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 #warning wait
     }];
     
-    [self.engine enqueueOperation:op];
+    
+
+    [self.engine enqueueOperation:getEncripCode];
+  //  [self.engine enqueueOperation:op];
+
 }
 
 #pragma mark - Navigation
@@ -102,5 +134,4 @@ NSString *const __apiLogin = @"index.php/User/loadin";
 - (IBAction)forgetPwd:(UIButton *)sender {
     [self performSegueWithIdentifier:@"logToSign" sender:nil];
 }
-
 @end

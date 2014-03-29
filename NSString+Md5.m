@@ -43,7 +43,6 @@
     const char *cStr = [self UTF8String];
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5( cStr, strlen(cStr), digest );
-    
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
@@ -51,4 +50,32 @@
     
     return output;
 }
++ (NSString *)encripedPwdWithOriginalString:(NSString *)pwd{
+    NSString *s1 = [[@"huihui" md5] substringToIndex:16];
+    NSString *s2 = [[pwd md5] substringToIndex:16];
+    return [[s1 stringByAppendingString:s2] md5];
+}
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

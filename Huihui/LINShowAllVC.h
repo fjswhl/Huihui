@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LINShowAllVC : UITableViewController
-
+@property (strong, nonatomic) NSString *type;
+@property (strong, nonatomic) NSString *inOutSchool;
 @end

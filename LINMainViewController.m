@@ -12,6 +12,8 @@
 //#import "UIImageView+WebCache.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "SDWebImage/SDImageCache.h"
+
+#import "LINShowAllVC.h"
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __shopname = @"shopname";
 NSString *const __discount = @"discount";
@@ -297,15 +299,23 @@ NSString *const __id = @"id";
         NSIndexPath *indexPath = (NSIndexPath *)sender;
         NSDictionary *aShop = self.shops[indexPath.row];
         [segue.destinationViewController setValue:aShop forKey:@"aShop"];
+    }else if ([segue.identifier isEqualToString:@"type"]){
+        UIButton *button = (UIButton *)sender;
+        LINShowAllVC *showAllVC = (LINShowAllVC *)segue.destinationViewController;
+        [showAllVC setType:[NSString stringWithFormat:@"%li", (unsigned long)button.tag]];
+        
     }
 }
 
 #pragma mark - Button Method
-- (IBAction)typeButtonFoodTapped:(id)sender {
+- (IBAction)typeButtonFoodTapped:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"type" sender:sender];
 }
-- (IBAction)typeButtonServiceTapped:(id)sender {
+- (IBAction)typeButtonServiceTapped:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"type" sender:sender];
 }
-- (IBAction)typeButtonEntertainmentTapped:(id)sender {
+- (IBAction)typeButtonEntertainmentTapped:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"type" sender:sender];
 }
 
 

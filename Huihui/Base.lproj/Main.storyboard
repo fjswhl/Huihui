@@ -44,7 +44,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEN-X3-kaY">
+                                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEN-X3-kaY">
                                     <rect key="frame" x="2" y="131" width="113" height="99"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -57,7 +57,7 @@
                                         <action selector="typeButtonFoodTapped:" destination="vyd-uZ-V4C" eventType="touchUpInside" id="Fcl-yE-r2m"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KaL-wN-e2u">
+                                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KaL-wN-e2u">
                                     <rect key="frame" x="108" y="131" width="103" height="103"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <inset key="titleEdgeInsets" minX="0.0" minY="56" maxX="16" maxY="0.0"/>
@@ -68,7 +68,7 @@
                                         <action selector="typeButtonServiceTapped:" destination="vyd-uZ-V4C" eventType="touchUpInside" id="KMd-20-3ZD"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQs-QH-j85">
+                                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQs-QH-j85">
                                     <rect key="frame" x="214" y="131" width="103" height="103"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <inset key="titleEdgeInsets" minX="0.0" minY="56" maxX="16" maxY="0.0"/>
@@ -396,6 +396,9 @@
                             </connections>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="preferredOption" destination="Ev5-XL-oSA" id="xUw-fZ-6bA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QWq-W0-nhF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -622,6 +625,7 @@
                     <tabBarItem key="tabBarItem" title="优惠" id="EhX-zY-KKa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tur-t6-2EY">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="1" green="0.54901960780000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>

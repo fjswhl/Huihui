@@ -104,16 +104,18 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
     
     __weak LINSignUpStep3VC *weakSelf = self;
     MKNetworkOperation *op = nil;
+    
+    NSString *postPwd = [NSString encripedPwdWithOriginalString:self.passwordForm.textField.text];
+    NSLog(@"%@", postPwd);
     if (stepVC.isForgetPwd == YES) {
         op = [self.engine operationWithPath:__apiRestPwd params:@{@"phone":stepVC.phoneNumber,
-                                                                  @"password":[self.passwordForm.textField.text md5],
+                                                                  @"password":postPwd,
                                                                   @"CheckCode":stepVC.authCode} httpMethod:@"POST"];
         
-        NSLog(@"%@\n%@\n%@", [NSString md5:self.passwordForm.textField.text], [self.passwordForm.textField.text md5],[self.passwordForm.textField.text sha1]);
         
     }else{
         op = [self.engine operationWithPath:__apiRegister params:@{@"phone":stepVC.phoneNumber,
-                                                              @"password":[NSString md5:weakSelf.passwordForm.textField.text],
+                                                              @"password":postPwd,
                                                               @"registerCode":stepVC.authCode} httpMethod:@"POST"];
     }
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {

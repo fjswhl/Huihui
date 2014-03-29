@@ -12,4 +12,6 @@
 + (NSString *)md5:(NSString *)str;
 - (NSString*) sha1;
 -(NSString *) md5;
+
++ (NSString *)encripedPwdWithOriginalString:(NSString *)pwd;
 @end

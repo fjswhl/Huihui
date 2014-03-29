@@ -17,10 +17,14 @@ typedef enum{
     LINShowAllVCOptionOutschool = 2
 }LINShowAllVCOption;
 
-NSString *const apiShopFetchAll = @"index.php/Shop/fetchAll";
+NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 
 @interface LINShowAllVC ()
 @property (weak, nonatomic) MKNetworkEngine *engine;
+
+@property (strong, nonatomic) NSArray *shopsInSchool;
+@property (strong, nonatomic) NSArray *shopsOutSchool;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *preferredOption;
 @end
 
 @implementation LINShowAllVC
@@ -43,11 +47,13 @@ NSString *const apiShopFetchAll = @"index.php/Shop/fetchAll";
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self fetchAllShopWithOptions:LINShowAllVCOptionInschool];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+
     // Dispose of any resources that can be recreated.
 }
 
@@ -65,23 +71,49 @@ NSString *const apiShopFetchAll = @"index.php/Shop/fetchAll";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
+
     return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+//    if (self.) {
+//        <#statements#>
+//    }
+//    return [];
     return 0;
 }
 
 #pragma mark - Interaction With Server
 - (void)fetchAllShopWithOptions:(LINShowAllVCOption)option{
+    NSString *type = self.type;
+    NSString *inoutSchool = [NSString stringWithFormat:@"%li", (unsigned long)option];
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiShopFetchAll params:@{@"length":@"999",
+                                                                                  @"page":@"1",
+                                                                                  @"schoolid":@"1",
+                                                                                  @"type":type,
+                                                                                  @"inoutschool":inoutSchool
+                                                                                   } httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        
+        if (option == LINShowAllVCOptionInschool) {
+            self.shopsInSchool = dic[@"success"][@"shops"];
+        }else if (option == LINShowAllVCOptionOutschool){
+            self.shopsOutSchool = dic[@"success"][@"shops"];
+        }
+        [self.tableView reloadData];
+        NSLog(@"%@",dic);
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+    }];
+    [self.engine enqueueOperation:op];
 }
 
-- (IBAction)preferOptionChanged:(id)sender {
+- (IBAction)preferOptionChanged:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 1) {
+        [self fetchAllShopWithOptions:sender.selectedSegmentIndex];
+    }
 }
 
 
