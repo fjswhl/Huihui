@@ -8,8 +8,16 @@
 
 #import "LINShowAllVC.h"
 #import "MKNetworkKit.h"
+#import "UIImageView+WebCache.h"
+#import "RatingView.h"
 
-
+extern NSString *const __shopname;
+extern NSString *const __discount;
+extern NSString *const __location;
+extern NSString *const __phone;
+extern NSString *const __grade;
+extern NSString *const __pic;
+extern NSString *const __id;
 //      校内还是校外
 
 typedef enum{
@@ -72,16 +80,62 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if (self.) {
-//        <#statements#>
-//    }
-//    return [];
+    if (self.preferredOption.selectedSegmentIndex == 0) {
+        return [self.shopsInSchool count];
+    }else if (self.preferredOption.selectedSegmentIndex == 1){
+        return [self.shopsOutSchool count];
+    }
     return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"shopCell"];
+    
+    UILabel *shopNameLabel = (UILabel *)[cell.contentView viewWithTag:1];
+    UILabel *discountLabel = (UILabel *)[cell.contentView viewWithTag:2];
+    UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:3];
+    RatingView *ratingView = (RatingView *)[cell.contentView viewWithTag:4];
+    UIImageView *shopImage = (UIImageView *)[cell.contentView viewWithTag:5];
+    
+    [cell.contentView sendSubviewToBack:ratingView];
+    
+    if (!ratingView.s1) {
+        [ratingView setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+    }
+    
+    
+    NSDictionary *aShop = nil;
+    if (self.preferredOption.selectedSegmentIndex == 0) {
+        aShop = self.shopsInSchool[indexPath.row];
+    }else if (self.preferredOption.selectedSegmentIndex == 1){
+        aShop = self.shopsOutSchool[indexPath.row];
+    }
+    
+    shopNameLabel.text = aShop[__shopname];
+    discountLabel.text = aShop[__discount];
+    locationLabel.text = aShop[__location];
+    [ratingView displayRating:[aShop[__grade] floatValue]];
+    //    shopImage.image = nil;
+    //    if (!self.shopImgs[indexPath]) {
+    //        if (self.tableView.dragging == NO && self.tableView.decelerating == NO) {
+    //            [self startImgDownload:aShop forIndexPath:indexPath];
+    //        }
+    //    }else{
+    //        shopImage.image = self.shopImgs[indexPath];
+    //    }
+    [shopImage setImageWithURL:[NSURL URLWithString:@"http://pic16.nipic.com/20110930/7995528_081419584000_2.png"]];
+    return cell;
+}
+
+#pragma mark - TableView Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self performSegueWithIdentifier:@"showAllVCToDetail" sender:indexPath];
 }
 
 #pragma mark - Interaction With Server
@@ -111,11 +165,24 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 }
 
 - (IBAction)preferOptionChanged:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 1) {
-        [self fetchAllShopWithOptions:sender.selectedSegmentIndex];
-    }
+        [self fetchAllShopWithOptions:sender.selectedSegmentIndex + 1];
 }
 
+#pragma mark - Sague
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showAllVCToDetail"]) {
+        NSIndexPath *indexPath = (NSIndexPath *)sender;
+        
+        NSDictionary *aShop = nil;
+        if (self.preferredOption.selectedSegmentIndex == 0) {
+            aShop = self.shopsInSchool[indexPath.row];
+        }else if (self.preferredOption.selectedSegmentIndex == 1){
+            aShop = self.shopsOutSchool[indexPath.row];
+        }
+        
+        [segue.destinationViewController setValue:aShop forKey:@"aShop"];
+    }
+}
 
 
 

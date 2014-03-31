@@ -7,11 +7,19 @@
 //
 
 #import "LINMeVC.h"
-
-
+#import "LINRootVC.h"
+#import "MKNetworkKit.h"
+NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 
 @interface LINMeVC ()
+@property (strong, nonatomic) IBOutlet UILabel *infoLabel;
+@property (strong, nonatomic) IBOutlet UIButton *logInOrOutButton;
 
+@property (strong, nonatomic) IBOutlet UILabel *vipCardN;
+@property (strong, nonatomic) IBOutlet UILabel *favoriteLabel;
+@property (strong, nonatomic) IBOutlet UILabel *myGroup;
+
+@property (weak, nonatomic) MKNetworkEngine *engine;
 @end
 
 @implementation LINMeVC
@@ -36,10 +44,39 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if (rootVC.isLogged) {
+        self.infoLabel.text = [NSString stringWithFormat:@"用户名:%@", rootVC.userPhoneNumber];
+        self.logInOrOutButton.tag = 999;    //      999表示已登入, 0表示未登入
+        [self.logInOrOutButton setTitle:@"注销" forState:UIControlStateNormal];
+        [self.logInOrOutButton setTitle:@"注销" forState:UIControlStateHighlighted];
+        [self.logInOrOutButton setTitle:@"注销" forState:UIControlStateSelected];
+        [self fetchUserNumOfSVG];
+    }else{
+        self.infoLabel.text = @"欢迎使用汇惠,登入后使用更多功能";
+        self.logInOrOutButton.tag = 0;    //      999表示已登入, 0表示未登入
+        [self.logInOrOutButton setTitle:@"登入" forState:UIControlStateNormal];
+        [self.logInOrOutButton setTitle:@"登入" forState:UIControlStateHighlighted];
+        [self.logInOrOutButton setTitle:@"登入" forState:UIControlStateSelected];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Getter
+
+- (MKNetworkEngine *)engine{
+    if (!_engine) {
+        id delegate = [[UIApplication sharedApplication] delegate];
+        _engine = [delegate engine];
+    }
+    return _engine;
 }
 
 #pragma mark - Table view data source
@@ -58,64 +95,32 @@
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+- (BOOL)isLogged{
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    return rootVC.isLogged;
+}
+
+
+#pragma mark - Interraction With Server
+
+- (void)fetchUserNumOfSVG{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiUserNumOfSVG params:nil httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+#warning wait
+        NSDictionary *detail = dic[@"success"];
+        NSNumber *a = detail[@"numV"];
+        NSNumber *b = detail[@"numS"];
+        NSNumber *c = detail[@"numG"];
+        self.vipCardN.text = [NSString stringWithFormat:@"%i个", [a intValue]];
+        
+        self.favoriteLabel.text = [NSString stringWithFormat:@"%i个", [b intValue]];
+        self.myGroup.text = [NSString stringWithFormat:@"%i个", [c intValue]];
+
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+    }];
+    [self.engine enqueueOperation:op];
     
-    // Configure the cell...
-    
-    return cell;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

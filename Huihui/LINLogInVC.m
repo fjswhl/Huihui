@@ -99,7 +99,7 @@ NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
                 [[NSUserDefaults standardUserDefaults] setValue:self.pwdForm.text forKey:@"password"];
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC setLogged:YES];
-                
+                [self.navigationController popToRootViewControllerAnimated:YES];
                 NSLog(@"登入成功");
             }
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
