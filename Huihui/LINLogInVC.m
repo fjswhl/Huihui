@@ -13,12 +13,12 @@
 #import "LINRootVC.h"
 #import "LINSignStepVC.h"
 #import "NSString+Md5.h"
-//  这里登入成功后会将用户名和密码保存进UserDefault
 
-NSString *const __apiLogin = @"index.php/User/loadin";
-NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 
-@interface LINLogInVC ()
+extern NSString *const __apiLogin;
+extern NSString *const __apiGetScretKey;
+
+@interface LINLogInVC ()<LINRootVCDelegate>
 
 @property (strong, nonatomic) IBOutlet LINLogInTextField *phoneNumberForm;
 @property (strong, nonatomic) IBOutlet LINLogInTextField *pwdForm;
@@ -47,6 +47,9 @@ NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
     [self.jumpForgetPwd setColor:[UIColor redColor]];
     // Do any additional setup after loading the view.
     [self.phoneNumberForm becomeFirstResponder];
+    
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    rootVC.rootVCdelegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,56 +68,63 @@ NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 }
 
 - (IBAction)login:(id)sender {
-    MKNetworkOperation *getEncripCode = [self.engine operationWithPath:__apiGetScretKey params:nil httpMethod:@"POST"];
-    [getEncripCode addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-
-        NSDictionary *dic = [completedOperation responseJSON];
-#warning wait
-        NSNumber *number = dic[@"success"];
-        NSString *secretCode = [NSString stringWithFormat:@"%i",[number intValue]];
-        NSString *s1 = [[secretCode md5] substringToIndex:16];
-        //      密钥md5的前16位
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if (rootVC.logged == NO) {
+        [rootVC loginWithName:self.phoneNumberForm.text password:self.pwdForm.text completion:nil];
+    }else{
         
-        NSString *s2 = [[NSString encripedPwdWithOriginalString:self.pwdForm.text] substringToIndex:16];
-        //      注册时提交的密码的前16位
+    }
 
-        NSString *desPwd = [[s1 stringByAppendingString:s2] md5];
-        //      把s1和s2合并后再次md5
-        
-//        NSLog(@"%@\n%@", s1, s2);
-
-        
-        
-        MKNetworkOperation *op = [self.engine operationWithPath:__apiLogin params:@{@"phone":self.phoneNumberForm.text, @"password":desPwd} httpMethod:@"POST"];
-
-        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            
-            NSDictionary *dic = [completedOperation responseJSON];
-            NSLog(@"%@", dic);
-            if (dic[@"error"] != nil) {
-                NSLog(@"用户名密码错误");
-            }else{
-#warning wait for md5 encode
-                [[NSUserDefaults standardUserDefaults] setValue:self.phoneNumberForm.text forKey:@"phoneNumber"];
-                [[NSUserDefaults standardUserDefaults] setValue:self.pwdForm.text forKey:@"password"];
-                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
-                [rootVC setLogged:YES];
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                NSLog(@"登入成功");
-            }
-        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
-        }];
-        [self.engine enqueueOperation:op];
-        NSLog(@"%@", desPwd);
-    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
-    }];
-    
-    
-
-    [self.engine enqueueOperation:getEncripCode];
-  //  [self.engine enqueueOperation:op];
+//    MKNetworkOperation *getEncripCode = [self.engine operationWithPath:__apiGetScretKey params:nil httpMethod:@"POST"];
+//    [getEncripCode addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+//
+//        NSDictionary *dic = [completedOperation responseJSON];
+//#warning wait
+//        NSNumber *number = dic[@"success"];
+//        NSString *secretCode = [NSString stringWithFormat:@"%i",[number intValue]];
+//        NSString *s1 = [[secretCode md5] substringToIndex:16];
+//        //      密钥md5的前16位
+//        
+//        NSString *s2 = [[NSString encripedPwdWithOriginalString:self.pwdForm.text] substringToIndex:16];
+//        //      注册时提交的密码的前16位
+//
+//        NSString *desPwd = [[s1 stringByAppendingString:s2] md5];
+//        //      把s1和s2合并后再次md5
+//        
+////        NSLog(@"%@\n%@", s1, s2);
+//
+//        
+//        
+//        MKNetworkOperation *op = [self.engine operationWithPath:__apiLogin params:@{@"phone":self.phoneNumberForm.text, @"password":desPwd} httpMethod:@"POST"];
+//
+//        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+//            
+//            NSDictionary *dic = [completedOperation responseJSON];
+//            NSLog(@"%@", dic);
+//            if (dic[@"error"] != nil) {
+//                NSLog(@"用户名密码错误");
+//            }else{
+//#warning wait for md5 encode
+//                [[NSUserDefaults standardUserDefaults] setValue:self.phoneNumberForm.text forKey:@"phoneNumber"];
+//                [[NSUserDefaults standardUserDefaults] setValue:self.pwdForm.text forKey:@"password"];
+//                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+//                [rootVC setLogged:YES];
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//                NSLog(@"登入成功");
+//            }
+//        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+//#warning wait
+//        }];
+//        [self.engine enqueueOperation:op];
+//        NSLog(@"%@", desPwd);
+//    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+//#warning wait
+//    }];
+//    
+//    
+//
+//    [self.engine enqueueOperation:getEncripCode];
+//  //  [self.engine enqueueOperation:op];
 
 }
 
@@ -134,4 +144,33 @@ NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 - (IBAction)forgetPwd:(UIButton *)sender {
     [self performSegueWithIdentifier:@"logToSign" sender:nil];
 }
+
+#pragma mark - LINRootVCDelegate
+- (void)userDidLogin{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -126,6 +126,7 @@ NSString *const __id = @"id";
     
     if (!ratingView.s1) {
           [ratingView setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+        [ratingView setUserInteractionEnabled:NO];
     }
     
 
