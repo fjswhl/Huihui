@@ -150,6 +150,11 @@ extern NSString *const __apiGetScretKey;
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
+- (IBAction)pop:(id)sender {
+        [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end
 
 

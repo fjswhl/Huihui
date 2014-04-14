@@ -10,7 +10,7 @@
 #import "MKNetworkKit.h"
 #import "UIImageView+WebCache.h"
 #import "RatingView.h"
-
+#import "MBProgressHUD.h"
 extern NSString *const __shopname;
 extern NSString *const __discount;
 extern NSString *const __location;
@@ -56,6 +56,9 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self fetchAllShopWithOptions:LINShowAllVCOptionInschool];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,6 +109,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     
     if (!ratingView.s1) {
         [ratingView setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+        [ratingView setUserInteractionEnabled:NO];
     }
     
     
@@ -128,7 +132,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     //    }else{
     //        shopImage.image = self.shopImgs[indexPath];
     //    }
-    [shopImage setImageWithURL:[NSURL URLWithString:@"http://pic16.nipic.com/20110930/7995528_081419584000_2.png"]];
+    [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
     return cell;
 }
 
@@ -140,6 +144,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 
 #pragma mark - Interaction With Server
 - (void)fetchAllShopWithOptions:(LINShowAllVCOption)option{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSString *type = self.type;
     NSString *inoutSchool = [NSString stringWithFormat:@"%li", (unsigned long)option];
     MKNetworkOperation *op = [self.engine operationWithPath:__apiShopFetchAll params:@{@"length":@"999",
@@ -157,6 +162,11 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
             self.shopsOutSchool = dic[@"success"][@"shops"];
         }
         [self.tableView reloadData];
+        if (self.refreshControl.refreshing == YES) {
+            [self.refreshControl endRefreshing];
+        }
+        [hud hide:YES];
+        
         NSLog(@"%@",dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 #warning wait
@@ -165,7 +175,11 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 }
 
 - (IBAction)preferOptionChanged:(UISegmentedControl *)sender {
+    if ((self.shopsInSchool == nil && (sender.selectedSegmentIndex + 1) == 1) || (self.shopsOutSchool == nil && (sender.selectedSegmentIndex + 1) == 2)) {
         [self fetchAllShopWithOptions:sender.selectedSegmentIndex + 1];
+    }else{
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Sague
@@ -184,7 +198,13 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     }
 }
 
+- (IBAction)pop:(id)sender {
+        [self.navigationController popViewControllerAnimated:YES];
+}
 
+- (void)refresh{
+    [self fetchAllShopWithOptions:self.preferredOption.selectedSegmentIndex + 1];
+}
 
 
 @end

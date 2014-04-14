@@ -34,6 +34,9 @@
 - (void)finishedAllSteps{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (IBAction)pop:(id)sender {
+        [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)canceled{
     [self dismissViewControllerAnimated:YES completion:nil];

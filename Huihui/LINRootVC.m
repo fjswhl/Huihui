@@ -9,8 +9,7 @@
 #import "LINRootVC.h"
 #import "MKNetworkKit.h"
 #import "NSString+Md5.h"
-
-
+#import "UIColor+LINColor.h"
 
 
 //  这里登入成功后会将用户名和密码保存进UserDefault
@@ -39,6 +38,7 @@ NSString *const __apiLogout = @"index.php/User/logout";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.tabBar.tintColor = [UIColor preferredColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,13 +57,22 @@ NSString *const __apiLogout = @"index.php/User/logout";
     // Pass the selected object to the new view controller.
 }
 */
-#pragma mark - Getter
+#pragma mark - Getter And Setter
 - (MKNetworkEngine *)engine{
     if (!_engine) {
         id delegatge = [[UIApplication sharedApplication] delegate];
         _engine = [delegatge engine];
     }
     return _engine;
+}
+
+- (void)setLogged:(BOOL)logged{
+    _logged = logged;
+    [[NSUserDefaults standardUserDefaults] setBool:logged forKey:@"logged"];
+}
+
+- (BOOL)logged{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"logged"];
 }
 
 - (NSString *)userPhoneNumber{

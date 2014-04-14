@@ -8,6 +8,7 @@
 
 #import "LINMeVC.h"
 #import "LINRootVC.h"
+#import "MBProgressHUD.h"
 #import "MKNetworkKit.h"
 NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 
@@ -45,13 +46,17 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchUserNumOfSVG) forControlEvents:UIControlEventValueChanged];
 
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self updateUIWhenLoginOrOut];
-    
+    if ([self.vipCardN.text isEqualToString: @""]) {
+                [self updateUIWhenLoginOrOut];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,8 +100,13 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 #pragma mark - Interraction With Server
 
 - (void)fetchUserNumOfSVG{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     MKNetworkOperation *op = [self.engine operationWithPath:__apiUserNumOfSVG params:nil httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        [hud hide:YES];
+        if (self.refreshControl.refreshing == YES) {
+            [self.refreshControl endRefreshing];
+        }
         NSDictionary *dic = [completedOperation responseJSON];
 #warning wait
         
@@ -105,7 +115,9 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
             NSNumber *errorCode = dic[@"error"];
             if ([errorCode intValue] == 0) {
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
-                [rootVC loginCompletion:nil];
+                [rootVC loginCompletion:^{
+                    [self fetchUserNumOfSVG];
+                }];
                 return;
             }
         }
@@ -136,14 +148,15 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
     if (rootVC.logged == NO) {
         [self performSegueWithIdentifier:@"meVCtoLoginVC" sender:nil];
     }else{
-        rootVC.logged = NO;
+        [rootVC setLogged:NO];;
+        NSLog(@"%i", rootVC.logged);
         [self updateUIWhenLoginOrOut];
     }
 }
 
 - (void)updateUIWhenLoginOrOut{
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
-    if (rootVC.isLogged) {
+    if ([rootVC logged]) {
         self.infoLabel.text = [NSString stringWithFormat:@"用户名:%@", rootVC.userPhoneNumber];
         self.logInOrOutButton.tag = 999;    //      999表示已登入, 0表示未登入
         [self.logInOrOutButton setTitle:@"注销" forState:UIControlStateNormal];

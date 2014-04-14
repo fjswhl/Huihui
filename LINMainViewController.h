@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface LINMainViewController : UITableViewController
+#import "LINPickerSchoolViewController.h"
+@interface LINMainViewController : UITableViewController<LINPickerSchoolDelegatge>
 
 @end

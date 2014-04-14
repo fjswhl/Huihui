@@ -12,8 +12,9 @@
 //#import "UIImageView+WebCache.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "SDWebImage/SDImageCache.h"
-
+#import "IntroControll.h"
 #import "LINShowAllVC.h"
+#import "LINPickerSchoolViewController.h"
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __shopname = @"shopname";
 NSString *const __discount = @"discount";
@@ -32,6 +33,9 @@ NSString *const __id = @"id";
 @property (nonatomic) BOOL loadMoreCellIsShown;
 @property (nonatomic) NSInteger pageCount;
 @property (strong, nonatomic) NSMutableDictionary *shopImgs;
+
+@property (strong, nonatomic) IBOutlet UIView *adView;
+@property (strong, nonatomic) IBOutlet UIButton *changeSchoolidButton;
 
 @end
 
@@ -53,7 +57,7 @@ NSString *const __id = @"id";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.loadMoreCellIsShown = YES;
     self.pageCount = 1;
-    
+    [self updateTitleButton];
     
     [self fetchGuessUlikeShopListWithPage:@"1"];
 
@@ -61,7 +65,7 @@ NSString *const __id = @"id";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem
 }
 
 - (void)didReceiveMemoryWarning
@@ -166,14 +170,14 @@ NSString *const __id = @"id";
 //    }else{
 //        shopImage.image = self.shopImgs[indexPath];
 //    }
-    [shopImage setImageWithURL:[NSURL URLWithString:@"http://pic16.nipic.com/20110930/7995528_081419584000_2.png"]];
+    [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]]];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == [self.shops count]) {
-        return 54.0f;
+        return 43.0f;
     }
     return 94.0f;
 }
@@ -187,8 +191,10 @@ NSString *const __id = @"id";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row != [self.shops count]) {
+        [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
+    }
 
-    [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
 }
 
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -266,10 +272,12 @@ NSString *const __id = @"id";
     UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
     [indicator startAnimating];
     
-    MKNetworkOperation *op = [self.engine operationWithPath:apiGuessULike params:@{@"length":@"5", @"page":pages} httpMethod:@"POST"];
+    NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
+    
+    MKNetworkOperation *op = [self.engine operationWithPath:apiGuessULike params:@{@"length":@"5", @"page":pages, @"schoolid":schoolid} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
-
+        NSLog(@"%@", dic);
         if ([dic[@"error"] isEqualToString:@"2"]) {
 
             UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
@@ -319,6 +327,19 @@ NSString *const __id = @"id";
     [self performSegueWithIdentifier:@"type" sender:sender];
 }
 
+- (IBAction)changeSchool:(id)sender {
+    LINPickerSchoolViewController *pickVC = [self.storyboard instantiateViewControllerWithIdentifier:@"linpicker"];
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [self.tabBarController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    pickVC.backImage = im;
+    pickVC.delegate = self;
+    
+
+    [self presentViewController:pickVC animated:NO completion:nil];
+    
+}
 
 //- (void)startImgDownload:(NSDictionary *)aShop forIndexPath:(NSIndexPath *)indexPath{
 //    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:aShop[__pic]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -357,6 +378,40 @@ NSString *const __id = @"id";
 //- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 //    [self loadImagesForOnscreenRows];
 //}
+
+- (void)loadView{
+    [super loadView];
+    IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"ads1.png"];
+    IntroModel *model2 = [[IntroModel alloc] initWithTitle:nil description:@"一步注册,即享优惠" image:@"ads2.png"];
+    IntroModel *model3 = [[IntroModel alloc]initWithTitle:nil description:@"预享实惠,推荐汇惠" image:@"ads3.png"];
+    IntroControll *c = [[IntroControll alloc] initWithFrame:self.adView.frame pages:@[model1,model2,model3]];
+    [self.adView addSubview:c];
+}
+
+#pragma mark - LINPickerDelegate
+
+- (void)userDidChangeSchoolid:(NSInteger)schoolid{
+    if (schoolid == 0) {
+
+        [self.changeSchoolidButton setTitle:@"西电新校区" forState:        UIControlStateNormal];
+    }else{
+        [self.changeSchoolidButton setTitle:@"西电老校区" forState:        UIControlStateNormal];
+    }
+    self.shops = nil;
+    self.pageCount = 1;
+    [self.tableView reloadData];
+    [self fetchGuessUlikeShopListWithPage:@"1"];
+}
+
+- (void)updateTitleButton{
+    NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
+    if ([schoolid integerValue] == 0) {
+        
+        [self.changeSchoolidButton setTitle:@"西电新校区" forState:        UIControlStateNormal];
+    }else{
+        [self.changeSchoolidButton setTitle:@"西电老校区" forState:        UIControlStateNormal];
+    }
+}
 @end
 
 

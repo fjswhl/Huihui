@@ -10,6 +10,9 @@
 #import "MKNetworkKit.h"
 #import "RatingView.h"
 #import "LINRootVC.h"
+#import "LINCommentVC.h"
+#import "UIImageView+WebCache.h"
+#import "MBProgressHUD.h"
 //
 //{
 //    success =     {
@@ -68,6 +71,7 @@ NSString *const __type = @"type";
 
 @property (strong, nonatomic) IBOutlet UILabel *becomeVIPLabel;
 @property (assign, nonatomic) BOOL isVip;
+@property (strong, nonatomic) IBOutlet UIImageView *shopPic;
 
 @end
 
@@ -92,11 +96,15 @@ NSString *const __type = @"type";
     [self.grade_p setUserInteractionEnabled:NO];
     [self.grade_pc setUserInteractionEnabled:NO];
     [self.grade_s setUserInteractionEnabled:NO];
+    
+    self.navigationItem.title = self.aShop[__shopname];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchDetailInfo) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,42 +128,36 @@ NSString *const __type = @"type";
 
 
 - (void)fetchDetailInfo{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    
     MKNetworkOperation *op = [self.engine operationWithPath:apiFetchOne params:@{@"shopid":self.aShop[@"id"]} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        [hud hide:YES];
+        if (self.refreshControl.refreshing) {
+            [self.refreshControl endRefreshing];
+        }
         NSDictionary *detail = [completedOperation responseJSON];
         self.shopDetail = detail[@"success"];
-        NSLog(@"%@", self.shopDetail);
         self.introLabel.text = self.shopDetail[__intro];
         self.privilegeLabel.text = self.shopDetail[__discount];
         self.locationLabel.text = self.shopDetail[__location];
         self.contactLabel.text = self.aShop[__master];
+        NSLog(@"%@",self.aShop[__master]);
         self.contactMethodLabel.text = self.aShop[__phone];
+        [self.shopPic setImageWithURL:[NSURL URLWithString:self.aShop[__pic]]];
         
-        [self.grade_p setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
-        [self.grade_pc setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
-        [self.grade_s setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
         
+        if (!self.grade_p.s1) {
+            [self.grade_p setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+            [self.grade_pc setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+            [self.grade_s setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
+        }
         [self.grade_p displayRating:[self.shopDetail[__grade_p] floatValue]];
         [self.grade_pc displayRating:[self.shopDetail[__grade_pc] floatValue]];
         [self.grade_s displayRating:[self.shopDetail[__grade_s] floatValue]];
         
-        MKNetworkOperation *checkIsVIP = [self.engine operationWithPath:__apiIsVIP params:@{@"shopid":self.aShop[__id]} httpMethod:@"POST"];
-        [checkIsVIP addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            NSDictionary *dic = [completedOperation responseJSON];
-            NSNumber *rc = dic[@"success"];
-            if ([rc intValue] == 1) {
-                self.becomeVIPLabel.text = @"秀照片, 发点评";
-                self.isVip = YES;
-            }else{
-                self.becomeVIPLabel.text = @"成为会员, 立享优惠";
-                self.isVip = NO;
-            }
-            
-        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
-        }];
-        [self.engine enqueueOperation:checkIsVIP];
-        
+        [self checkIsVip];
         
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         ;
@@ -171,7 +173,8 @@ NSString *const __type = @"type";
         if (self.isVip == NO) {
             [self becomeVip];
         }else{
-            [self postComment];
+            [self performSegueWithIdentifier:@"shopDetailToComment" sender:nil];
+            //[self postComment];
         }
     }
 }
@@ -189,6 +192,7 @@ NSString *const __type = @"type";
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
         
+        // 如果sessionid超时, 重新登入
         if (dic[@"error"]) {
             NSNumber *errorCode = dic[@"error"];
             if ([errorCode intValue] == 0) {
@@ -199,7 +203,7 @@ NSString *const __type = @"type";
                 return;
             }
         }
-        
+        [self fetchDetailInfo];
         NSLog(@"%@", dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         #warning wait
@@ -208,13 +212,56 @@ NSString *const __type = @"type";
     [self.engine enqueueOperation:op];
 }
 
+- (void)checkIsVip{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiIsVIP params:@{
+                                                                                @"shopid":self.aShop[__id] } httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        
+        if (dic[@"error"]) {
+            NSNumber *errorCode = dic[@"error"];
+            if ([errorCode intValue] == 0) {
+                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+                [rootVC loginCompletion:^{
+                    [self checkIsVip];
+                }];
+                return;
+            }
+        }
+        
+        NSNumber *code = dic[@"success"];
+        if ([code intValue] == 1) {
+            self.becomeVIPLabel.text = @"秀照片, 发点评";
+            self.isVip = YES;
+            UIImageView *vipView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+            vipView.image = [UIImage imageNamed:@"ic_is_vip_large.png"];
+            [self.shopPic addSubview:vipView];
+            
+        }else{
+            self.becomeVIPLabel.text = @"成为会员, 立享优惠";
+            self.isVip = NO;
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+    }];
+    [self.engine enqueueOperation:op];
+}
 
+- (IBAction)pop:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)postComment{
     NSLog(@"$$$$");
 }
 
-
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"shopDetailToComment"]) {
+        LINCommentVC *commentVC = (LINCommentVC *)segue.destinationViewController;
+        [commentVC setAShop:self.aShop];
+    }
+}
 @end
 
 

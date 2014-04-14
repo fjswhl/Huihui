@@ -30,6 +30,9 @@
 
 //              sessionid过时时自动重新登入
 - (BOOL)loginCompletion:(void (^)(void))block;
+
+- (void)setLogged:(BOOL)logged;
+- (BOOL)logged;
 @end
 
 
