@@ -13,6 +13,7 @@
 #import "RMStepsController.h"
 #import "LINSignStepVC.h"
 #import "UIHyperlinksButton.h"
+#import "MBProgressHUD.h"
 NSString *const __apiGetVerification = @"index.php/User/getVerification";
 
 
@@ -65,6 +66,7 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
     if (stepVC.isForgetPwd == YES) {
         self.phoneForm.textField.placeholder = @"请输入注册时的手机号";
         self.infoLabel.hidden = YES;
+        self.xieyiButton.hidden = YES;
     }else{
         [self.view addSubview:self.check];
         self.phoneForm.textField.placeholder = @"请输入您的手机号";
@@ -171,14 +173,21 @@ typedef  NS_ENUM(NSInteger, GetAuthCodeState){
         stepVC.phoneNumber = weakSelf.phoneForm.textField.text;
         [stepVC showNextStep];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }
 
 - (void)handleGetAuthCodeWithState:(GetAuthCodeState)state{
-    NSLog(@"%i", state);
-#warning wait
+    if (state == GetAuthCodeStateAlreadySigned) {
+        [MBProgressHUD showTextHudToView:self.view text:@"该号码已经注册过了"];
+    }else if (state == GetAuthCodeStateRejected){
+        [MBProgressHUD showTextHudToView:self.view text:@"一分钟之内只能发送一次验证码"];
+    }else if (state == GetAuthCodeStateNotExist){
+         [MBProgressHUD showTextHudToView:self.view text:@"号码不存在"];
+    }else{
+        [MBProgressHUD showTextHudToView:self.view text:@"系统错误"];
+    }
 }
 
 

@@ -112,6 +112,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @interface MBProgressHUD : UIView
 
++ (void)showNetworkErrorToView:(UIView *)view;
++ (void)showTextHudToView:(UIView *)view text:(NSString *)text;
 /**
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
  * 
@@ -560,6 +562,7 @@ typedef enum {
 @interface UIImage (ImageEffects)
 
 - (UIImage *)applyBlurWithCrop:(CGRect) bounds resize:(CGSize) size blurRadius:(CGFloat) blurRadius tintColor:(UIColor *) tintColor saturationDeltaFactor:(CGFloat) saturationDeltaFactor maskImage:(UIImage *) maskImage;
+
 
 @end
 

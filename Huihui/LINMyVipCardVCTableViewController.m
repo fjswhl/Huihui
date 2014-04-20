@@ -11,6 +11,7 @@
 #import "RatingView.h"
 #import "UIImageView+WebCache.h"
 #import "LINRootVC.h"
+#import "MBProgressHUD.h"
 NSString *const __apiMyVip = @"index.php/Shop/myVIP";
 
 
@@ -133,6 +134,7 @@ extern NSString *const __id;
     //    }else{
     //        shopImage.image = self.shopImgs[indexPath];
     //    }
+    [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
     [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]]];
     
     return cell;
@@ -167,7 +169,7 @@ extern NSString *const __id;
         self.shops = dic[@"success"];
         [self.tableView reloadData];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }

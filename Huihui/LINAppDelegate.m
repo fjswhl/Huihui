@@ -15,8 +15,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSLog(@"%@", [HTFirstLetter firstLetter:@"凌"]);
-    NSLog(@"%@\n%@", [@"hh1111" md5], [NSString md5:@"hh1111"]);
+//    NSLog(@"%@", [HTFirstLetter firstLetter:@"凌"]);
+//    NSLog(@"%@\n%@", [@"hh1111" md5], [NSString md5:@"hh1111"]);
     
 //    UITabBarController *rootVC = (UITabBarController *)self.window.rootViewController;
 //    for (UINavigationController *navVC in rootVC.viewControllers) {
@@ -28,6 +28,12 @@
     if (![ud valueForKey:@"schoolid"]) {
         [ud setValue:@(1) forKey:@"schoolid"];
     }
+    
+    if (![ud valueForKey:@"showImgOnlyWhenWifi"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showImgOnlyWhenWifi"];
+    }
+    
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     return YES;
 }
 							

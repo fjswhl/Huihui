@@ -134,7 +134,8 @@ NSString *const __apiEvaluate = @"index.php/Shop/evaluate";
         [self.navigationController popViewControllerAnimated:YES];
         NSLog(@"%@", dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [hud hide:YES];
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }

@@ -8,14 +8,28 @@
 
 #import "UIImageView+WebCache.h"
 #import "objc/runtime.h"
-
+#import "Reachability.h"
 static char operationKey;
 static char operationArrayKey;
 
 @implementation UIImageView (WebCache)
 
 - (void)setImageWithURL:(NSURL *)url {
-    [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    BOOL s = [ud boolForKey:@"showImgOnlyWhenWifi"];
+   // Reachability *r = [Reachability reachabilityWithHostname:@"www.baidu.com"];
+    BOOL isWifi = ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == ReachableViaWiFi);
+
+    if (s && !isWifi) {
+        return;
+    }
+    NSLog(@"%@", [url absoluteString]);
+    if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
+            [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
+    }
+
+
+
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder {

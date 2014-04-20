@@ -11,6 +11,8 @@
 #import "LINSignStepVC.h"
 #import "MKNetworkKit.h"
 #import "NSString+Md5.h"
+#import "MBProgressHUD.h"
+#import "LINRootVC.h"
 NSString *const __apiRegister = @"index.php/User/register";
 NSString *const __apiRestPwd = @"index.php/User/resetSecret";
 
@@ -102,7 +104,7 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
 - (IBAction)submit:(id)sender {
     LINSignStepVC *stepVC = (LINSignStepVC *)self.stepsController;
     
-    __weak LINSignUpStep3VC *weakSelf = self;
+   // __weak LINSignUpStep3VC *weakSelf = self;
     MKNetworkOperation *op = nil;
     
     NSString *postPwd = [NSString encripedPwdWithOriginalString:self.passwordForm.textField.text];
@@ -126,17 +128,37 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
             [self handleRegisterErrorWithState:[errorCode integerValue]];
             return;
         }
+        if (stepVC.isForgetPwd == YES) {
+                    [MBProgressHUD showTextHudToView:self.view text:@"修改密码成功"];
+        }else{
+                    [MBProgressHUD showTextHudToView:self.view text:@"注册成功"];
+        }
+
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"logged"];
+        [[NSUserDefaults standardUserDefaults] setValue:stepVC.phoneNumber forKey:@"phoneNumber"];
+        [[NSUserDefaults standardUserDefaults] setValue:self.passwordForm.textField.text forKey:@"password"];
+        
+        LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+        [rootVC loginCompletion:^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
         NSLog(@"注册成功");
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     [self.engine enqueueOperation:op];
     
 }
 
 - (void)handleRegisterErrorWithState:(LinRegisterState)state{
-    NSLog(@"%i", state);
-#warning wait
+    NSString *errorStr = nil;
+    if (state == LinRegisterStateAuchCodeError) {
+        errorStr = @"验证码错误";
+    }else{
+        errorStr = @"系统错误,请稍后重试";
+    }
+    [MBProgressHUD showTextHudToView:self.view text:errorStr];
 }
 
 #pragma mark - Getter

@@ -59,6 +59,8 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -132,6 +134,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     //    }else{
     //        shopImage.image = self.shopImgs[indexPath];
     //    }
+    [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
     [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
     return cell;
 }
@@ -147,9 +150,10 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     NSString *type = self.type;
     NSString *inoutSchool = [NSString stringWithFormat:@"%li", (unsigned long)option];
+    NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
     MKNetworkOperation *op = [self.engine operationWithPath:__apiShopFetchAll params:@{@"length":@"999",
                                                                                   @"page":@"1",
-                                                                                  @"schoolid":@"1",
+                                                                                  @"schoolid":schoolid,
                                                                                   @"type":type,
                                                                                   @"inoutschool":inoutSchool
                                                                                    } httpMethod:@"POST"];
@@ -169,7 +173,8 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
         
         NSLog(@"%@",dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [hud hide:YES];
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }

@@ -10,6 +10,7 @@
 #import "MKNetworkKit.h"
 #import "UIImageView+WebCache.h"
 #import "pinyin.h"
+#import "MBProgressHUD.h"
 //{
 //    success =     {
 //        activity =         (
@@ -245,7 +246,7 @@ NSString *const __groupname = @"groupname";
         [self.activities addObjectsFromArray:st];
         [self.tableView reloadData];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }
@@ -261,7 +262,7 @@ NSString *const __groupname = @"groupname";
 //        NSLog(@"%@\n", self.proceessedGroups);
         [self.tableView reloadData];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }

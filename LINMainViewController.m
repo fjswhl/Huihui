@@ -15,7 +15,10 @@
 #import "IntroControll.h"
 #import "LINShowAllVC.h"
 #import "LINPickerSchoolViewController.h"
+#import "MBProgressHUD.h"
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
+NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
+
 NSString *const __shopname = @"shopname";
 NSString *const __discount = @"discount";
 NSString *const __location = @"location";
@@ -25,7 +28,7 @@ NSString *const __pic = @"pic";
 NSString *const __id = @"id";
 
 
-@interface LINMainViewController ()<UIScrollViewDelegate>
+@interface LINMainViewController ()<UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
@@ -36,7 +39,15 @@ NSString *const __id = @"id";
 
 @property (strong, nonatomic) IBOutlet UIView *adView;
 @property (strong, nonatomic) IBOutlet UIButton *changeSchoolidButton;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
+@property (strong, nonatomic) NSMutableArray *filterdShops;
+@property (strong, nonatomic) UITableView *searchResultTableview;
+@property (nonatomic) BOOL ss;
+/**
+ *   这个属性用于解决一个问题: 当用户切换schoolid时, fetchGuessUlikeWithPage:(NSString *)page会被调用两次, 第一次是当[tableview reloadData]后scrollViewDidScroll导致被调用,第二次是切换schoolid时手动调用. 该属性防止scrollviewDidScroll调用fetch方法
+ */
+@property (nonatomic) BOOL scrollViewDidScrollFlag;
 @end
 
 @implementation LINMainViewController
@@ -60,14 +71,29 @@ NSString *const __id = @"id";
     [self updateTitleButton];
     
     [self fetchGuessUlikeShopListWithPage:@"1"];
+    
+    
+    // 修改searchbar的取消按钮
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem
+ //   [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarResign)]];
+    
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.searchBar.text != nil || ![self.searchBar isFirstResponder]) {
+        self.searchBar.text = nil;
+        [self updateTitleViewUI];
+    }
+}
+- (void)searchBarResign{
+    [self.searchBar resignFirstResponder];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -83,8 +109,23 @@ NSString *const __id = @"id";
     return _engine;
 }
 
+- (NSMutableArray *)filterdShops{
+    if (!_filterdShops) {
+        _filterdShops = [NSMutableArray new];
+    }
+    return _filterdShops;
+}
 
-
+- (UITableView *)searchResultTableview{
+    if (!_searchResultTableview) {
+        CGRect frame = self.view.frame;
+        frame.origin.y += 64;
+        _searchResultTableview = [[UITableView alloc] initWithFrame:frame];
+        _searchResultTableview.delegate = self;
+        _searchResultTableview.dataSource = self;
+    }
+    return _searchResultTableview;
+}
 - (NSMutableArray *)shops{
     if (!_shops) {
         _shops = [NSMutableArray new];
@@ -104,6 +145,9 @@ NSString *const __id = @"id";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.searchResultTableview) {
+        return [self.filterdShops count];
+    }
     if (section == 0) {
         return [self.shops count] + 1;
     }
@@ -111,6 +155,19 @@ NSString *const __id = @"id";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+/**
+ *  当用户点击搜索时执行下面的if
+ */
+    if (tableView == self.searchResultTableview) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchCell"];
+        }
+        NSDictionary *aShop = self.filterdShops[indexPath.row];
+        cell.textLabel.text = aShop[__shopname];
+        return cell;
+    }
+    
     if (indexPath.row == [self.shops count]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"moreCell"];
         return cell;
@@ -170,12 +227,16 @@ NSString *const __id = @"id";
 //    }else{
 //        shopImage.image = self.shopImgs[indexPath];
 //    }
+    [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
     [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]]];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.searchResultTableview) {
+        return 44;
+    }
     if (indexPath.row == [self.shops count]) {
         return 43.0f;
     }
@@ -184,6 +245,9 @@ NSString *const __id = @"id";
 #pragma mark - TableView Delegate
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (tableView == self.searchResultTableview) {
+        return nil;
+    }
     if (section == 0) {
         return @"猜你喜欢";
     }
@@ -191,6 +255,10 @@ NSString *const __id = @"id";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.searchResultTableview) {
+        [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
+        return;
+    }
     if (indexPath.row != [self.shops count]) {
         [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
     }
@@ -211,29 +279,39 @@ NSString *const __id = @"id";
 //    }
 //}
 
+/**
+ *    当scrollView滚到最下面的时候执行第二个if里的操作,即加载更多数据
+ */
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-	
-	CGPoint offset = aScrollView.contentOffset;
-	CGRect bounds = aScrollView.bounds;
-	CGSize size = aScrollView.contentSize;
-	UIEdgeInsets inset = aScrollView.contentInset;
-	float y = offset.y + bounds.size.height - inset.bottom;
-	float h = size.height;
-	// NSLog(@"offset: %f", offset.y);
-	// NSLog(@"content.height: %f", size.height);
-	// NSLog(@"bounds.height: %f", bounds.size.height);
-	// NSLog(@"inset.top: %f", inset.top);
-	// NSLog(@"inset.bottom: %f", inset.bottom);
-	// NSLog(@"pos: %f of %f", y, h);
-	float reload_distance = 10;
-	if(y > h + reload_distance) {
-		//NSLog(@"load more rows");
-        if (self.loadMoreCellIsShown == false) {
-            self.loadMoreCellIsShown = true;
-            [self fetchGuessUlikeShopListWithPage:[NSString stringWithFormat:@"%li", (unsigned long)self.pageCount]];
+    if (self.scrollViewDidScrollFlag) {
+        self.scrollViewDidScrollFlag = false;
+        return;
+    }
+    if (aScrollView == self.tableView) {
+        
+        CGPoint offset = aScrollView.contentOffset;
+        CGRect bounds = aScrollView.bounds;
+        CGSize size = aScrollView.contentSize;
+        UIEdgeInsets inset = aScrollView.contentInset;
+        float y = offset.y + bounds.size.height - inset.bottom;
+        float h = size.height;
+        // NSLog(@"offset: %f", offset.y);
+        // NSLog(@"content.height: %f", size.height);
+        // NSLog(@"bounds.height: %f", bounds.size.height);
+        // NSLog(@"inset.top: %f", inset.top);
+        // NSLog(@"inset.bottom: %f", inset.bottom);
+        // NSLog(@"pos: %f of %f", y, h);
+        float reload_distance = 10;
+        if(y > h + reload_distance) {
+            //NSLog(@"load more rows");
+            if (self.loadMoreCellIsShown == false) {
+                self.loadMoreCellIsShown = true;
+                [self fetchGuessUlikeShopListWithPage:[NSString stringWithFormat:@"%li", (unsigned long)self.pageCount]];
+            }
+            
         }
+    }
 
-	}
 }
 
 //- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -251,7 +329,86 @@ NSString *const __id = @"id";
 //        
 //    }
 //}
+#pragma mark - Searchbar delegate
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+//    [self.changeSchoolidButton setHidden:YES];
+    [searchBar setShowsCancelButton:YES animated:YES];
+    NSLog(@"%@", [searchBar subviews]);
+    UIView *contentView = [[searchBar subviews] objectAtIndex:0];
+    for (id cc in [contentView subviews]) {
+        if ([cc isKindOfClass:[UIButton class]]) {
+            UIButton *button = (UIButton *)cc;
+            [button setTitle:@"取消" forState:UIControlStateNormal];
+        }
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        [searchBar setFrame:CGRectMake(0, -5, 311, 44)];
+        [self.changeSchoolidButton setAlpha:0.0];
+    }];
+    [self.tableView setScrollEnabled:NO];
+    self.ss = true;
+    [self.navigationController.view addSubview:self.searchResultTableview];
+    [self.searchResultTableview reloadData];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+//    [self.changeSchoolidButton setHidden:NO];
+    [searchBar setShowsCancelButton:NO animated:YES];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        [searchBar setFrame:CGRectMake(105, -5, 202, 44)];
+//        [self.changeSchoolidButton setAlpha:1.0];
+//    }];
+    [self.tableView setScrollEnabled:YES];
+    self.ss = false;
+    [self.searchResultTableview removeFromSuperview];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    //    [self.changeSchoolidButton setHidden:NO];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        [searchBar setFrame:CGRectMake(105, -5, 202, 44)];
+        [self.changeSchoolidButton setAlpha:1.0];
+    }];
+    [self.tableView setScrollEnabled:YES];
+    self.ss = false;
+    [self.searchResultTableview removeFromSuperview];
+    [searchBar resignFirstResponder];
+}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiGetSearch params:@{
+                                                                                    @"keyword":searchText,
+                                                                                    @"length":@(20),
+                                                                                    @"page":@(1)} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSLog(@"%@", dic);
+        if (dic[@"error"]) {
+            self.filterdShops = nil;
+            [self.searchResultTableview reloadData];
+            return;
+        }
+        self.filterdShops = dic[@"success"][@"shops"];
+        [self.searchResultTableview reloadData];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)updateTitleViewUI{
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.searchBar setFrame:CGRectMake(105, -5, 202, 44)];
+        [self.changeSchoolidButton setAlpha:1.0];
+    }];
+    [self.tableView setScrollEnabled:YES];
+    self.ss = false;
+    [self.searchResultTableview removeFromSuperview];
+    [self.searchBar resignFirstResponder];
+}
 #pragma mark - KVO callback
 //- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
 //    if ([keyPath isEqualToString:@"visibleCells"]) {
@@ -268,6 +425,7 @@ NSString *const __id = @"id";
 
 #pragma mark - Interaction With Server
 - (void)fetchGuessUlikeShopListWithPage:(NSString *)pages{
+        NSLog(@"%@", self.shops);
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.shops count] inSection:0]];
     UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
     [indicator startAnimating];
@@ -289,14 +447,16 @@ NSString *const __id = @"id";
         NSArray *st = [dic[@"success"] objectForKey:@"shops"];
         
         [self.shops addObjectsFromArray:st];
+        
+            NSLog(@"%@", self.shops);
+        
         [indicator stopAnimating];
         [self.tableView reloadData];
         self.loadMoreCellIsShown = NO;
         self.pageCount++;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        ;
-#warning wait for completion
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }
@@ -307,6 +467,9 @@ NSString *const __id = @"id";
     if ([segue.identifier isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = (NSIndexPath *)sender;
         NSDictionary *aShop = self.shops[indexPath.row];
+        if (self.ss == true) {
+            aShop = self.filterdShops[indexPath.row];
+        }
         [segue.destinationViewController setValue:aShop forKey:@"aShop"];
     }else if ([segue.identifier isEqualToString:@"type"]){
         UIButton *button = (UIButton *)sender;
@@ -399,19 +562,25 @@ NSString *const __id = @"id";
     }
     self.shops = nil;
     self.pageCount = 1;
+    
+    self.scrollViewDidScrollFlag = true;
     [self.tableView reloadData];
-    [self fetchGuessUlikeShopListWithPage:@"1"];
+
+        [self fetchGuessUlikeShopListWithPage:@"1"];
+
 }
 
 - (void)updateTitleButton{
     NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
-    if ([schoolid integerValue] == 0) {
+    if ([schoolid integerValue] == 1) {
         
         [self.changeSchoolidButton setTitle:@"西电新校区" forState:        UIControlStateNormal];
     }else{
         [self.changeSchoolidButton setTitle:@"西电老校区" forState:        UIControlStateNormal];
     }
 }
+
+
 @end
 
 

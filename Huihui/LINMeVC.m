@@ -10,9 +10,10 @@
 #import "LINRootVC.h"
 #import "MBProgressHUD.h"
 #import "MKNetworkKit.h"
+#import <MessageUI/MessageUI.h>
 NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 
-@interface LINMeVC ()<LINRootVCDelegate>
+@interface LINMeVC ()<LINRootVCDelegate, UIActionSheetDelegate, MFMessageComposeViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) IBOutlet UIButton *logInOrOutButton;
 @property (strong, nonatomic) IBOutlet UIButton *signUpButton;
@@ -53,6 +54,7 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
     if ([self.vipCardN.text isEqualToString: @""]) {
                 [self updateUIWhenLoginOrOut];
     }
@@ -79,17 +81,18 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
+
     return [super numberOfSectionsInTableView:tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+
     return [super tableView:tableView numberOfRowsInSection:section];
 }
+
+
+
 
 - (BOOL)isLogged{
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
@@ -97,9 +100,20 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
 }
 
 
+
+
 #pragma mark - Interraction With Server
 
 - (void)fetchUserNumOfSVG{
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if ([rootVC logged] == NO) {
+        if (self.refreshControl.refreshing == YES) {
+            [self.refreshControl endRefreshing];
+        }
+        [MBProgressHUD showTextHudToView:self.view text:@"请先登入"];
+        return;
+    }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     MKNetworkOperation *op = [self.engine operationWithPath:__apiUserNumOfSVG params:nil httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -132,7 +146,8 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
         self.myGroup.text = [NSString stringWithFormat:@"%i个", [c intValue]];
 
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [hud hide:YES];
+        [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     [self.engine enqueueOperation:op];
     
@@ -148,12 +163,22 @@ NSString *const __apiUserNumOfSVG = @"index.php/User/numOfSVG";
     if (rootVC.logged == NO) {
         [self performSegueWithIdentifier:@"meVCtoLoginVC" sender:nil];
     }else{
-        [rootVC setLogged:NO];;
-        NSLog(@"%i", rootVC.logged);
-        [self updateUIWhenLoginOrOut];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确认注销吗?" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确定" otherButtonTitles: nil];
+        [actionSheet showInView:self.view];
+
     }
 }
 
+#pragma mark - ActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
+         LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+        [rootVC setLogged:NO];
+        [self updateUIWhenLoginOrOut];
+        [actionSheet dismissWithClickedButtonIndex:actionSheet.destructiveButtonIndex animated:YES];
+    }
+}
 - (void)updateUIWhenLoginOrOut{
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     if ([rootVC logged]) {

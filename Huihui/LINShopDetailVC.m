@@ -13,6 +13,7 @@
 #import "LINCommentVC.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUD.h"
+#import "LINComplainTableViewController.h"
 //
 //{
 //    success =     {
@@ -34,8 +35,9 @@
 NSString *const apiFetchOne = @"index.php/Shop/fetchOne";
 NSString *const __apiBecomeVIP = @"index.php/Shop/becomeVIP";
 NSString *const __apiIsVIP = @"index.php/Shop/isVIP";
-
+NSString *const __apiFetchComments = @"index.php/Shop/fetchShopComment";
 extern NSString *const __discount;
+NSString *const __discount_detail = @"discount_detail";
 NSString *const __grade_p = @"grade_p";
 NSString *const __grade_pc = @"grade_pc";
 NSString *const __grade_s = @"grade_s";
@@ -51,16 +53,19 @@ NSString *const __type = @"type";
 
 
 
-@interface LINShopDetailVC ()<LINRootVCDelegate>
+@interface LINShopDetailVC ()<LINRootVCDelegate, UIActionSheetDelegate>
 
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
-@property (strong, nonatomic) IBOutlet UILabel *introLabel;
+@property (strong, nonatomic) IBOutlet UILabel *discountLabel;
 
-@property (strong, nonatomic) IBOutlet UILabel *privilegeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *discountDetailLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 @property (strong, nonatomic) IBOutlet UILabel *contactLabel;
 @property (strong, nonatomic) IBOutlet UILabel *contactMethodLabel;
+@property (strong, nonatomic) IBOutlet UILabel *introLabel;
+@property (strong, nonatomic) IBOutlet UILabel *commentCount;
 
 @property (strong, nonatomic) NSDictionary *shopDetail;
 
@@ -72,6 +77,11 @@ NSString *const __type = @"type";
 @property (strong, nonatomic) IBOutlet UILabel *becomeVIPLabel;
 @property (assign, nonatomic) BOOL isVip;
 @property (strong, nonatomic) IBOutlet UIImageView *shopPic;
+
+@property (strong, nonatomic) IBOutlet UIButton *becomVIPButton;
+@property (strong, nonatomic) IBOutlet UIImageView *vipImgView;
+
+@property (nonatomic) BOOL needUpdateTableViewHeight;
 
 @end
 
@@ -105,12 +115,18 @@ NSString *const __type = @"type";
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchDetailInfo) forControlEvents:UIControlEventValueChanged];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 #pragma mark - Getter
 
@@ -139,11 +155,12 @@ NSString *const __type = @"type";
         }
         NSDictionary *detail = [completedOperation responseJSON];
         self.shopDetail = detail[@"success"];
+        //self.privilegeLabel.text = self.shopDetail[__discount];
+        self.discountLabel.text = self.shopDetail[__discount];
+        self.discountDetailLabel.text = self.shopDetail[__discount_detail];
         self.introLabel.text = self.shopDetail[__intro];
-        self.privilegeLabel.text = self.shopDetail[__discount];
         self.locationLabel.text = self.shopDetail[__location];
         self.contactLabel.text = self.aShop[__master];
-        NSLog(@"%@",self.aShop[__master]);
         self.contactMethodLabel.text = self.aShop[__phone];
         [self.shopPic setImageWithURL:[NSURL URLWithString:self.aShop[__pic]]];
         
@@ -157,34 +174,121 @@ NSString *const __type = @"type";
         [self.grade_pc displayRating:[self.shopDetail[__grade_pc] floatValue]];
         [self.grade_s displayRating:[self.shopDetail[__grade_s] floatValue]];
         
+        self.needUpdateTableViewHeight = true;
+        [self.tableView reloadData];
         [self checkIsVip];
+        [self fetchComments];
         
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        ;
-#warning Imcomplete method implementation
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }
 
-#pragma mark - tableview delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 3) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        if (self.isVip == NO) {
-            [self becomeVip];
+- (void)fetchComments{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiFetchComments params:@{
+                                                                                        @"shopid":self.aShop[__id],
+                                                                                        @"length":@"1",
+                                                                                        @"page":@"1"} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSLog(@"%@", dic);
+        NSNumber *count = dic[@"success"][@"count"];
+        if ([count integerValue] > 0) {
+            self.commentCount.text = [NSString stringWithFormat:@"共有%@人评论", count];
         }else{
+            self.commentCount.text = @"暂时还没有评论";
+        }
+
+
+ 
+        
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
+    }];
+    
+    [self.engine enqueueOperation:op];
+    
+}
+
+
+#pragma mark - tableview delegate
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    if (indexPath.section == 0 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+        cell.textLabel.text = self.shopDetail[__discount_detail];
+    }
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 3) {           //点击我要点评
+
+//        if (self.isVip == NO) {
+//            [self becomeVip];
+//        }else{
+        LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+        if ([rootVC logged] == YES) {
             [self performSegueWithIdentifier:@"shopDetailToComment" sender:nil];
+        }
+        else{
+            [MBProgressHUD showTextHudToView:self.view text:@"请先登入"];
             //[self postComment];
         }
+    }else if (indexPath.section == 2 && indexPath.row == 0){            //点击我要投诉
+        [self performSegueWithIdentifier:@"shopDetailVCToComplainVC" sender:nil];
+    }else if (indexPath.section == 0 && indexPath.row == 2){
+        [self performSegueWithIdentifier:@"showdetailvctocommentvc" sender:nil];
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    
+    if (indexPath.section == 0 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
+        NSString *discountDetail = self.shopDetail[__discount_detail];
+        
+        CGSize constraint = CGSizeMake(280, 20000);
+        CGSize size = [discountDetail boundingRectWithSize:constraint options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+        return size.height + 15;
+    }
+
+    return height;
+    
+}
+
+#pragma mark - Button
+
+- (IBAction)becomVipButtonPressed:(UIButton *)sender {
+    [self becomeVip];
+}
+
+- (IBAction)phoneCallButtonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@的电话", self.shopDetail[__shopname]] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.shopDetail[__phone]], nil];
+    
+    [actionSheet showInView:self.view];
+    
+}
+
+#pragma mark - Actionsheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        [actionSheet dismissWithClickedButtonIndex:buttonIndex animated:YES];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.shopDetail[__phone]]]];
+    }
+
+}
 #pragma mark - Interraction With Server
 
 - (void)becomeVip{
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     if (rootVC.isLogged == NO) {
-        NSLog(@"没有登入");
+        [MBProgressHUD showTextHudToView:self.view text:@"请先登入"];
         return;
     }
     
@@ -206,13 +310,19 @@ NSString *const __type = @"type";
         [self fetchDetailInfo];
         NSLog(@"%@", dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        #warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }
      ];
     [self.engine enqueueOperation:op];
 }
 
 - (void)checkIsVip{
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if ([rootVC logged] == NO) {
+        //[MBProgressHUD showTextHudToView:self.view text:@"请先登入"];
+        return;
+    }
+    
     MKNetworkOperation *op = [self.engine operationWithPath:__apiIsVIP params:@{
                                                                                 @"shopid":self.aShop[__id] } httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -231,18 +341,22 @@ NSString *const __type = @"type";
         
         NSNumber *code = dic[@"success"];
         if ([code intValue] == 1) {
-            self.becomeVIPLabel.text = @"秀照片, 发点评";
+           // self.becomeVIPLabel.text = @"秀照片, 发点评";
             self.isVip = YES;
-            UIImageView *vipView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-            vipView.image = [UIImage imageNamed:@"ic_is_vip_large.png"];
-            [self.shopPic addSubview:vipView];
+//            UIImageView *vipView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+//            vipView.image = [UIImage imageNamed:@"ic_is_vip_large.png"];
+            [self.becomVIPButton setHidden:YES];
+            [self.vipImgView setHidden:NO];
+//            [self.shopPic addSubview:vipView];
             
         }else{
-            self.becomeVIPLabel.text = @"成为会员, 立享优惠";
+           // self.becomeVIPLabel.text = @"成为会员, 立享优惠";
+            [self.vipImgView setHidden:YES];
+            [self.becomVIPButton setHidden:NO];
             self.isVip = NO;
         }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
 }
@@ -257,10 +371,15 @@ NSString *const __type = @"type";
 
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"shopDetailToComment"]) {
-        LINCommentVC *commentVC = (LINCommentVC *)segue.destinationViewController;
-        [commentVC setAShop:self.aShop];
-    }
+//    if ([segue.identifier isEqualToString:@"shopDetailToComment"]) {
+//        LINCommentVC *commentVC = (LINCommentVC *)segue.destinationViewController;
+//        [commentVC setAShop:self.aShop];
+//    }else if ([segue.identifier isEqualToString:@"shopDetailVCToComplainVC"]){
+//        LINComplainTableViewController *ctv = (LINComplainTableViewController *)segue.destinationViewController;
+//        [ctv setAShop:self.aShop];
+//    }
+    id deVC = segue.destinationViewController;
+    [deVC setValue:self.aShop forKey:@"AShop"];
 }
 @end
 

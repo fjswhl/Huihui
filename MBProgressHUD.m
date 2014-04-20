@@ -122,6 +122,21 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize completionBlock;
 #endif
 
+#pragma mark - User Defined Method
++ (void)showNetworkErrorToView:(UIView *)view{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = @"网络不给力, 请稍后重试.";
+    hud.labelColor = [UIColor blackColor];
+    [hud hide:YES afterDelay:1.5f];
+}
+
++ (void)showTextHudToView:(UIView *)view text:(NSString *)text{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = text;
+    [hud hide:YES afterDelay:1.5f];
+}
 #pragma mark - Class methods
 
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {

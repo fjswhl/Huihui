@@ -24,13 +24,38 @@
 
 @property (weak, nonatomic) id<LINRootVCDelegate> rootVCdelegate;
 //              vc:用于从登入界面登入时,登入成功后弹到root
+
+/**
+ *  以name和password(未加密)登入, 并在登入成功后调用block
+ *
+ *  @param name     用户名
+ *  @param password 密码
+ *  @param block    登入成功后执行的块
+ *
+ *  @return 暂时只返回真
+ */
 - (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block;
+
+
 
 - (BOOL)logout;
 
-//              sessionid过时时自动重新登入
+/**
+ *  sessionid过时时自动重新登入, 该方法会调用-(BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block. 使用的name和password是已经存在userdefault里面的
+ * 
+ *  @param block    登入成功后执行的块
+ *
+ *  @return 暂时只返回真
+ */
 - (BOOL)loginCompletion:(void (^)(void))block;
 
+/**
+ *  设置userdefault的logged
+ *
+ *  @param  logged  是否登入
+ *
+ *  @return void
+ */
 - (void)setLogged:(BOOL)logged;
 - (BOOL)logged;
 @end

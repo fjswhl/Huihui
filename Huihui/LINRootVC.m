@@ -10,7 +10,7 @@
 #import "MKNetworkKit.h"
 #import "NSString+Md5.h"
 #import "UIColor+LINColor.h"
-
+#import "MBProgressHUD.h"
 
 //  这里登入成功后会将用户名和密码保存进UserDefault
 //  key:phoneNumber  ,password
@@ -20,6 +20,7 @@ NSString *const __apiLogin = @"index.php/User/loadin";
 NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 NSString *const __apiLogout = @"index.php/User/logout";
 @interface LINRootVC ()
+
 @property (weak, nonatomic) MKNetworkEngine *engine;
 @end
 
@@ -39,6 +40,9 @@ NSString *const __apiLogout = @"index.php/User/logout";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tabBar.tintColor = [UIColor preferredColor];
+//    if ([self logged]) {
+//        [self loginCompletion:nil]
+//    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -116,12 +120,14 @@ NSString *const __apiLogout = @"index.php/User/logout";
             NSDictionary *dic = [completedOperation responseJSON];
             NSLog(@"%@", dic);
             if (dic[@"error"] != nil) {
-                NSLog(@"用户名密码错误");
+                [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
             }else{
 #warning wait for md5 encode
+                self.userPhoneNumber = name;
+                self.userPwd = password;
                 [[NSUserDefaults standardUserDefaults] setValue:name forKey:@"phoneNumber"];
                 [[NSUserDefaults standardUserDefaults] setValue:password forKey:@"password"];
-                self.logged = YES;
+                [self setLogged:YES];
 
                 if (self.rootVCdelegate) {
                     [self.rootVCdelegate userDidLogin];
@@ -134,12 +140,12 @@ NSString *const __apiLogout = @"index.php/User/logout";
                 NSLog(@"登入成功");
             }
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.view];
         }];
         [self.engine enqueueOperation:op];
-        NSLog(@"%@", desPwd);
+//        NSLog(@"%@", desPwd);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     
     
@@ -150,17 +156,24 @@ NSString *const __apiLogout = @"index.php/User/logout";
 }
 
 - (BOOL)logout{
-    MKNetworkOperation *op = [self.engine operationWithPath:__apiLogin params:nil httpMethod:@"POST"];
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiLogout params:nil httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         [self.rootVCdelegate userDidlogout];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     [self.engine enqueueOperation:op];
     return true;
 }
 
 - (BOOL)loginCompletion:(void (^)(void))block{
+    if ([self logged] == NO) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"请先登入.";
+        [hud hide:YES afterDelay:1.5f];
+        return NO;
+    }
     NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
     [self loginWithName:phoneNumber password:password completion:block];
