@@ -18,4 +18,6 @@
 @property (strong, nonatomic) UIImage *backImage;
 
 @property (weak, nonatomic) id<LINPickerSchoolDelegatge> delegate;
+
+- (void)dismissCompletion:(void (^)(void))block;
 @end

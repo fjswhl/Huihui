@@ -106,13 +106,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LINMainViewController.m"
-            timestampString = "419931633.449932"
+            timestampString = "419950018.140524"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "@implementation LINMainViewController"
-            landmarkType = "3">
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "-tableView:viewForHeaderInSection:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

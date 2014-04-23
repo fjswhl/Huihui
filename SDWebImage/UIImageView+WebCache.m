@@ -23,7 +23,7 @@ static char operationArrayKey;
     if (s && !isWifi) {
         return;
     }
-    NSLog(@"%@", [url absoluteString]);
+//    NSLog(@"%@", [url absoluteString]);
     if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
             [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
     }

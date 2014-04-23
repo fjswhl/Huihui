@@ -64,20 +64,23 @@
     
 
     self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.ctv.transform = CGAffineTransformIdentity;
+    }];
 }
 
 //- (void)viewWillAppear:(BOOL)animated{
 //    [super viewWillAppear:animated];
 //    self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
 //}
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //UIView *ctv = [self.view viewWithTag:999];
-   // ctv.transform = CGAffineTransformMakeTranslation(0, -500);
-    [UIView animateWithDuration:0.5 animations:^{
-        self.ctv.transform = CGAffineTransformIdentity;
-    }];
-}
+//- (void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//    //UIView *ctv = [self.view viewWithTag:999];
+//   // ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.ctv.transform = CGAffineTransformIdentity;
+//    }];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -143,7 +146,9 @@
 //        [self.view removeFromSuperview];
 //    }];
     
-    [self dismissCompletion:nil];
+    [self dismissCompletion:^{
+        [self.delegate userDidChangeSchoolid:-1];
+    }];
 }
 
 - (void)dismissCompletion:(void (^)(void))block{

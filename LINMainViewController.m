@@ -45,7 +45,7 @@ NSString *const __id = @"id";
 @property (strong, nonatomic) UITableView *searchResultTableview;
 @property (nonatomic) BOOL ss;
 
-@property (strong, nonatomic) LINPickerSchoolViewController *pickSchoolVC;
+@property (weak, nonatomic) LINPickerSchoolViewController *pickSchoolVC;
 /**
  *   这个属性用于解决一个问题: 当用户切换schoolid时, fetchGuessUlikeWithPage:(NSString *)page会被调用两次, 第一次是当[tableview reloadData]后scrollViewDidScroll导致被调用,第二次是切换schoolid时手动调用. 该属性防止scrollviewDidScroll调用fetch方法
  */
@@ -255,15 +255,39 @@ NSString *const __id = @"id";
 }
 #pragma mark - TableView Delegate
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (tableView == self.searchResultTableview) {
         return nil;
     }
     if (section == 0) {
-        return @"猜你喜欢";
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 26)];
+        view.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:0.87];
+        UILabel *label = [UILabel new];
+        label.font = [UIFont systemFontOfSize:14.0f];
+        label.text = @"猜你喜欢";
+        [label sizeToFit];
+        label.center = CGPointMake(40, CGRectGetMidY(view.frame));
+        [view addSubview:label];
+        return view;
     }
     return nil;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (tableView == self.tableView && section == 0) {
+        return 26;
+    }
+    return 0;
+}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    if (tableView == self.searchResultTableview) {
+//        return nil;
+//    }
+//    if (section == 0) {
+//        return @"猜你喜欢";
+//    }
+//    return nil;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.searchResultTableview) {
@@ -345,7 +369,7 @@ NSString *const __id = @"id";
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
 //    [self.changeSchoolidButton setHidden:YES];
     [searchBar setShowsCancelButton:YES animated:YES];
-    NSLog(@"%@", [searchBar subviews]);
+    //NSLog(@"%@", [searchBar subviews]);
     UIView *contentView = [[searchBar subviews] objectAtIndex:0];
     for (id cc in [contentView subviews]) {
         if ([cc isKindOfClass:[UIButton class]]) {
@@ -395,7 +419,7 @@ NSString *const __id = @"id";
                                                                                     @"page":@(1)} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
-        NSLog(@"%@", dic);
+       // NSLog(@"%@", dic);
         if (dic[@"error"]) {
             self.filterdShops = nil;
             [self.searchResultTableview reloadData];
@@ -436,7 +460,7 @@ NSString *const __id = @"id";
 
 #pragma mark - Interaction With Server
 - (void)fetchGuessUlikeShopListWithPage:(NSString *)pages{
-        NSLog(@"%@", self.shops);
+      //  NSLog(@"%@", self.shops);
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.shops count] inSection:0]];
     UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
     [indicator startAnimating];
@@ -446,7 +470,7 @@ NSString *const __id = @"id";
     MKNetworkOperation *op = [self.engine operationWithPath:apiGuessULike params:@{@"length":@"5", @"page":pages, @"schoolid":schoolid} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
-        NSLog(@"%@", dic);
+       // NSLog(@"%@", dic);
         if ([dic[@"error"] isEqualToString:@"2"]) {
 
             UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
@@ -459,7 +483,7 @@ NSString *const __id = @"id";
         
         [self.shops addObjectsFromArray:st];
         
-            NSLog(@"%@", self.shops);
+           // NSLog(@"%@", self.shops);
         
         [indicator stopAnimating];
         [self.tableView reloadData];
@@ -502,6 +526,29 @@ NSString *const __id = @"id";
 }
 
 - (IBAction)changeSchool:(id)sender {
+    UIButton *btn = sender;
+    /*      tag=0表示未打开, =999已打开         */
+    for (id aView in btn.subviews) {
+        if ([aView isKindOfClass:[UIImageView class]]) {
+            UIImageView *imgView = aView;
+            CGAffineTransform desTransform = CGAffineTransformIdentity;
+            if (btn.tag == 0) {
+                desTransform = CGAffineTransformMakeRotation(M_PI);
+            }
+            [UIView animateWithDuration:0.4 animations:^{
+                imgView.transform = desTransform;
+            }];
+        }
+    }
+    if (btn.tag == 0) {
+        btn.tag = 999;
+    }else{
+        btn.tag = 0;
+        [self.pickSchoolVC dismissCompletion:nil];
+    }
+
+    
+    
 //    LINPickerSchoolViewController *pickVC = [self.storyboard instantiateViewControllerWithIdentifier:@"linpicker"];
 //    UIGraphicsBeginImageContext(self.view.frame.size);
 //    [self.tabBarController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -514,10 +561,10 @@ NSString *const __id = @"id";
   //  [self presentViewController:pickVC animated:NO completion:nil];
 //    self.navigationController
 //    [self.navigationController.view addSubview:pickVC.view];
-    [self.tableView setScrollEnabled:NO];
-    [self addChildViewController:self.pickSchoolVC];
-    [self.view addSubview:self.pickSchoolVC.view];
-    
+
+    [self.tabBarController addChildViewController:self.pickSchoolVC];
+    [self.navigationController.view insertSubview:self.pickSchoolVC.view belowSubview:self.navigationController.navigationBar];
+//    [self.pickSchoolVC viewDidAppear:YES];
  //   [self.navigationController addChildViewController:pickVC];
 }
 
@@ -569,8 +616,27 @@ NSString *const __id = @"id";
 }
 
 #pragma mark - LINPickerDelegate
-
+/**
+ *  -1表示不更改
+ */
 - (void)userDidChangeSchoolid:(NSInteger)schoolid{
+    if (self.changeSchoolidButton.tag == 0) {
+        self.changeSchoolidButton.tag = 999;
+    }else{
+        self.changeSchoolidButton.tag = 0;
+    }
+    for (id aView in self.changeSchoolidButton.subviews) {
+        if ([aView isKindOfClass:[UIImageView class]]) {
+            UIImageView *imgView = aView;
+            [UIView animateWithDuration:0.4 animations:^{
+                imgView.transform = CGAffineTransformIdentity;
+            }];
+        }
+    }
+    if (schoolid == -1) {
+        return;
+    }
+    
     if (schoolid == 0) {
 
         [self.changeSchoolidButton setTitle:@"西电新校区" forState:        UIControlStateNormal];
@@ -584,6 +650,8 @@ NSString *const __id = @"id";
     [self.tableView reloadData];
 
         [self fetchGuessUlikeShopListWithPage:@"1"];
+    
+    
 
 }
 
