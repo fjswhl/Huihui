@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic) NSArray *tb1Data;
 @property (strong, nonatomic) NSArray *tb2Data;
+
+@property (strong, nonatomic) UIView *ctv;
 @end
 
 @implementation LINPickerSchoolViewController
@@ -40,20 +42,41 @@
     UITableViewCell *cell = [self.tableview2 cellForRowAtIndexPath:[NSIndexPath indexPathForRow:s inSection:0]];
     cell.textLabel.textColor = [UIColor preferredColor];
     
-    UIView *shadow = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    shadow.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+//    UIView *shadow = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    shadow.backgroundColor = [UIColor clearColor];
+//    
+    //UIImageView *imgView = [[UIImageView alloc] initWithImage:self.backImage];
     
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:self.backImage];
+    //[self.view insertSubview:imgView atIndex:0];
+//    [self.view insertSubview:shadow atIndex:0];
     
-    [self.view insertSubview:imgView atIndex:0];
-    [self.view insertSubview:shadow aboveSubview:imgView];
     
-
+    UIView *bgv = [[UIView alloc] initWithFrame:self.view.frame];
+    bgv.backgroundColor = [UIColor clearColor];
+    
+    [self.view insertSubview:bgv atIndex:0];
     
     // 给背景添加一个手势
-    
+    [self.view setBackgroundColor:[UIColor clearColor]];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground)];
-    [shadow addGestureRecognizer:tapGesture];
+    [bgv addGestureRecognizer:tapGesture];
+    
+    
+
+    self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+}
+
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+//}
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //UIView *ctv = [self.view viewWithTag:999];
+   // ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.ctv.transform = CGAffineTransformIdentity;
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,6 +85,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - getter
+
+- (UIView *)ctv{
+    if (!_ctv) {
+        _ctv = [self.view viewWithTag:999];
+    }
+    return _ctv;
+}
 - (NSArray *)tb1Data{
     if (!_tb1Data) {
         _tb1Data = @[@"陕西省"];
@@ -104,7 +135,27 @@
 }
 
 - (void)tapBackground{
-    [self dismissViewControllerAnimated:NO completion:nil];
+ //   [self dismissViewControllerAnimated:NO completion:nil];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+//    } completion:^(BOOL finished) {
+//        [self removeFromParentViewController];
+//        [self.view removeFromSuperview];
+//    }];
+    
+    [self dismissCompletion:nil];
+}
+
+- (void)dismissCompletion:(void (^)(void))block{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.ctv.transform = CGAffineTransformMakeTranslation(0, -500);
+    } completion:^(BOOL finished) {
+        [self removeFromParentViewController];
+        [self.view removeFromSuperview];
+        if (block) {
+            block();
+        }
+    }];
 }
 
 
@@ -114,7 +165,10 @@
         cell.textLabel.textColor = [UIColor preferredColor];
         
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInteger:(indexPath.row + 1)] forKey:@"schoolid"];
-        [self dismissViewControllerAnimated:NO completion:^{
+//        [self dismissViewControllerAnimated:NO completion:^{
+//            [self.delegate userDidChangeSchoolid:indexPath.row];
+//        }];
+        [self dismissCompletion:^{
             [self.delegate userDidChangeSchoolid:indexPath.row];
         }];
     }
