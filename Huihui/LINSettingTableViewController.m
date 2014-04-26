@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
 #import <MessageUI/MessageUI.h>
+#import <ShareSDK/ShareSDK.h>
 @interface LINSettingTableViewController ()<MFMessageComposeViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UISwitch *s;
 
@@ -69,13 +70,14 @@
         hud.labelColor = [UIColor blackColor];
         [hud hide:YES afterDelay:1.5f];
     }else if (indexPath.section == 0 && indexPath.row == 1) {
-            if ([MFMessageComposeViewController canSendText]) {
-                MFMessageComposeViewController *messageCompose = [[MFMessageComposeViewController alloc] init];
-                NSString *message = @"我在使用汇惠,校园内外几乎所有商家在这里都有优惠哦,下载地址:https://itunes.apple.com/us/app/hui-hui-nin-dian-zi-hui-yuan/id863986954?ls=1&mt=8";
-                [messageCompose setBody:message];
-                messageCompose.messageComposeDelegate = self;
-                [self presentViewController:messageCompose animated:YES completion:nil];
-            }
+//            if ([MFMessageComposeViewController canSendText]) {
+//                MFMessageComposeViewController *messageCompose = [[MFMessageComposeViewController alloc] init];
+//                NSString *message = @"我在使用汇惠,校园内外几乎所有商家在这里都有优惠哦,下载地址:https://itunes.apple.com/us/app/hui-hui-nin-dian-zi-hui-yuan/id863986954?ls=1&mt=8";
+//                [messageCompose setBody:message];
+//                messageCompose.messageComposeDelegate = self;
+//                [self presentViewController:messageCompose animated:YES completion:nil];
+//            }
+        [self share];
         }
 }
 #pragma mark - message delegate
@@ -91,6 +93,35 @@
     }else{
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showImgOnlyWhenWifi"];
     }
+}
+
+- (void)share{
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
+    
+    id<ISSContent> publishContent = [ShareSDK content:@"这是一条测试1"
+                                       defaultContent:@"这是一条测试2"
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:@"汇惠"
+                                                  url:@"http://xdhuihui.sinaapp.com"
+                                          description:@"这是一条测试3"
+                                            mediaType:SSPublishContentMediaTypeNews];
+    
+    [ShareSDK showShareActionSheet:nil
+                         shareList:[ShareSDK getShareListWithType:ShareTypeWeixiTimeline, nil]
+                           content:publishContent
+                     statusBarTips:NO
+                       authOptions:nil
+                      shareOptions:nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    NSLog(@"分享成功");
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                }
+                            }];
 }
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

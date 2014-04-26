@@ -8,7 +8,10 @@
 
 #import "LINAppDelegate.h"
 #import "pinyin.h"
-
+#import <ShareSDK/ShareSDK.h>
+#import <QQConnection/QQConnection.h>
+#import <QZoneConnection/QZoneConnection.h>
+#import "WXApi.h"
 #import "NSString+Md5.h"
 @implementation LINAppDelegate
 
@@ -34,9 +37,33 @@
     }
     
     [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    [ShareSDK registerApp:@"1a912d3d0aba"];
+    [ShareSDK connectSinaWeiboWithAppKey:@"3210166262" appSecret:@"d78c2f7097539b2de04496017df4d596" redirectUri:@"http://xdhuihui.sinaapp.com"];
+    [ShareSDK connectTencentWeiboWithAppKey:@"801490222" appSecret:@"417df257cf65e79468cb9248e3939b47" redirectUri:@"http://xdhuihui.sinaapp.com"];
+//    [ShareSDK connectQZoneWithAppKey:@"101044706" appSecret:@"91e6e28b8e1945ac1d603179151642a4" qqApiInterfaceCls:[] tencentOAuthCls:<#(__unsafe_unretained Class)#>];
+    [ShareSDK connectRenRenWithAppKey:@"6abd134b79e84e8b88bfd8554effb386" appSecret:@"d92a0ca22bd24939be08df727ebcfa61"];
+    [ShareSDK connectWeChatTimelineWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];
+    [ShareSDK connectWeChatSessionWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
