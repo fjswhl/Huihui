@@ -135,7 +135,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     //        shopImage.image = self.shopImgs[indexPath];
     //    }
     [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
-    [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
+    [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     return cell;
 }
 

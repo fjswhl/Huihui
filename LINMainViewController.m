@@ -16,6 +16,8 @@
 #import "LINShowAllVC.h"
 #import "LINPickerSchoolViewController.h"
 #import "MBProgressHUD.h"
+
+#import <objc/objc-runtime.h>
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
@@ -188,11 +190,22 @@ NSString *const __id = @"id";
     static NSString *cellIdentifider = @"shopCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider];
     
-    UILabel *shopNameLabel = (UILabel *)[cell.contentView viewWithTag:1];
-    UILabel *discountLabel = (UILabel *)[cell.contentView viewWithTag:2];
-    UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:3];
-    RatingView *ratingView = (RatingView *)[cell.contentView viewWithTag:4];
-    UIImageView *shopImage = (UIImageView *)[cell.contentView viewWithTag:5];
+    
+    UIView *contentView = [cell.contentView viewWithTag:999];
+    static char contentViewKey;
+    NSString *setted = objc_getAssociatedObject(contentView, &contentViewKey);
+    if (!setted) {
+        objc_setAssociatedObject(contentView, &contentViewKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        contentView.layer.borderColor = [UIColor colorWithRed:216/255.0 green:216/255.0 blue:216/255.0 alpha:1.0f].CGColor;
+        contentView.layer.borderWidth = 1;
+    }
+
+
+    UILabel *shopNameLabel = (UILabel *)[contentView viewWithTag:1];
+    UILabel *discountLabel = (UILabel *)[contentView viewWithTag:2];
+    UILabel *locationLabel = (UILabel *)[contentView viewWithTag:3];
+    RatingView *ratingView = (RatingView *)[contentView viewWithTag:4];
+    UIImageView *shopImage = (UIImageView *)[contentView viewWithTag:5];
     
     [cell.contentView sendSubviewToBack:ratingView];
     
@@ -239,7 +252,7 @@ NSString *const __id = @"id";
 //        shopImage.image = self.shopImgs[indexPath];
 //    }
     [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
-    [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]]];
+    [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     return cell;
 }
@@ -251,7 +264,7 @@ NSString *const __id = @"id";
     if (indexPath.row == [self.shops count]) {
         return 43.0f;
     }
-    return 94.0f;
+    return 92.0f;
 }
 #pragma mark - TableView Delegate
 
