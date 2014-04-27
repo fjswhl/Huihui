@@ -17,7 +17,7 @@
 #import "LINPickerSchoolViewController.h"
 #import "MBProgressHUD.h"
 
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
@@ -196,8 +196,9 @@ NSString *const __id = @"id";
     NSString *setted = objc_getAssociatedObject(contentView, &contentViewKey);
     if (!setted) {
         objc_setAssociatedObject(contentView, &contentViewKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        contentView.layer.borderColor = [UIColor colorWithRed:216/255.0 green:216/255.0 blue:216/255.0 alpha:1.0f].CGColor;
+        contentView.layer.borderColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0f].CGColor;
         contentView.layer.borderWidth = 1;
+        contentView.layer.cornerRadius = 2;
     }
 
 
@@ -475,6 +476,8 @@ NSString *const __id = @"id";
 - (void)fetchGuessUlikeShopListWithPage:(NSString *)pages{
       //  NSLog(@"%@", self.shops);
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.shops count] inSection:0]];
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
+    label.text = @"正在加载...";
     UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
     [indicator startAnimating];
     
@@ -485,8 +488,6 @@ NSString *const __id = @"id";
         NSDictionary *dic = [completedOperation responseJSON];
        // NSLog(@"%@", dic);
         if ([dic[@"error"] isEqualToString:@"2"]) {
-
-            UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
             label.text = @"没有更多了...";
             [indicator stopAnimating];
             return;
@@ -500,6 +501,7 @@ NSString *const __id = @"id";
         
         [indicator stopAnimating];
         [self.tableView reloadData];
+        label.text = @"上拉加载更多";
         self.loadMoreCellIsShown = NO;
         self.pageCount++;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;

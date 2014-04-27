@@ -61,7 +61,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 2) {
+    if (indexPath.row == 1 && indexPath.section == 0) {
         [[SDImageCache sharedImageCache] clearDisk];
         [[SDImageCache sharedImageCache] clearMemory];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -69,7 +69,7 @@
         hud.labelText = @"缓存清理完毕.";
         hud.labelColor = [UIColor blackColor];
         [hud hide:YES afterDelay:1.5f];
-    }else if (indexPath.section == 0 && indexPath.row == 1) {
+    }else if (indexPath.section == 1 && indexPath.row == 1) {
 //            if ([MFMessageComposeViewController canSendText]) {
 //                MFMessageComposeViewController *messageCompose = [[MFMessageComposeViewController alloc] init];
 //                NSString *message = @"我在使用汇惠,校园内外几乎所有商家在这里都有优惠哦,下载地址:https://itunes.apple.com/us/app/hui-hui-nin-dian-zi-hui-yuan/id863986954?ls=1&mt=8";
@@ -78,7 +78,9 @@
 //                [self presentViewController:messageCompose animated:YES completion:nil];
 //            }
         [self share];
-        }
+    }else if (indexPath.section == 1 && indexPath.row == 2){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/hui-hui-nin-dian-zi-hui-yuan/id863986954?ls=1&mt=8"]];
+    }
 }
 #pragma mark - message delegate
 
