@@ -96,12 +96,12 @@
 }
 
 - (void)share{
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"tubiao"  ofType:@"png"];
     
     id<ISSContent> publishContent = [ShareSDK content:@"这是一条测试1"
                                        defaultContent:@"这是一条测试2"
                                                 image:[ShareSDK imageWithPath:imagePath]
-                                                title:@"汇惠"
+                                                title:@"汇惠-汇你所需,惠及你我!"
                                                   url:@"http://xdhuihui.sinaapp.com"
                                           description:@"这是一条测试3"
                                             mediaType:SSPublishContentMediaTypeNews];
