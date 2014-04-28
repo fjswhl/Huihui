@@ -111,36 +111,36 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view tag="999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H2c-iO-gro">
-                                            <rect key="frame" x="5" y="0.0" width="308" height="88"/>
+                                            <rect key="frame" x="5" y="0.0" width="310" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6w1-H4-ePe">
-                                                    <rect key="frame" x="9" y="9" width="100" height="72"/>
+                                                    <rect key="frame" x="6" y="7" width="102" height="69"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG6-8N-Swf">
-                                                    <rect key="frame" x="115" y="9" width="191" height="21"/>
+                                                    <rect key="frame" x="112" y="7" width="191" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" red="1" green="0.54901960780000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emN-6M-lWY">
-                                                    <rect key="frame" x="115" y="59" width="183" height="21"/>
+                                                    <rect key="frame" x="112" y="57" width="183" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="69" translatesAutoresizingMaskIntoConstraints="NO" id="CGw-26-uoE">
-                                                    <rect key="frame" x="237" y="18" width="69" height="53"/>
+                                                    <rect key="frame" x="234" y="16" width="69" height="53"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view tag="4" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HAz-ck-BfA" customClass="RatingView">
-                                                    <rect key="frame" x="115" y="37" width="72" height="16"/>
+                                                    <rect key="frame" x="112" y="35" width="72" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <accessibility key="accessibilityConfiguration">
@@ -161,7 +161,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="上拉加载更多" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiW-iu-GER">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="正在加载..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiW-iu-GER">
                                             <rect key="frame" x="82" y="10" width="156" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -446,7 +446,7 @@
         <!--Navigation Controller - 学生组织-->
         <scene sceneID="wge-QV-p8t">
             <objects>
-                <navigationController definesPresentationContext="YES" id="WrM-fN-5rh" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="WrM-fN-5rh" customClass="XXNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="学生组织" image="tabs_team_unselected.png" id="8ZG-Ra-3DT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nVm-BM-zCN">
                         <autoresizingMask key="autoresizingMask"/>
@@ -996,7 +996,7 @@
         <!--Navigation Controller - 优惠-->
         <scene sceneID="vUS-Lg-gNt">
             <objects>
-                <navigationController definesPresentationContext="YES" id="7UO-2R-YPL" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="7UO-2R-YPL" customClass="XXNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="优惠" image="tab3.png" id="EhX-zY-KKa"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tur-t6-2EY">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1725,7 +1725,7 @@
         <!--Navigation Controller - 我的-->
         <scene sceneID="lej-Zu-uOj">
             <objects>
-                <navigationController definesPresentationContext="YES" id="saA-fc-Fs5" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="saA-fc-Fs5" customClass="XXNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="我的" image="tab1.png" id="Gsj-hL-1DU"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qBn-NB-nAp">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1743,7 +1743,7 @@
         <!--Navigation Controller - 更多-->
         <scene sceneID="MdK-Kh-zoe">
             <objects>
-                <navigationController definesPresentationContext="YES" id="YMK-gE-baw" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="YMK-gE-baw" customClass="XXNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="更多" image="tabs_more_unselected.png" id="sLd-lU-iOQ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="tnm-fd-rnj">
                         <autoresizingMask key="autoresizingMask"/>

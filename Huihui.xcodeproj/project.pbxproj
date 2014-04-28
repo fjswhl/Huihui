@@ -155,6 +155,7 @@
 		3E4E642F190BFD7000982652 /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E63F1190BFD7000982652 /* ShareSDKiPhoneSimpleShareViewUI.framework */; };
 		3E4E6430190BFD7000982652 /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4E63F2190BFD7000982652 /* ShareSDKShareActionSheet.framework */; };
 		3E4E6432190BFEAF00982652 /* tubiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E4E6431190BFEAF00982652 /* tubiao.png */; };
+		3E4E6435190E1F6300982652 /* XXNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4E6434190E1F6300982652 /* XXNavigationController.m */; };
 		3E5DED4F18E45AA700D5A59A /* LINMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED4E18E45AA700D5A59A /* LINMeVC.m */; };
 		3E5DED5218E48FE300D5A59A /* LINLogInTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED5118E48FE300D5A59A /* LINLogInTextField.m */; };
 		3E5DED5518E4912800D5A59A /* LINLogInVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5DED5418E4912800D5A59A /* LINLogInVC.m */; };
@@ -429,6 +430,8 @@
 		3E4E63F1190BFD7000982652 /* ShareSDKiPhoneSimpleShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneSimpleShareViewUI.framework; sourceTree = "<group>"; };
 		3E4E63F2190BFD7000982652 /* ShareSDKShareActionSheet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKShareActionSheet.framework; sourceTree = "<group>"; };
 		3E4E6431190BFEAF00982652 /* tubiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tubiao.png; sourceTree = "<group>"; };
+		3E4E6433190E1F6300982652 /* XXNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXNavigationController.h; sourceTree = "<group>"; };
+		3E4E6434190E1F6300982652 /* XXNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXNavigationController.m; sourceTree = "<group>"; };
 		3E5DED4D18E45AA700D5A59A /* LINMeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMeVC.h; sourceTree = "<group>"; };
 		3E5DED4E18E45AA700D5A59A /* LINMeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMeVC.m; sourceTree = "<group>"; };
 		3E5DED5018E48FE300D5A59A /* LINLogInTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINLogInTextField.h; sourceTree = "<group>"; };
@@ -587,6 +590,8 @@
 		3E15C0FA18DFE97800F6512F = {
 			isa = PBXGroup;
 			children = (
+				3E4E6433190E1F6300982652 /* XXNavigationController.h */,
+				3E4E6434190E1F6300982652 /* XXNavigationController.m */,
 				3E49F75E18F5741F001309D1 /* UIColor+LINColor.h */,
 				3E49F75F18F5741F001309D1 /* UIColor+LINColor.m */,
 				3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */,
@@ -1417,6 +1422,7 @@
 				3E15C15F18DFF18E00F6512F /* SDWebImageCompat.m in Sources */,
 				3E15C18918DFF19400F6512F /* MKNetworkEngine.m in Sources */,
 				3E8B16D118F6F1DC00883E22 /* IntroModel.m in Sources */,
+				3E4E6435190E1F6300982652 /* XXNavigationController.m in Sources */,
 				3E15C16618DFF18E00F6512F /* UIImage+GIF.m in Sources */,
 				3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */,
 				3ECAC67B18FD7B51008A849F /* LINPushAdviceTableViewController.m in Sources */,
