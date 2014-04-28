@@ -621,6 +621,7 @@ NSString *const __id = @"id";
 //    [self loadImagesForOnscreenRows];
 //}
 
+#pragma mark - 配置广告栏
 - (void)loadView{
     [super loadView];
     IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"ads1.png"];
