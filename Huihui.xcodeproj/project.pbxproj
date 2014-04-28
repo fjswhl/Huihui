@@ -56,6 +56,10 @@
 		3E15C1A918E042DE00F6512F /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E15C1A618E042DE00F6512F /* 1.png */; };
 		3E15C1AA18E042DE00F6512F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E15C1A718E042DE00F6512F /* 0.png */; };
 		3E15C1AD18E06B7900F6512F /* LINShopDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E15C1AC18E06B7900F6512F /* LINShopDetailVC.m */; };
+		3E290829190E4AC7003052B8 /* 预定@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E290825190E4AC7003052B8 /* 预定@2x.png */; };
+		3E29082A190E4AC7003052B8 /* 美食@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E290826190E4AC7003052B8 /* 美食@2x.png */; };
+		3E29082B190E4AC7003052B8 /* 生活@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E290827190E4AC7003052B8 /* 生活@2x.png */; };
+		3E29082C190E4AC7003052B8 /* 休闲@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E290828190E4AC7003052B8 /* 休闲@2x.png */; };
 		3E483F3918E1D1370053EB93 /* LINShowAllVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3818E1D1370053EB93 /* LINShowAllVC.m */; };
 		3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3C18E31D460053EB93 /* LINActivityVC.m */; };
 		3E483F4718E32FFF0053EB93 /* pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F4018E32FFF0053EB93 /* pinyin.m */; };
@@ -305,6 +309,10 @@
 		3E15C1A718E042DE00F6512F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
 		3E15C1AB18E06B7900F6512F /* LINShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShopDetailVC.h; sourceTree = "<group>"; };
 		3E15C1AC18E06B7900F6512F /* LINShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShopDetailVC.m; sourceTree = "<group>"; };
+		3E290825190E4AC7003052B8 /* 预定@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "预定@2x.png"; sourceTree = "<group>"; };
+		3E290826190E4AC7003052B8 /* 美食@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食@2x.png"; sourceTree = "<group>"; };
+		3E290827190E4AC7003052B8 /* 生活@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "生活@2x.png"; sourceTree = "<group>"; };
+		3E290828190E4AC7003052B8 /* 休闲@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "休闲@2x.png"; sourceTree = "<group>"; };
 		3E483F3718E1D1370053EB93 /* LINShowAllVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShowAllVC.h; sourceTree = "<group>"; };
 		3E483F3818E1D1370053EB93 /* LINShowAllVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShowAllVC.m; sourceTree = "<group>"; };
 		3E483F3B18E31D460053EB93 /* LINActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINActivityVC.h; sourceTree = "<group>"; };
@@ -1112,6 +1120,10 @@
 		3E8B16A718F6E14200883E22 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				3E290825190E4AC7003052B8 /* 预定@2x.png */,
+				3E290826190E4AC7003052B8 /* 美食@2x.png */,
+				3E290827190E4AC7003052B8 /* 生活@2x.png */,
+				3E290828190E4AC7003052B8 /* 休闲@2x.png */,
 				3E4E6431190BFEAF00982652 /* tubiao.png */,
 				3ED1978D18FEC8C300ED231C /* placeholder.png */,
 				3ED1978918FEBDCC00ED231C /* 欢迎叶面5@2x.png */,
@@ -1299,10 +1311,13 @@
 				3E4E6413190BFD7000982652 /* ShareSDKLocalizable.strings in Resources */,
 				3ED1978A18FEBDCC00ED231C /* 欢迎叶面5@2x.png in Resources */,
 				3E8B16AF18F6E16300883E22 /* tabs_team_unselected.png in Resources */,
+				3E290829190E4AC7003052B8 /* 预定@2x.png in Resources */,
 				3ECAC67718FD7835008A849F /* 图形2.png in Resources */,
 				3E4E6417190BFD7000982652 /* GooglePlus.bundle in Resources */,
 				3E8B16C218F6E38000883E22 /* food1.png in Resources */,
+				3E29082A190E4AC7003052B8 /* 美食@2x.png in Resources */,
 				3E6CC75318FBA931002B7375 /* titlebutton.png in Resources */,
+				3E29082C190E4AC7003052B8 /* 休闲@2x.png in Resources */,
 				3E8B16C618F6E3A700883E22 /* life.9.png in Resources */,
 				3E4E641C190BFD7000982652 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				3E8B16B118F6E17500883E22 /* tuan.png in Resources */,
@@ -1341,6 +1356,7 @@
 				3E483F6918E428CE0053EB93 /* checkbox1_unchecked@2x.png in Resources */,
 				3E483F6818E428CE0053EB93 /* checkbox1_unchecked.png in Resources */,
 				3E4E6429190BFD7000982652 /* ShareSDKiPadSimpleShareViewUI.bundle in Resources */,
+				3E29082B190E4AC7003052B8 /* 生活@2x.png in Resources */,
 				3ECAC67818FD7835008A849F /* tab3@2x.png in Resources */,
 				3E4E6420190BFD7000982652 /* WeiboSDK.bundle in Resources */,
 			);
