@@ -20,8 +20,8 @@ extern NSString *const __apiGetScretKey;
 
 @interface LINLogInVC ()<LINRootVCDelegate>
 
-@property (strong, nonatomic) IBOutlet LINLogInTextField *phoneNumberForm;
-@property (strong, nonatomic) IBOutlet LINLogInTextField *pwdForm;
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumberForm;
+@property (strong, nonatomic) IBOutlet UITextField *pwdForm;
 @property (strong, nonatomic) IBOutlet UIHyperlinksButton *jumpSignUp;
 @property (strong, nonatomic) IBOutlet UIHyperlinksButton *jumpForgetPwd;
 
@@ -50,6 +50,8 @@ extern NSString *const __apiGetScretKey;
     
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     rootVC.rootVCdelegate = self;
+    
+    [self setupUI];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,6 +60,17 @@ extern NSString *const __apiGetScretKey;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupUI{
+    UIImageView *pwdTextFieldImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_pwd_edittext_bg_normal.png"]];
+   // pwdTextFieldImgView.image = [UIImage imageNamed:@"login_pwd_edittext_bg_normal.png"];
+    self.pwdForm.leftView = pwdTextFieldImgView;
+    self.pwdForm.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIImageView *userTextFieldImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_username_edittext_bg_normal.png"]];
+   // userTextFieldImgView.image = [UIImage imageNamed:@"login_username_edittext_bg_normal.png"];
+    self.phoneNumberForm.leftView = userTextFieldImgView;
+    self.phoneNumberForm.leftViewMode = UITextFieldViewModeAlways;
+}
 #pragma mark - Getter
 - (MKNetworkEngine *)engine{
     if (!_engine) {

@@ -119,7 +119,10 @@ NSString *const __apiLogout = @"index.php/User/logout";
             
             NSDictionary *dic = [completedOperation responseJSON];
             NSLog(@"%@", dic);
+            NSLog(@"%@,%@", name, password);
             if (dic[@"error"] != nil) {
+                NSLog(@"%@", dic[@"error"]);
+ 
                 [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
             }else{
 #warning wait for md5 encode

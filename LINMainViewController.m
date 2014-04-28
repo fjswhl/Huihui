@@ -277,7 +277,7 @@ NSString *const __id = @"id";
     if (indexPath.row == [self.shops count]) {
         return 43.0f;
     }
-    return 92.0f;
+    return 90.0f;
 }
 #pragma mark - TableView Delegate
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LINLogInVC : UIViewController
+@interface LINLogInVC : UITableViewController
 
 @end
