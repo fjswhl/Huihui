@@ -16,7 +16,7 @@
 #import "LINShowAllVC.h"
 #import "LINPickerSchoolViewController.h"
 #import "MBProgressHUD.h"
-
+#import "ColorButton.h"
 #import <objc/runtime.h>
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
@@ -52,6 +52,12 @@ NSString *const __id = @"id";
  *   这个属性用于解决一个问题: 当用户切换schoolid时, fetchGuessUlikeWithPage:(NSString *)page会被调用两次, 第一次是当[tableview reloadData]后scrollViewDidScroll导致被调用,第二次是切换schoolid时手动调用. 该属性防止scrollviewDidScroll调用fetch方法
  */
 @property (nonatomic) BOOL scrollViewDidScrollFlag;
+
+
+@property (strong, nonatomic) IBOutlet ColorButton *foodButton;
+@property (strong, nonatomic) IBOutlet ColorButton *entertainmentButton;
+@property (strong, nonatomic) IBOutlet ColorButton *lifeButton;
+@property (strong, nonatomic) IBOutlet ColorButton *bookButton;
 @end
 
 @implementation LINMainViewController
@@ -76,7 +82,7 @@ NSString *const __id = @"id";
     
     [self fetchGuessUlikeShopListWithPage:@"1"];
     
-    
+    [self setupUI];
     // 修改searchbar的取消按钮
 
     // Uncomment the following line to preserve selection between presentations.
@@ -105,6 +111,12 @@ NSString *const __id = @"id";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setupUI{
+    [self.foodButton setBackgroundImageWithColor:[UIColor whiteColor]];
+        [self.entertainmentButton setBackgroundImageWithColor:[UIColor whiteColor]];
+        [self.lifeButton setBackgroundImageWithColor:[UIColor whiteColor]];
+        [self.bookButton setBackgroundImageWithColor:[UIColor whiteColor]];
+}
 #pragma mark - getter
 - (MKNetworkEngine *)engine{
     if (!_engine) {
@@ -530,15 +542,10 @@ NSString *const __id = @"id";
 }
 
 #pragma mark - Button Method
-- (IBAction)typeButtonFoodTapped:(UIButton *)sender {
+- (IBAction)typeButtonTapped:(UIButton *)sender {
     [self performSegueWithIdentifier:@"type" sender:sender];
 }
-- (IBAction)typeButtonServiceTapped:(UIButton *)sender {
-    [self performSegueWithIdentifier:@"type" sender:sender];
-}
-- (IBAction)typeButtonEntertainmentTapped:(UIButton *)sender {
-    [self performSegueWithIdentifier:@"type" sender:sender];
-}
+
 
 - (IBAction)changeSchool:(id)sender {
     UIButton *btn = sender;
@@ -627,7 +634,7 @@ NSString *const __id = @"id";
     IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"ads1.png"];
     IntroModel *model2 = [[IntroModel alloc] initWithTitle:nil description:@"一步注册,即享优惠" image:@"ads2.png"];
     IntroModel *model3 = [[IntroModel alloc]initWithTitle:nil description:@"预享实惠,推荐汇惠" image:@"ads3.png"];
-    IntroControll *c = [[IntroControll alloc] initWithFrame:self.adView.frame pages:@[model1,model2,model3]];
+    IntroControll *c = [[IntroControll alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.adView.frame), CGRectGetHeight(self.adView.frame)) pages:@[model1,model2,model3]];
     [self.adView addSubview:c];
 }
 
