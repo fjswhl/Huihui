@@ -27,6 +27,9 @@
 //    }
     
     //  设置默认的schoolid
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]
+                                                           }];
+    
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if (![ud valueForKey:@"schoolid"]) {
         [ud setValue:@(1) forKey:@"schoolid"];

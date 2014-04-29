@@ -18,6 +18,7 @@
 #import "MBProgressHUD.h"
 #import "ColorButton.h"
 #import <objc/runtime.h>
+#import <QuartzCore/QuartzCore.h>
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
@@ -631,10 +632,13 @@ NSString *const __id = @"id";
 #pragma mark - 配置广告栏
 - (void)loadView{
     [super loadView];
-    IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"ads1.png"];
-    IntroModel *model2 = [[IntroModel alloc] initWithTitle:nil description:@"一步注册,即享优惠" image:@"ads2.png"];
-    IntroModel *model3 = [[IntroModel alloc]initWithTitle:nil description:@"预享实惠,推荐汇惠" image:@"ads3.png"];
+    IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"广告1.png"];
+    IntroModel *model2 = [[IntroModel alloc] initWithTitle:nil description:@"一步注册,即享优惠" image:@"广告2.png"];
+    IntroModel *model3 = [[IntroModel alloc]initWithTitle:nil description:@"预享实惠,推荐汇惠" image:@"广告3.png"];
     IntroControll *c = [[IntroControll alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.adView.frame), CGRectGetHeight(self.adView.frame)) pages:@[model1,model2,model3]];
+    c.layer.shadowColor = [UIColor blackColor].CGColor;
+    c.layer.shadowOffset = CGSizeMake(2, 2);
+    c.layer.shadowOpacity = 0.2f;
     [self.adView addSubview:c];
 }
 

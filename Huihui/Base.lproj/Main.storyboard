@@ -18,6 +18,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="7UO-2R-YPL" kind="relationship" relationship="viewControllers" id="xsU-r5-Tly"/>
+                        <segue destination="WrM-fN-5rh" kind="relationship" relationship="viewControllers" id="syh-r8-2l6"/>
                         <segue destination="saA-fc-Fs5" kind="relationship" relationship="viewControllers" id="ALc-C5-YpH"/>
                         <segue destination="YMK-gE-baw" kind="relationship" relationship="viewControllers" id="9XL-7F-H4C"/>
                     </connections>
@@ -508,11 +509,11 @@
             </objects>
             <point key="canvasLocation" x="-1024" y="-922"/>
         </scene>
-        <!--Navigation Controller - 学生组织-->
+        <!--Navigation Controller - 校园圈-->
         <scene sceneID="wge-QV-p8t">
             <objects>
                 <navigationController definesPresentationContext="YES" id="WrM-fN-5rh" customClass="XXNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="学生组织" image="tabs_team_unselected.png" id="8ZG-Ra-3DT"/>
+                    <tabBarItem key="tabBarItem" title="校园圈" image="tab2.png" id="8ZG-Ra-3DT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nVm-BM-zCN">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="0.54901960780000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2313,9 +2314,9 @@
         <image name="phone_64.png" width="32" height="32"/>
         <image name="placeholder.png" width="150" height="125"/>
         <image name="tab1.png" width="19" height="22"/>
+        <image name="tab2.png" width="25" height="21"/>
         <image name="tab3.png" width="25" height="25"/>
         <image name="tabs_more_unselected.png" width="24" height="24"/>
-        <image name="tabs_team_unselected.png" width="48" height="48"/>
         <image name="titlebutton.png" width="7" height="7"/>
         <image name="休闲.png" width="50" height="50"/>
         <image name="欢迎叶面5.png" width="94" height="87"/>
@@ -2329,7 +2330,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="NQ8-S6-8kP"/>
         <segue reference="c80-TE-K55"/>
-        <segue reference="DVf-KW-dYd"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,15 +9,17 @@
     if(self != nil) {
         
         //Initial Background images
-        self.clipsToBounds = YES;
+        self.clipsToBounds = NO;
         self.backgroundColor = [UIColor blackColor];
         
         backgroundImage1 = [[UIImageView alloc] initWithFrame:frame];
+        backgroundImage1.clipsToBounds = YES;
         [backgroundImage1 setContentMode:UIViewContentModeScaleAspectFill];
         [backgroundImage1 setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
         [self addSubview:backgroundImage1];
 
         backgroundImage2 = [[UIImageView alloc] initWithFrame:frame];
+        backgroundImage2.clipsToBounds = YES;
         [backgroundImage2 setContentMode:UIViewContentModeScaleAspectFill];
         [backgroundImage2 setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
         [self addSubview:backgroundImage2];
@@ -59,7 +61,7 @@
         }
             
         //start timer
-        timer =  [NSTimer scheduledTimerWithTimeInterval:3.0
+        timer =  [NSTimer scheduledTimerWithTimeInterval:3.5
                         target:self
                         selector:@selector(tick)
                         userInfo:nil
