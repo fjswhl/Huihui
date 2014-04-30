@@ -58,6 +58,9 @@
  */
 - (void)setLogged:(BOOL)logged;
 - (BOOL)logged;
+
+- (void)hideTabbarAnimated:(BOOL)animated;
+- (void)showTabbarAnimated:(BOOL)animated;
 @end
 
 

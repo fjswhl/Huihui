@@ -19,6 +19,7 @@
 #import "ColorButton.h"
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
+#import "LINRootVC.h"
 NSString *const apiGuessULike = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
@@ -84,6 +85,7 @@ NSString *const __id = @"id";
     [self fetchGuessUlikeShopListWithPage:@"1"];
     
     [self setupUI];
+  //  [self setHidesBottomBarWhenPushed:YES];
     // 修改searchbar的取消按钮
 
     // Uncomment the following line to preserve selection between presentations.
@@ -97,6 +99,8 @@ NSString *const __id = @"id";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    [rootVC showTabbarAnimated:YES];
     if (self.searchBar.text != nil || ![self.searchBar isFirstResponder]) {
         self.searchBar.text = nil;
         [self updateTitleViewUI];
@@ -527,7 +531,9 @@ NSString *const __id = @"id";
 
 #pragma mark - Sague
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"showDetail"]) {
+    LINRootVC *rootVC = (LINRootVC *) self.tabBarController;
+    [rootVC hideTabbarAnimated:YES];
+     if ([segue.identifier isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = (NSIndexPath *)sender;
         NSDictionary *aShop = self.shops[indexPath.row];
         if (self.ss == true) {

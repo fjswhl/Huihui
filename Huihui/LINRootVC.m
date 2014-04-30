@@ -182,6 +182,19 @@ NSString *const __apiLogout = @"index.php/User/logout";
     [self loginWithName:phoneNumber password:password completion:block];
     return true;
 }
+
+- (void)hideTabbarAnimated:(BOOL)animated{
+    [UIView animateWithDuration:0.4f animations:^{
+            self.tabBar.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.tabBar.frame));
+    }];
+
+}
+
+- (void)showTabbarAnimated:(BOOL)animated{
+    [UIView animateWithDuration:0.4f animations:^{
+        self.tabBar.transform = CGAffineTransformIdentity;
+    }];
+}
 @end
 
 
