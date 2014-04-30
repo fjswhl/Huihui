@@ -67,7 +67,7 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"缓存清理完毕.";
-        hud.labelColor = [UIColor blackColor];
+        //hud.labelColor = [UIColor blackColor];
         [hud hide:YES afterDelay:1.5f];
     }else if (indexPath.section == 1 && indexPath.row == 1) {
 //            if ([MFMessageComposeViewController canSendText]) {
