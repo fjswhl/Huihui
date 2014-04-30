@@ -517,7 +517,12 @@ NSString *const __id = @"id";
            // NSLog(@"%@", self.shops);
         
         [indicator stopAnimating];
-        [self.tableView reloadData];
+        
+        NSRange range;
+        range.location = (self.pageCount - 1) * 5;
+        range.length = [st count];
+        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
         label.text = @"上拉加载更多";
         self.loadMoreCellIsShown = NO;
         self.pageCount++;
@@ -526,6 +531,15 @@ NSString *const __id = @"id";
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
     [self.engine enqueueOperation:op];
+}
+
+- (NSArray *)indexPathsForRange:(NSRange)range{
+    NSMutableArray *result = [NSMutableArray new];
+    for (int i = range.location; i < (range.location + range.length); i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        [result addObject:indexPath];
+    }
+    return [result copy];
 }
 
 

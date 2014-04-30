@@ -165,7 +165,7 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
         }else if (option == LINShowAllVCOptionOutschool){
             self.shopsOutSchool = dic[@"success"][@"shops"];
         }
-        [self.tableView reloadData];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         if (self.refreshControl.refreshing == YES) {
             [self.refreshControl endRefreshing];
         }
