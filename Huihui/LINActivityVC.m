@@ -64,7 +64,7 @@ NSString *const __groupname = @"groupname";
 @interface LINActivityVC ()<UISearchDisplayDelegate, UISearchBarDelegate>
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
-@property (strong, nonatomic) IBOutlet UISegmentedControl *preferOptions;
+//@property (strong, nonatomic) IBOutlet UISegmentedControl *preferOptions;
 @property (strong, nonatomic) NSMutableArray *activities;
 
 
@@ -91,11 +91,11 @@ NSString *const __groupname = @"groupname";
 {
     [super viewDidLoad];
     [self fetchActivities];
+   // [self.navigationController.navigationBar setHidden:YES];
     if([self.tableView respondsToSelector:@selector(setSectionIndexBackgroundColor:)]){
             self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     }
-    [self.tableView setContentOffset:CGPointMake(0, 44.0)];
-    
+
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -103,6 +103,10 @@ NSString *const __groupname = @"groupname";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.tableView setContentInset:UIEdgeInsetsMake(64, 0, 49, 0)];}
 
 - (void)didReceiveMemoryWarning
 {
@@ -151,42 +155,42 @@ NSString *const __groupname = @"groupname";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.preferOptions.selectedSegmentIndex == 0) {
-        return 1;
-    }else{
-        return (tableView == self.searchDisplayController.searchResultsTableView) ? 1 :[self.keys count];
-    }
-    return 0;
+//    if (self.preferOptions.selectedSegmentIndex == 0) {
+//        return 1;
+//    }else{
+//        return (tableView == self.searchDisplayController.searchResultsTableView) ? 1 :[self.keys count];
+//    }
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.preferOptions.selectedSegmentIndex == 0) {
+//    if (self.preferOptions.selectedSegmentIndex == 0) {
         return (tableView == self.searchDisplayController.searchResultsTableView) ? [self.filteredActivities count]:[self.activities count];
-    }else{
-        return (tableView == self.searchDisplayController.searchResultsTableView) ? [self.filteredGroups count] : [self.proceessedGroups[self.keys[section]] count];
-//        return [self.proceessedGroups[self.keys[section]] count];
-
-    }
-    return 0;
+//    }else{
+//        return (tableView == self.searchDisplayController.searchResultsTableView) ? [self.filteredGroups count] : [self.proceessedGroups[self.keys[section]] count];
+////        return [self.proceessedGroups[self.keys[section]] count];
+//
+//    }
+//    return 0;
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
-    if (self.preferOptions.selectedSegmentIndex == 0 || tableView == self.searchDisplayController.searchResultsTableView) {
-        return nil;
-    }
-    return self.keys;
-}
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+//    if (self.preferOptions.selectedSegmentIndex == 0 || tableView == self.searchDisplayController.searchResultsTableView) {
+//        return nil;
+//    }
+//    return self.keys;
+//}
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if (self.preferOptions.selectedSegmentIndex == 0 || tableView == self.searchDisplayController.searchResultsTableView) {
-        return nil;
-    }
-    return self.keys[section];
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    if (self.preferOptions.selectedSegmentIndex == 0 || tableView == self.searchDisplayController.searchResultsTableView) {
+//        return nil;
+//    }
+//    return self.keys[section];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.preferOptions.selectedSegmentIndex == 0) {
+//    if (self.preferOptions.selectedSegmentIndex == 0) {
         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"activityCell" forIndexPath:indexPath];
         
         UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1];
@@ -199,7 +203,7 @@ NSString *const __groupname = @"groupname";
         UILabel *propertyLabel = (UILabel *)[cell.contentView viewWithTag:7];
         
         NSDictionary *aActivity = (tableView == self.searchDisplayController.searchResultsTableView) ? self.filteredActivities[indexPath.row] : self.activities[indexPath.row];
-        [imgView setImageWithURL:aActivity[__pic]];
+        [imgView setImageWithURL:[NSURL URLWithString:aActivity[__pic]]];
         titleLabel.text = aActivity[__title];
         introLabel.text = aActivity[__intro];
         timeLabel.text = aActivity[__activitytime];
@@ -207,35 +211,35 @@ NSString *const __groupname = @"groupname";
         organizerLabel.text = aActivity[__organizer];
         propertyLabel.text = aActivity[__property];
         return cell;
-    }
-    else{
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupCell"];
-        
-        UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1];
-        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
-        UILabel *introLabel = (UILabel *)[cell.contentView viewWithTag:3];
-        
-
-        NSDictionary *aGroup = (tableView == self.searchDisplayController.searchResultsTableView) ? self.filteredGroups[indexPath.row] : [self.proceessedGroups[self.keys[indexPath.section]] objectAtIndex:indexPath.row];
-//        NSDictionary *aGroup = [self.proceessedGroups[self.keys[indexPath.section]] objectAtIndex:indexPath.row];
-        
-        [imgView setImageWithURL:aGroup[__pic]];
-        titleLabel.text = aGroup[__groupname];
-        introLabel.text = aGroup[__intro];
-        return cell;
-    }
-    return nil;
+//    }
+//    else{
+//        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupCell"];
+//        
+//        UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1];
+//        UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
+//        UILabel *introLabel = (UILabel *)[cell.contentView viewWithTag:3];
+//        
+//
+//        NSDictionary *aGroup = (tableView == self.searchDisplayController.searchResultsTableView) ? self.filteredGroups[indexPath.row] : [self.proceessedGroups[self.keys[indexPath.section]] objectAtIndex:indexPath.row];
+////        NSDictionary *aGroup = [self.proceessedGroups[self.keys[indexPath.section]] objectAtIndex:indexPath.row];
+//        
+//        [imgView setImageWithURL:aGroup[__pic]];
+//        titleLabel.text = aGroup[__groupname];
+//        introLabel.text = aGroup[__intro];
+//        return cell;
+//    }
+//    return nil;
 }
 
 #pragma mark - TableView delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.preferOptions.selectedSegmentIndex == 0) {
-        return 128.0f;
-    }else{
-        return 64.0f;
-    }
-    return 0;
+//    if (self.preferOptions.selectedSegmentIndex == 0) {
+//        return 128.0f;
+//    }else{
+//        return 64.0f;
+//    }
+    return 128.0f;
 }
 #pragma mark - Interaction With Server
 - (void)fetchActivities{
@@ -300,7 +304,7 @@ NSString *const __groupname = @"groupname";
         return ([s rangeOfString:searchText].location != NSNotFound);
     }];
     
-    if (self.preferOptions.selectedSegmentIndex == 0) {
+//    if (self.preferOptions.selectedSegmentIndex == 0) {
         NSMutableArray *filteredData = [NSMutableArray new];
         for (NSDictionary *aActivity in self.activities) {
 
@@ -310,38 +314,38 @@ NSString *const __groupname = @"groupname";
         }
         self.filteredActivities = filteredData;
         NSLog(@"%@", filteredData);
-    }else if (self.preferOptions.selectedSegmentIndex == 1){
-        NSMutableArray *filteredData = [NSMutableArray new];
-        for (NSString *key in self.keys) {
-            NSArray *groups = self.proceessedGroups[key];
-            
-            
-//            [filteredData addObject: [groups filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-//                NSDictionary *eva = evaluatedObject;
-//                if ([eva[__groupname] rangeOfString:searchText].location != NSNotFound) {
-//                    return YES;
+//    }else if (self.preferOptions.selectedSegmentIndex == 1){
+//        NSMutableArray *filteredData = [NSMutableArray new];
+//        for (NSString *key in self.keys) {
+//            NSArray *groups = self.proceessedGroups[key];
+//            
+//            
+////            [filteredData addObject: [groups filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+////                NSDictionary *eva = evaluatedObject;
+////                if ([eva[__groupname] rangeOfString:searchText].location != NSNotFound) {
+////                    return YES;
+////                }
+////                return NO;
+////            }]]];
+//            for (NSDictionary *aGroup in groups) {
+//                if ([p evaluateWithObject:aGroup[__groupname]]) {
+//                    [filteredData addObject:aGroup];
 //                }
-//                return NO;
-//            }]]];
-            for (NSDictionary *aGroup in groups) {
-                if ([p evaluateWithObject:aGroup[__groupname]]) {
-                    [filteredData addObject:aGroup];
-                }
-            }
-        }
-
-        self.filteredGroups = filteredData;
-        NSLog(@"%@", self.filteredGroups);
-    }
+//            }
+//        }
+//
+//        self.filteredGroups = filteredData;
+//        NSLog(@"%@", self.filteredGroups);
+//    }
     
 }
 #pragma mark - UI button
-- (IBAction)optionChanged:(UISegmentedControl *)sender {
-    [self.tableView reloadData];
-    if (sender.selectedSegmentIndex == 1 && [self.groups count] == 0) {
-        [self fetchGroup];
-    }
-}
+//- (IBAction)optionChanged:(UISegmentedControl *)sender {
+//    [self.tableView reloadData];
+//    if (sender.selectedSegmentIndex == 1 && [self.groups count] == 0) {
+//        [self fetchGroup];
+//    }
+//}
 
 @end
 

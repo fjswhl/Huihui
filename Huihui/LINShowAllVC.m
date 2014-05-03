@@ -161,17 +161,28 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
         NSDictionary *dic = [completedOperation responseJSON];
         
         if (option == LINShowAllVCOptionInschool) {
+            self.shopsInSchool = nil;
+            [self.tableView reloadData];
             self.shopsInSchool = dic[@"success"][@"shops"];
         }else if (option == LINShowAllVCOptionOutschool){
+            self.shopsOutSchool = nil;
+            [self.tableView reloadData];
             self.shopsOutSchool = dic[@"success"][@"shops"];
         }
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    /*         延迟0.5秒重载表示图(因为在网络好的情况下, 不延迟的话会出现稍微的卡顿)           */
+        double delayInSeconds = 0.3;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+        });
+           //   [self.tableView reloadData];
         if (self.refreshControl.refreshing == YES) {
             [self.refreshControl endRefreshing];
         }
         [hud hide:YES];
         
-        NSLog(@"%@",dic);
+    //    NSLog(@"%@",dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [hud hide:YES];
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];

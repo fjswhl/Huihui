@@ -38,6 +38,8 @@
     // Do any additional setup after loading the view.
     [self addChildViewController:self.activityVC];
     [self addChildViewController:self.moodWallVC];
+    [self.view addSubview:self.activityVC.view];
+    NSLog(@"%@", NSStringFromCGRect(self.activityVC.tableView.frame));
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if (![ud valueForKey:@"activityTabPreferredView"]) {
@@ -45,10 +47,30 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"%@", NSStringFromCGRect(self.activityVC.view.frame));
+
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Getter
+
+- (LINActivityVC *)activityVC{
+    if (!_activityVC) {
+        _activityVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LINActivityVC_storyboardid"];    }
+    return _activityVC;
+}
+
+- (LINMoodWallViewController *)moodWallVC{
+    if (!_moodWallVC) {
+        _moodWallVC = [LINMoodWallViewController new];
+    }
+    return _moodWallVC;
 }
 
 /**
