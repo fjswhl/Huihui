@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qs8-dl-WrG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="qs8-dl-WrG">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -496,7 +496,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-810" y="-1354"/>
+            <point key="canvasLocation" x="-602" y="-1378"/>
         </scene>
         <!--Navigation Controller - 校园圈-->
         <scene sceneID="wge-QV-p8t">
@@ -1554,6 +1554,81 @@
             </objects>
             <point key="canvasLocation" x="-152" y="54"/>
         </scene>
+        <!--Table View Controller-->
+        <scene sceneID="3N4-IZ-xBy">
+            <objects>
+                <tableViewController id="ff7-3V-GqO" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="323" sectionHeaderHeight="22" sectionFooterHeight="22" id="eLf-r6-rgp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="secretCell" rowHeight="323" id="dLN-yf-Z3q">
+                                <rect key="frame" x="0.0" y="22" width="320" height="323"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dLN-yf-Z3q" id="l9J-GF-gTX">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="322"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rev-M9-0CU">
+                                            <rect key="frame" x="0.0" y="281" width="320" height="41"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ryt-D6-s5o">
+                                                    <rect key="frame" x="229" y="7" width="26" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="ic_like.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="selected" image="ic_liked.png"/>
+                                                    <state key="highlighted" image="ic_liked.png"/>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58g-U2-t6u">
+                                                    <rect key="frame" x="272" y="10" width="15" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="has_comment.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="88888888888888888888888888888888888888888899999999999900008888888888888888888888888888888888888888889999999999990000" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nyS-Mw-9CE">
+                                            <rect key="frame" x="20" y="118" width="280" height="38"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="280" id="9LJ-1N-820"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="37" id="K32-t9-14x"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="nyS-Mw-9CE" secondAttribute="centerX" id="2dW-PK-qvq"/>
+                                        <constraint firstItem="rev-M9-0CU" firstAttribute="top" secondItem="l9J-GF-gTX" secondAttribute="top" constant="281" id="4Pe-9v-aX7"/>
+                                        <constraint firstItem="nyS-Mw-9CE" firstAttribute="leading" secondItem="l9J-GF-gTX" secondAttribute="leading" constant="20" id="99v-6x-3Cz"/>
+                                        <constraint firstAttribute="trailing" secondItem="nyS-Mw-9CE" secondAttribute="trailing" constant="20" id="A1D-Ou-DP1"/>
+                                        <constraint firstItem="rev-M9-0CU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nyS-Mw-9CE" secondAttribute="bottom" id="ABG-OE-b7A"/>
+                                        <constraint firstAttribute="trailing" secondItem="rev-M9-0CU" secondAttribute="trailing" id="ZZC-Fw-1sQ"/>
+                                        <constraint firstItem="rev-M9-0CU" firstAttribute="leading" secondItem="l9J-GF-gTX" secondAttribute="leading" id="kYi-52-WvN"/>
+                                        <constraint firstAttribute="centerY" secondItem="nyS-Mw-9CE" secondAttribute="centerY" constant="24" id="qbs-Lh-rce"/>
+                                        <constraint firstAttribute="bottom" secondItem="rev-M9-0CU" secondAttribute="bottom" id="rfw-jK-2np"/>
+                                        <constraint firstItem="nyS-Mw-9CE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="l9J-GF-gTX" secondAttribute="top" constant="20" id="saf-Y3-iD0"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ff7-3V-GqO" id="feQ-L6-wmV"/>
+                            <outlet property="delegate" destination="ff7-3V-GqO" id="7r5-jE-X8t"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ekn-0p-sIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-761" y="-362"/>
+        </scene>
         <!--Log InVC - 登入-->
         <scene sceneID="7Sv-gi-27d">
             <objects>
@@ -1598,9 +1673,6 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <segue destination="NGe-EE-K1C" kind="push" id="qzb-PU-duJ"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vhb-Ly-gVa" customClass="UIHyperlinksButton">
                                 <rect key="frame" x="240" y="269" width="60" height="30"/>
@@ -1624,12 +1696,11 @@
                         <outlet property="jumpSignUp" destination="hGu-7T-8If" id="80U-I4-42k"/>
                         <outlet property="phoneNumberForm" destination="MUE-6V-LXA" id="UdG-6P-R5O"/>
                         <outlet property="pwdForm" destination="2SC-Aq-Z4v" id="XmG-3A-vwR"/>
-                        <segue destination="NGe-EE-K1C" kind="push" identifier="logToSign" id="rtB-pl-JUx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2EZ-e6-Buj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-814" y="434"/>
+            <point key="canvasLocation" x="1330" y="2754"/>
         </scene>
         <!--Sign Up Step3VC-->
         <scene sceneID="0k2-7N-ZUP">
@@ -2116,7 +2187,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4iR-du-rqg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-157" y="804"/>
+            <point key="canvasLocation" x="-767" y="328"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="90c-sz-2fI">
@@ -2302,7 +2373,10 @@
     <resources>
         <image name="back.png" width="480" height="126"/>
         <image name="bg_is_vip.9.png" width="202" height="102"/>
+        <image name="has_comment.png" width="15" height="15"/>
         <image name="ic_is_vip.png" width="52" height="52"/>
+        <image name="ic_like.png" width="15" height="15"/>
+        <image name="ic_liked.png" width="15" height="15"/>
         <image name="phone_64.png" width="32" height="32"/>
         <image name="placeholder.png" width="150" height="125"/>
         <image name="tab1.png" width="19" height="22"/>
@@ -2322,7 +2396,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="1kq-9R-wqY"/>
+        <segue reference="3kf-bX-tJi"/>
         <segue reference="4U0-cX-Ne7"/>
     </inferredMetricsTieBreakers>
 </document>
