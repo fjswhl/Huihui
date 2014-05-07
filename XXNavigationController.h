@@ -10,4 +10,5 @@
 
 @interface XXNavigationController : UINavigationController
 
+@property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @end

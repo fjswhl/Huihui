@@ -19,6 +19,7 @@
 NSString *const __apiLogin = @"index.php/User/loadin";
 NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 NSString *const __apiLogout = @"index.php/User/logout";
+NSString *const __apiGetProfile = @"index.php/User/getProfile";
 @interface LINRootVC ()
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
@@ -40,8 +41,19 @@ NSString *const __apiLogout = @"index.php/User/logout";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tabBar.tintColor = [UIColor preferredColor];
+    if ([self logged]) {
+        [self loginWithName:self.userPhoneNumber password:self.userPwd completion:^{
+            [self fetchUserInfo];
+        } failed:^{
+            ;
+        }];
+    }
+    
+    
+    /*          获取用户信息          */
+    
 //    if ([self logged]) {
-//        [self loginCompletion:nil]
+//        [self fetchUserInfo];
 //    }
 }
 
@@ -93,7 +105,9 @@ NSString *const __apiLogout = @"index.php/User/logout";
     return _userPwd;
 }
 
-- (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block{
+- (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block failed:(void (^)(void))failedBlock{
+    [self.engine emptyCache];
+    
     MKNetworkOperation *getEncripCode = [self.engine operationWithPath:__apiGetScretKey params:nil httpMethod:@"POST"];
     [getEncripCode addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         
@@ -120,12 +134,18 @@ NSString *const __apiLogout = @"index.php/User/logout";
             NSDictionary *dic = [completedOperation responseJSON];
             NSLog(@"%@", dic);
             NSLog(@"%@,%@", name, password);
+                           static int count = 0; //计数登入失败的次数
             if (dic[@"error"] != nil) {
                 NSLog(@"%@", dic[@"error"]);
- 
-                [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
+                count++;
+                if (count < 2) {
+                    [self loginWithName:name password:password completion:block failed:failedBlock];
+                }
+               // [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
+                return;
             }else{
 #warning wait for md5 encode
+                count = 0;
                 self.userPhoneNumber = name;
                 self.userPwd = password;
                 [[NSUserDefaults standardUserDefaults] setValue:name forKey:@"phoneNumber"];
@@ -169,7 +189,7 @@ NSString *const __apiLogout = @"index.php/User/logout";
     return true;
 }
 
-- (BOOL)loginCompletion:(void (^)(void))block{
+- (BOOL)loginCompletion:(void (^)(void))block failed:(void (^)(void))failedBlock{
     if ([self logged] == NO) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -179,8 +199,31 @@ NSString *const __apiLogout = @"index.php/User/logout";
     }
     NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] valueForKey:@"phoneNumber"];
     NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
-    [self loginWithName:phoneNumber password:password completion:block];
+    [self loginWithName:phoneNumber password:password completion:block failed:failedBlock];
     return true;
+}
+
+
+- (void)fetchUserInfo{
+    MKNetworkOperation *op2 = [self.engine operationWithPath:__apiGetProfile params:nil httpMethod:@"POST"];
+    [op2 addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        //      如果sessionid已经过期,自动重新登入
+        if (dic[@"error"]) {
+            NSNumber *errorCode = dic[@"error"];
+            if ([errorCode intValue] == 0) {
+                [self loginCompletion:^{
+                    [self fetchUserInfo];
+                } failed:nil];
+                return;
+            }
+        }
+        self.userInfo = dic[@"success"];
+        NSLog(@"%@", self.userInfo);
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    [self.engine enqueueOperation:op2];
 }
 
 - (void)hideTabbarAnimated:(BOOL)animated{

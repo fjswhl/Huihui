@@ -148,15 +148,27 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 #pragma mark - Interaction With Server
 - (void)fetchAllShopWithOptions:(LINShowAllVCOption)option{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    NSString *type = self.type;
     NSString *inoutSchool = [NSString stringWithFormat:@"%li", (unsigned long)option];
     NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
-    MKNetworkOperation *op = [self.engine operationWithPath:__apiShopFetchAll params:@{@"length":@"999",
-                                                                                  @"page":@"1",
-                                                                                  @"schoolid":schoolid,
-                                                                                  @"type":type,
-                                                                                  @"inoutschool":inoutSchool
-                                                                                   } httpMethod:@"POST"];
+    
+    
+    NSString *type = self.type;
+    NSMutableDictionary *dicForPost = [@{@"length":@"999",
+                                 @"page":@"1",
+                                 @"schoolid":schoolid,
+                                 @"inoutschool":inoutSchool
+                                    } mutableCopy];
+    
+    
+    if (![self.type isEqualToString:@"4"]) {       /*       等于4表示请求可预定的餐厅       */
+        [dicForPost setValue:type forKey:@"type"];
+    }else{
+        [dicForPost setValue:@"yes" forKey:@"reserve"];
+    }
+    
+    NSLog(@"%@", dicForPost);
+
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiShopFetchAll params:dicForPost httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
         

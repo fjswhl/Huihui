@@ -29,6 +29,8 @@
     //  设置默认的schoolid
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]
                                                            }];
+//    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back_button.png"]];
+//    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back_button.png"]];
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if (![ud valueForKey:@"schoolid"]) {
@@ -98,6 +100,7 @@
 - (MKNetworkEngine *)engine{
     if (!_engine) {
         _engine = [[MKNetworkEngine alloc] initWithHostName:__HOSTNAME__];
+        [_engine useCache];
     }
     return _engine;
 }

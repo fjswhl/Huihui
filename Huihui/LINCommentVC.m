@@ -116,7 +116,7 @@ NSString *const __apiEvaluate = @"index.php/Shop/evaluate";
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self postComment:nil];
-                }];
+                } failed:nil];
                 return;
             }else if ([errorCode intValue] == 3){
                 MBProgressHUD *huderror = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

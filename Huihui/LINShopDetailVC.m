@@ -13,6 +13,7 @@
 #import "LINCommentVC.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUD.h"
+#import "LINNavBarActionSheet.h"
 #import "LINComplainTableViewController.h"
 //
 //{
@@ -36,6 +37,10 @@ NSString *const apiFetchOne = @"index.php/Shop/fetchOne";
 NSString *const __apiBecomeVIP = @"index.php/Shop/becomeVIP";
 NSString *const __apiIsVIP = @"index.php/Shop/isVIP";
 NSString *const __apiFetchComments = @"index.php/Shop/fetchShopComment";
+NSString *const __apiAddLike = @"index.php/User/addLike";
+NSString *const __apiDeleteLike = @"index.php/User/deleteLike";
+NSString *const __apiCancelVIP = @"index.php/Shop/cancelVIP";
+
 extern NSString *const __discount;
 NSString *const __discount_detail = @"discount_detail";
 NSString *const __grade_p = @"grade_p";
@@ -52,8 +57,7 @@ extern NSString *const __shopname;
 NSString *const __type = @"type";
 
 
-
-@interface LINShopDetailVC ()<LINRootVCDelegate, UIActionSheetDelegate>
+@interface LINShopDetailVC ()<LINRootVCDelegate, UIActionSheetDelegate, LINNavBarActionSheetDelegate>
 
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
@@ -67,7 +71,7 @@ NSString *const __type = @"type";
 @property (strong, nonatomic) IBOutlet UILabel *introLabel;
 @property (strong, nonatomic) IBOutlet UILabel *commentCount;
 
-@property (strong, nonatomic) NSDictionary *shopDetail;
+@property (strong, nonatomic) NSMutableDictionary *shopDetail;
 
 @property (strong, nonatomic) IBOutlet RatingView *grade_p;
 @property (strong, nonatomic) IBOutlet RatingView *grade_pc;
@@ -76,12 +80,16 @@ NSString *const __type = @"type";
 
 @property (strong, nonatomic) IBOutlet UILabel *becomeVIPLabel;
 @property (assign, nonatomic) BOOL isVip;
+
 @property (strong, nonatomic) IBOutlet UIImageView *shopPic;
 
 @property (strong, nonatomic) IBOutlet UIButton *becomVIPButton;
 @property (strong, nonatomic) IBOutlet UIImageView *vipImgView;
 
 @property (nonatomic) BOOL needUpdateTableViewHeight;
+
+
+@property (strong, nonatomic) LINNavBarActionSheet *navBarActionSheet;
 
 @end
 
@@ -118,6 +126,12 @@ NSString *const __type = @"type";
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.navBarActionSheet.isShown) {
+        [self.navBarActionSheet dismissAnimated:NO];
+    }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -126,6 +140,7 @@ NSString *const __type = @"type";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+        self.navigationController.toolbarHidden = YES;
     [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 #pragma mark - Getter
@@ -154,7 +169,9 @@ NSString *const __type = @"type";
             [self.refreshControl endRefreshing];
         }
         NSDictionary *detail = [completedOperation responseJSON];
-        self.shopDetail = detail[@"success"];
+        self.shopDetail = [detail[@"success"] mutableCopy];
+        NSLog(@"%@", self.shopDetail);
+        
         //self.privilegeLabel.text = self.shopDetail[__discount];
         self.discountLabel.text = self.shopDetail[__discount];
         self.discountDetailLabel.text = self.shopDetail[__discount_detail];
@@ -226,7 +243,7 @@ NSString *const __type = @"type";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 3) {           //点击我要点评
+    if (indexPath.row == 1 && indexPath.section == 1) {           //点击我要点评
 
 //        if (self.isVip == NO) {
 //            [self becomeVip];
@@ -241,7 +258,7 @@ NSString *const __type = @"type";
         }
     }else if (indexPath.section == 2 && indexPath.row == 0){            //点击我要投诉
         [self performSegueWithIdentifier:@"shopDetailVCToComplainVC" sender:nil];
-    }else if (indexPath.section == 0 && indexPath.row == 2){
+    }else if (indexPath.section == 1 && indexPath.row == 0){
         [self performSegueWithIdentifier:@"showdetailvctocommentvc" sender:nil];
     }
 }
@@ -274,6 +291,83 @@ NSString *const __type = @"type";
     
 }
 
+- (IBAction)revealMore:(id)sender {
+    if (self.navBarActionSheet.isShown) {
+        [self.navBarActionSheet dismissAnimated:YES];
+        return;
+    }
+    
+    NSMutableArray *titles = [NSMutableArray new];
+    if ([self isLiked]) {
+        [titles addObject:@"取消收藏"];
+    }else{
+        [titles addObject:@"加入收藏"];
+    }
+    
+    if ([self isReserve]) {
+        [titles insertObject:@"预定美食" atIndex:0];
+    }
+    if (self.isVip) {
+        [titles addObject:@"删除此会员卡"];
+    }
+    
+    LINNavBarActionSheet *actionSheet = [[LINNavBarActionSheet alloc] initWithDelegate:self buttonTitles:titles];
+    actionSheet.isShown = true;
+    self.navBarActionSheet = actionSheet;
+    
+    
+    [actionSheet showInViewController:self.navigationController];
+}
+
+#pragma mark - LINNavActionSheet Delegate
+
+- (void)navBarActionSheet:(LINNavBarActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)index{
+    NSLog(@"%i", index);
+    if ([self isReserve]) {
+        if (index == 0) {
+            [actionSheet dismissAnimated:YES completion:^{
+                [self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
+            }];
+        }
+        if (index == 1) {           /*          收藏          */
+            if ([self isLiked]) {
+                [actionSheet dismissAnimated:YES completion:^{
+                    [self deleteLike];
+                }];
+            }else{
+                [actionSheet dismissAnimated:YES completion:^{
+                    [self addLike];
+                }];
+            }
+        }else if (index == 2){          /*          删除会员卡       */
+            [actionSheet dismissAnimated:YES completion:^{
+                [self cancelVIP];
+                [self fetchDetailInfo];
+            }];
+
+        }
+        
+    }else{
+        if (index == 0) {           /*          收藏          */
+            if ([self isLiked]) {
+                [actionSheet dismissAnimated:YES completion:^{
+                    [self deleteLike];
+                }];
+            }else{
+                [actionSheet dismissAnimated:YES completion:^{
+                    [self addLike];
+                }];
+            }
+        }else if (index == 1){          /*          删除会员卡       */
+            [actionSheet dismissAnimated:YES completion:^{
+                [self cancelVIP];
+                [self fetchDetailInfo];
+            }];
+
+        }
+    }
+}
+
 #pragma mark - Actionsheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -303,7 +397,7 @@ NSString *const __type = @"type";
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self becomeVip];
-                }];
+                }failed:nil];
                 return;
             }
         }
@@ -325,6 +419,7 @@ NSString *const __type = @"type";
     
     MKNetworkOperation *op = [self.engine operationWithPath:__apiIsVIP params:@{
                                                                                 @"shopid":self.aShop[__id] } httpMethod:@"POST"];
+    
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
         
@@ -334,7 +429,7 @@ NSString *const __type = @"type";
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self checkIsVip];
-                }];
+                }failed:nil];
                 return;
             }
         }
@@ -361,8 +456,63 @@ NSString *const __type = @"type";
     [self.engine enqueueOperation:op];
 }
 
-- (IBAction)pop:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+
+- (void)addLike{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiAddLike params:@{@"shopid":self.shopDetail[@"id"]} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSNumber *errorCode = dic[@"error"];
+        if ([errorCode intValue] == 0) {
+            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+            [rootVC loginCompletion:^{
+                [self addLike];
+            }failed:nil];
+            return;
+        }
+        [MBProgressHUD showTextHudToView:self.view text:@"收藏成功"];
+        [self.shopDetail setValue:@(1) forKey:@"islike"];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)deleteLike{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiDeleteLike params:@{@"shopid":self.shopDetail[@"id"]} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSNumber *errorCode = dic[@"error"];
+        if ([errorCode intValue] == 0) {
+            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+            [rootVC loginCompletion:^{
+                [self deleteLike];
+            }failed:nil];
+            return;
+        }
+        [self.shopDetail setValue:@(0) forKey:@"islike"];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)cancelVIP{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiCancelVIP params:@{@"shopid":self.shopDetail[@"id"]} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSNumber *errorCode = dic[@"error"];
+        if ([errorCode intValue] == 0) {
+            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+            [rootVC loginCompletion:^{
+                [self cancelVIP];
+            }failed:nil];
+            return;
+        }
+        self.isVip = false;
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    [self.engine enqueueOperation:op];
 }
 
 - (void)postComment{
@@ -378,12 +528,30 @@ NSString *const __type = @"type";
 //        LINComplainTableViewController *ctv = (LINComplainTableViewController *)segue.destinationViewController;
 //        [ctv setAShop:self.aShop];
 //    }
+    
     id deVC = segue.destinationViewController;
     [deVC setValue:self.aShop forKey:@"AShop"];
 }
+
+#pragma mark -
+- (BOOL)isReserve{
+    NSNumber *isReserve = self.shopDetail[@"isreserve"];
+    if ([isReserve integerValue] == 1) {
+        return true;
+    }
+    return false;
+}
+
+- (BOOL)isLiked{
+    NSNumber *isLiked = self.shopDetail[@"islike"];
+    if ([isLiked integerValue] == 1) {
+        return true;
+    }
+    return false;
+}
+
+
 @end
-
-
 
 
 

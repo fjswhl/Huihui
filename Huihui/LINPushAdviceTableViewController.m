@@ -105,7 +105,7 @@ NSString *const __apiFeedback = @"index.php/More/feedback";
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self pushFeedback];
-                }];
+                }failed:nil];
                 return;
             }
         }

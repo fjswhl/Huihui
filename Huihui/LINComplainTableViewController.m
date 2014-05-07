@@ -113,7 +113,7 @@ extern NSString *const __id;
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self pushComplaint];
-                }];
+                } failed:nil];
                 return;
             }
         }

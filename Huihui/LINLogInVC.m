@@ -13,7 +13,7 @@
 #import "LINRootVC.h"
 #import "LINSignStepVC.h"
 #import "NSString+Md5.h"
-
+#import "MBProgressHUD.h"
 
 extern NSString *const __apiLogin;
 extern NSString *const __apiGetScretKey;
@@ -83,7 +83,9 @@ extern NSString *const __apiGetScretKey;
 - (IBAction)login:(id)sender {
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     if (rootVC.logged == NO) {
-        [rootVC loginWithName:self.phoneNumberForm.text password:self.pwdForm.text completion:nil];
+        [rootVC loginWithName:self.phoneNumberForm.text password:self.pwdForm.text completion:nil failed:^{
+            [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
+        }];
     }else{
         
     }

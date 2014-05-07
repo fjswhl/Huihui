@@ -21,7 +21,7 @@
 @property (assign, nonatomic, getter = isLogged) BOOL logged;
 @property (strong, nonatomic) NSString *userPhoneNumber;
 @property (strong, nonatomic) NSString *userPwd;
-
+@property (strong, nonatomic) NSDictionary *userInfo;
 @property (weak, nonatomic) id<LINRootVCDelegate> rootVCdelegate;
 //              vc:用于从登入界面登入时,登入成功后弹到root
 
@@ -34,7 +34,7 @@
  *
  *  @return 暂时只返回真
  */
-- (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block;
+- (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block failed:(void (^)(void))failedBlock;
 
 
 
@@ -47,7 +47,7 @@
  *
  *  @return 暂时只返回真
  */
-- (BOOL)loginCompletion:(void (^)(void))block;
+- (BOOL)loginCompletion:(void (^)(void))block failed:(void (^)(void))failedBlock;
 
 /**
  *  设置userdefault的logged

@@ -10,4 +10,6 @@
 
 @interface LINMyVipCardVCTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSNumber *type; /*        0表示VIP  1表示我的收藏*/
+
 @end

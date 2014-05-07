@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, LinRegisterState){
         LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
         [rootVC loginCompletion:^{
             [self.navigationController popToRootViewControllerAnimated:YES];
-        }];
+        }failed:nil];
         NSLog(@"注册成功");
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.view];

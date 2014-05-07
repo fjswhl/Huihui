@@ -12,8 +12,9 @@
 #import "UIImageView+WebCache.h"
 #import "LINRootVC.h"
 #import "MBProgressHUD.h"
+#import <objc/runtime.h>
 NSString *const __apiMyVip = @"index.php/Shop/myVIP";
-
+NSString *const __apiMyLike = @"index.php/User/fetchLike";
 
 extern NSString *const __shopname;
 extern NSString *const __discount;
@@ -43,7 +44,14 @@ extern NSString *const __id;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self fetMyVipCardInfo];
+    if ([self.type integerValue] == 0) {
+        self.navigationItem.title = @"我的电子会员卡";
+        [self fetMyVipCardInfo];
+    }else if ([self.type integerValue] == 1){
+        self.navigationItem.title = @"我的收藏";
+        [self fetchMyFavorite];
+    }
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -84,6 +92,17 @@ extern NSString *const __id;
     static NSString *cellIdentifider = @"shopCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider];
     
+    
+    UIView *contentView = [cell.contentView viewWithTag:999];
+    static char contentViewKey;
+    NSString *setted = objc_getAssociatedObject(contentView, &contentViewKey);
+    if (!setted) {
+        objc_setAssociatedObject(contentView, &contentViewKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        contentView.layer.borderColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0f].CGColor;
+        contentView.layer.borderWidth = 1;
+        contentView.layer.cornerRadius = 2;
+    }
+    
     UILabel *shopNameLabel = (UILabel *)[cell.contentView viewWithTag:1];
     UILabel *discountLabel = (UILabel *)[cell.contentView viewWithTag:2];
     UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:3];
@@ -96,9 +115,12 @@ extern NSString *const __id;
         [ratingView setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
         [ratingView setUserInteractionEnabled:NO];
     }
+
     
-    
-    
+    UIView *view = [cell.contentView viewWithTag:101];
+    if ([self.type integerValue] == 0) {
+        [view setHidden:NO];
+    }
     
     
     NSDictionary *aShop = self.shops[indexPath.row];
@@ -162,12 +184,34 @@ extern NSString *const __id;
                 LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
                 [rootVC loginCompletion:^{
                     [self fetMyVipCardInfo];
-                }];
+                } failed:nil];
                 return;
             }
         }        NSLog(@"%@", dic);
         self.shops = dic[@"success"];
-        [self.tableView reloadData];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)fetchMyFavorite{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiMyLike params:nil httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        if (dic[@"error"]) {
+            NSNumber *errorCode = dic[@"error"];
+            if ([errorCode intValue] == 0) {
+                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+                [rootVC loginCompletion:^{
+                    [self fetchMyFavorite];
+                } failed:nil];
+                return;
+            }
+        }        NSLog(@"%@", dic);
+        self.shops = dic[@"success"][@"like"];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];

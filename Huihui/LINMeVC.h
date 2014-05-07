@@ -10,4 +10,6 @@
 
 @interface LINMeVC : UITableViewController
 
+@property (strong, nonatomic) NSDictionary *userInfo;
+- (void)updateUIWhenLoginOrOut;
 @end

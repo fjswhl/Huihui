@@ -62,6 +62,17 @@
 		3E29082C190E4AC7003052B8 /* 休闲@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E290828190E4AC7003052B8 /* 休闲@2x.png */; };
 		3E2908C2190E5653003052B8 /* ColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2908C1190E5653003052B8 /* ColorButton.m */; };
 		3E395C6E19168A9500A580AC /* UIButton+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395C6D19168A9500A580AC /* UIButton+Color.m */; };
+		3E395C7119168C0C00A580AC /* Main_v2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E395C6F19168C0C00A580AC /* Main_v2.storyboard */; };
+		3E395C731917E9E400A580AC /* back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E395C721917E9E400A580AC /* back_button@2x.png */; };
+		3E395C761918B46F00A580AC /* LINCompleteProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395C751918B46F00A580AC /* LINCompleteProfileTableViewController.m */; };
+		3E395C781918B8DA00A580AC /* back_button_inverse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E395C771918B8DA00A580AC /* back_button_inverse@2x.png */; };
+		3E395CBF191924EB00A580AC /* VPImageCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CBE191924EB00A580AC /* VPImageCropperViewController.m */; };
+		3E395CC61919E3C500A580AC /* more_right_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E395CC51919E3C500A580AC /* more_right_button@2x.png */; };
+		3E395CC91919E50900A580AC /* LINNavBarActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */; };
+		3E395CCC1919F08F00A580AC /* LINReserveTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CCB1919F08F00A580AC /* LINReserveTableViewController.m */; };
+		3E395CCF1919FD2700A580AC /* LINGood.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CCE1919FD2700A580AC /* LINGood.m */; };
+		3E395CD3191A7DC600A580AC /* LINMyOrderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CD2191A7DC600A580AC /* LINMyOrderTableViewController.m */; };
+		3E395CD6191A8CBD00A580AC /* LINOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395CD5191A8CBD00A580AC /* LINOrder.m */; };
 		3E483F3918E1D1370053EB93 /* LINShowAllVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3818E1D1370053EB93 /* LINShowAllVC.m */; };
 		3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3C18E31D460053EB93 /* LINActivityVC.m */; };
 		3E483F4718E32FFF0053EB93 /* pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F4018E32FFF0053EB93 /* pinyin.m */; };
@@ -500,6 +511,24 @@
 		3E2908C1190E5653003052B8 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
 		3E395C6C19168A9500A580AC /* UIButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Color.h"; sourceTree = "<group>"; };
 		3E395C6D19168A9500A580AC /* UIButton+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Color.m"; sourceTree = "<group>"; };
+		3E395C7019168C0C00A580AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_v2.storyboard; sourceTree = "<group>"; };
+		3E395C721917E9E400A580AC /* back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back_button@2x.png"; path = "../back_button@2x.png"; sourceTree = "<group>"; };
+		3E395C741918B46F00A580AC /* LINCompleteProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINCompleteProfileTableViewController.h; sourceTree = "<group>"; };
+		3E395C751918B46F00A580AC /* LINCompleteProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINCompleteProfileTableViewController.m; sourceTree = "<group>"; };
+		3E395C771918B8DA00A580AC /* back_button_inverse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_button_inverse@2x.png"; sourceTree = "<group>"; };
+		3E395CBD191924EB00A580AC /* VPImageCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPImageCropperViewController.h; sourceTree = "<group>"; };
+		3E395CBE191924EB00A580AC /* VPImageCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPImageCropperViewController.m; sourceTree = "<group>"; };
+		3E395CC51919E3C500A580AC /* more_right_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_right_button@2x.png"; sourceTree = "<group>"; };
+		3E395CC71919E50800A580AC /* LINNavBarActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINNavBarActionSheet.h; sourceTree = "<group>"; };
+		3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINNavBarActionSheet.m; sourceTree = "<group>"; };
+		3E395CCA1919F08F00A580AC /* LINReserveTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINReserveTableViewController.h; sourceTree = "<group>"; };
+		3E395CCB1919F08F00A580AC /* LINReserveTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINReserveTableViewController.m; sourceTree = "<group>"; };
+		3E395CCD1919FD2700A580AC /* LINGood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINGood.h; sourceTree = "<group>"; };
+		3E395CCE1919FD2700A580AC /* LINGood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINGood.m; sourceTree = "<group>"; };
+		3E395CD1191A7DC600A580AC /* LINMyOrderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMyOrderTableViewController.h; sourceTree = "<group>"; };
+		3E395CD2191A7DC600A580AC /* LINMyOrderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMyOrderTableViewController.m; sourceTree = "<group>"; };
+		3E395CD4191A8CBD00A580AC /* LINOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINOrder.h; sourceTree = "<group>"; };
+		3E395CD5191A8CBD00A580AC /* LINOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINOrder.m; sourceTree = "<group>"; };
 		3E483F3718E1D1370053EB93 /* LINShowAllVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShowAllVC.h; sourceTree = "<group>"; };
 		3E483F3818E1D1370053EB93 /* LINShowAllVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShowAllVC.m; sourceTree = "<group>"; };
 		3E483F3B18E31D460053EB93 /* LINActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINActivityVC.h; sourceTree = "<group>"; };
@@ -973,6 +1002,8 @@
 				3E49F75F18F5741F001309D1 /* UIColor+LINColor.m */,
 				3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */,
 				3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */,
+				3E395CC71919E50800A580AC /* LINNavBarActionSheet.h */,
+				3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */,
 				3E15C10C18DFE97800F6512F /* Huihui */,
 				3E15C12B18DFE97800F6512F /* HuihuiTests */,
 				3E15C10518DFE97800F6512F /* Frameworks */,
@@ -1031,6 +1062,7 @@
 		3E15C10C18DFE97800F6512F /* Huihui */ = {
 			isa = PBXGroup;
 			children = (
+				3E395CD01919FD2E00A580AC /* New Group */,
 				3E8B16A718F6E14200883E22 /* Image */,
 				3ECAC66F18FCF5BF008A849F /* More */,
 				3E483F4F18E41E810053EB93 /* Me */,
@@ -1039,6 +1071,7 @@
 				3E15C1A218E01F9900F6512F /* Model.xcdatamodeld */,
 				3E15C11518DFE97800F6512F /* LINAppDelegate.h */,
 				3E15C11618DFE97800F6512F /* LINAppDelegate.m */,
+				3E395C6F19168C0C00A580AC /* Main_v2.storyboard */,
 				3E15C11818DFE97800F6512F /* Main.storyboard */,
 				3E15C11E18DFE97800F6512F /* Images.xcassets */,
 				3E15C10D18DFE97800F6512F /* Supporting Files */,
@@ -1208,6 +1241,7 @@
 		3E2908BF190E55D9003052B8 /* Handy Class */ = {
 			isa = PBXGroup;
 			children = (
+				3E395CC0191924F400A580AC /* VPImageCropperVC */,
 				3E2908C3190E5657003052B8 /* Button */,
 			);
 			name = "Handy Class";
@@ -1222,6 +1256,26 @@
 				3E395C6D19168A9500A580AC /* UIButton+Color.m */,
 			);
 			name = Button;
+			sourceTree = "<group>";
+		};
+		3E395CC0191924F400A580AC /* VPImageCropperVC */ = {
+			isa = PBXGroup;
+			children = (
+				3E395CBD191924EB00A580AC /* VPImageCropperViewController.h */,
+				3E395CBE191924EB00A580AC /* VPImageCropperViewController.m */,
+			);
+			name = VPImageCropperVC;
+			sourceTree = "<group>";
+		};
+		3E395CD01919FD2E00A580AC /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				3E395CCD1919FD2700A580AC /* LINGood.h */,
+				3E395CCE1919FD2700A580AC /* LINGood.m */,
+				3E395CD4191A8CBD00A580AC /* LINOrder.h */,
+				3E395CD5191A8CBD00A580AC /* LINOrder.m */,
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		3E483F3A18E31D1F0053EB93 /* Activity */ = {
@@ -1272,6 +1326,10 @@
 				3E6CC74B18F824F6002B7375 /* LINMyVipCardVCTableViewController.m */,
 				3ECAC67918FD7B51008A849F /* LINPushAdviceTableViewController.h */,
 				3ECAC67A18FD7B51008A849F /* LINPushAdviceTableViewController.m */,
+				3E395C741918B46F00A580AC /* LINCompleteProfileTableViewController.h */,
+				3E395C751918B46F00A580AC /* LINCompleteProfileTableViewController.m */,
+				3E395CD1191A7DC600A580AC /* LINMyOrderTableViewController.h */,
+				3E395CD2191A7DC600A580AC /* LINMyOrderTableViewController.m */,
 			);
 			name = Me;
 			sourceTree = "<group>";
@@ -1329,6 +1387,9 @@
 		3E8B16A718F6E14200883E22 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				3E395CC51919E3C500A580AC /* more_right_button@2x.png */,
+				3E395C721917E9E400A580AC /* back_button@2x.png */,
+				3E395C771918B8DA00A580AC /* back_button_inverse@2x.png */,
 				3ECBFDE1190EA2C000F91A5C /* drawable-hdpi */,
 				3E290825190E4AC7003052B8 /* 预定@2x.png */,
 				3E290826190E4AC7003052B8 /* 美食@2x.png */,
@@ -1585,6 +1646,8 @@
 				3E15C1AC18E06B7900F6512F /* LINShopDetailVC.m */,
 				3ECAC68D18FE91E0008A849F /* LINShowCommentTableViewController.h */,
 				3ECAC68E18FE91E0008A849F /* LINShowCommentTableViewController.m */,
+				3E395CCA1919F08F00A580AC /* LINReserveTableViewController.h */,
+				3E395CCB1919F08F00A580AC /* LINReserveTableViewController.m */,
 			);
 			name = ShowDetail;
 			sourceTree = "<group>";
@@ -1883,6 +1946,7 @@
 				3ECBFE9D190EA2C100F91A5C /* app.png in Resources */,
 				3ECBFF15190EA2C100F91A5C /* qianggou_btn_pressed.9.png in Resources */,
 				3ECBFF02190EA2C100F91A5C /* mm_listitem_pressed.9.png in Resources */,
+				3E395C7119168C0C00A580AC /* Main_v2.storyboard in Resources */,
 				3ECBFF11190EA2C100F91A5C /* prefresh_list_cutline.png in Resources */,
 				3E15C11F18DFE97800F6512F /* Images.xcassets in Resources */,
 				3ECBFF2A190EA2C100F91A5C /* switch_slider.png in Resources */,
@@ -1890,6 +1954,7 @@
 				3ECBFF0A190EA2C100F91A5C /* mm_title_btn_pressed.9.png in Resources */,
 				3ECBFEA5190EA2C100F91A5C /* call_btn_normal.png in Resources */,
 				3ECBFED6190EA2C100F91A5C /* ic_preference_first_normal.9.png in Resources */,
+				3E395C731917E9E400A580AC /* back_button@2x.png in Resources */,
 				3ECBFEED190EA2C100F91A5C /* img_mood.png in Resources */,
 				3EA95C3C191118620042901D /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */,
 				3EA95C0A191118620042901D /* InstapaperResource.bundle in Resources */,
@@ -2036,6 +2101,7 @@
 				3ECBFEBB190EA2C100F91A5C /* decrease_btn_notenabled.9.png in Resources */,
 				3ECBFEFC190EA2C100F91A5C /* login_pwd_edittext_bg_pressed.png in Resources */,
 				3E6CC74918F82386002B7375 /* ic_is_vip_large.png in Resources */,
+				3E395C781918B8DA00A580AC /* back_button_inverse@2x.png in Resources */,
 				3E8B16BE18F6E26600883E22 /* ic_is_vip.png in Resources */,
 				3ECBFED8190EA2C100F91A5C /* ic_preference_last_normal.9.png in Resources */,
 				3ECBFEC0190EA2C100F91A5C /* error.png in Resources */,
@@ -2116,6 +2182,7 @@
 				3EA95C25191118620042901D /* GooglePlus.bundle in Resources */,
 				3ECBFEC9190EA2C100F91A5C /* ic_add_stu_organization.png in Resources */,
 				3ECBFEE0190EA2C100F91A5C /* ic_pulltorefresh_arrow_up.png in Resources */,
+				3E395CC61919E3C500A580AC /* more_right_button@2x.png in Resources */,
 				3ECAC67818FD7835008A849F /* tab3@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2139,6 +2206,7 @@
 				3ECAC67218FCF5CF008A849F /* LINSettingTableViewController.m in Sources */,
 				3E5DED5218E48FE300D5A59A /* LINLogInTextField.m in Sources */,
 				3E15C15D18DFF18E00F6512F /* NSData+ImageContentType.m in Sources */,
+				3E395CD6191A8CBD00A580AC /* LINOrder.m in Sources */,
 				3E15C18518DFF19400F6512F /* NSDictionary+RequestEncoding.m in Sources */,
 				3E6CC74F18FAAC81002B7375 /* LINPickerSchoolViewController.m in Sources */,
 				3E15C16318DFF18E00F6512F /* SDWebImageManager.m in Sources */,
@@ -2155,8 +2223,10 @@
 				3E15C13D18DFEB4800F6512F /* LINMainViewController.m in Sources */,
 				3E2908C2190E5653003052B8 /* ColorButton.m in Sources */,
 				3E5DED4F18E45AA700D5A59A /* LINMeVC.m in Sources */,
+				3E395CBF191924EB00A580AC /* VPImageCropperViewController.m in Sources */,
 				3E15C15C18DFF18E00F6512F /* MKAnnotationView+WebCache.m in Sources */,
 				3E8B16D218F6F1DC00883E22 /* IntroView.m in Sources */,
+				3E395C761918B46F00A580AC /* LINCompleteProfileTableViewController.m in Sources */,
 				3E15C19818DFF19900F6512F /* MJRefreshBaseView.m in Sources */,
 				3E15C16018DFF18E00F6512F /* SDWebImageDecoder.m in Sources */,
 				3E483F6A18E428CE0053EB93 /* QCheckBox.m in Sources */,
@@ -2177,15 +2247,18 @@
 				3E15C1A418E01F9900F6512F /* Model.xcdatamodeld in Sources */,
 				3E4E611619079C2500982652 /* LINActivityParentViewController.m in Sources */,
 				3E483F4818E32FFF0053EB93 /* POAPinyin.m in Sources */,
+				3E395CCC1919F08F00A580AC /* LINReserveTableViewController.m in Sources */,
 				3E15C1AD18E06B7900F6512F /* LINShopDetailVC.m in Sources */,
 				3E483F5218E41EA20053EB93 /* LINSignUpVC.m in Sources */,
 				3E15C18A18DFF19400F6512F /* MKNetworkOperation.m in Sources */,
 				3E483F6E18E44C440053EB93 /* LINSignUpStep2VC.m in Sources */,
 				3E15C18618DFF19400F6512F /* NSString+MKNetworkKitAdditions.m in Sources */,
 				3E483F5518E422160053EB93 /* LINSignStepVC.m in Sources */,
+				3E395CD3191A7DC600A580AC /* LINMyOrderTableViewController.m in Sources */,
 				3E15C11718DFE97800F6512F /* LINAppDelegate.m in Sources */,
 				3E4E61191907B1A300982652 /* LINMoodWallViewController.m in Sources */,
 				3E483F7118E4538C0053EB93 /* LINSignUpStep3VC.m in Sources */,
+				3E395CC91919E50900A580AC /* LINNavBarActionSheet.m in Sources */,
 				3E15C19918DFF19900F6512F /* MJRefreshConst.m in Sources */,
 				3ECAC68F18FE91E0008A849F /* LINShowCommentTableViewController.m in Sources */,
 				3E49F75D18F4F00D001309D1 /* LINCommentVC.m in Sources */,
@@ -2207,6 +2280,7 @@
 				3E483F3918E1D1370053EB93 /* LINShowAllVC.m in Sources */,
 				3E15C18B18DFF19400F6512F /* Reachability.m in Sources */,
 				3E49F76018F5741F001309D1 /* UIColor+LINColor.m in Sources */,
+				3E395CCF1919FD2700A580AC /* LINGood.m in Sources */,
 				3E15C11318DFE97800F6512F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2252,6 +2326,14 @@
 				3E15C12F18DFE97800F6512F /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3E395C6F19168C0C00A580AC /* Main_v2.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3E395C7019168C0C00A580AC /* Base */,
+			);
+			name = Main_v2.storyboard;
 			sourceTree = "<group>";
 		};
 		3EA95BD0191118610042901D /* ShareSDKLocalizable.strings */ = {
