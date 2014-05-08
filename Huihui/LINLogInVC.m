@@ -18,12 +18,13 @@
 extern NSString *const __apiLogin;
 extern NSString *const __apiGetScretKey;
 
-@interface LINLogInVC ()<LINRootVCDelegate>
+@interface LINLogInVC ()
 
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumberForm;
 @property (strong, nonatomic) IBOutlet UITextField *pwdForm;
 @property (strong, nonatomic) IBOutlet UIHyperlinksButton *jumpSignUp;
 @property (strong, nonatomic) IBOutlet UIHyperlinksButton *jumpForgetPwd;
+@property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
 @end
@@ -48,8 +49,8 @@ extern NSString *const __apiGetScretKey;
     // Do any additional setup after loading the view.
     [self.phoneNumberForm becomeFirstResponder];
     
-    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
-    rootVC.rootVCdelegate = self;
+//    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+//    rootVC.rootVCdelegate = self;
     
     [self setupUI];
 }
@@ -81,9 +82,17 @@ extern NSString *const __apiGetScretKey;
 }
 
 - (IBAction)login:(id)sender {
+    [self.loginButton setEnabled:NO];
+    [self.loginButton setTitle:@"登入中..." forState:UIControlStateNormal];
+    
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     if (rootVC.logged == NO) {
-        [rootVC loginWithName:self.phoneNumberForm.text password:self.pwdForm.text completion:nil failed:^{
+        [rootVC loginWithName:self.phoneNumberForm.text password:self.pwdForm.text completion:^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.loginButton setTitle:@"登入" forState:UIControlStateNormal];
+        }  failed:^{
+            [self.loginButton setEnabled:YES];
+                            [self.loginButton setTitle:@"登入" forState:UIControlStateNormal];
             [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
         }];
     }else{
@@ -160,10 +169,10 @@ extern NSString *const __apiGetScretKey;
     [self performSegueWithIdentifier:@"logToSign" sender:nil];
 }
 
-#pragma mark - LINRootVCDelegate
-- (void)userDidLogin{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+//#pragma mark - LINRootVCDelegate
+//- (void)userDidLogin{
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//}
 
 
 - (IBAction)pop:(id)sender {

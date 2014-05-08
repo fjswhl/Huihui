@@ -127,8 +127,8 @@
 -(void) touchesMoved: (NSSet *)touches withEvent: (UIEvent *)event
 {
 	CGPoint pt = [[touches anyObject] locationInView:self];
-	float newRating = (float) (pt.x / width);
-	if (newRating < 1 || newRating > 5)
+	float newRating = (float) floor( (pt.x / width));
+	if (newRating < 0)
 		return;
 	
 	if (newRating != lastRating)

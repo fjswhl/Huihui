@@ -140,6 +140,10 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
                 count++;
                 if (count < 2) {
                     [self loginWithName:name password:password completion:block failed:failedBlock];
+                }else{
+                    if (failedBlock) {
+                        failedBlock();
+                    }
                 }
                // [MBProgressHUD showTextHudToView:self.view text:@"用户名或密码错误"];
                 return;

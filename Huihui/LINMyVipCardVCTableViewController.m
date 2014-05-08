@@ -24,10 +24,13 @@ extern NSString *const __grade;
 extern NSString *const __pic;
 extern NSString *const __id;
 
+extern NSString *const __apiDeleteLike;
+extern NSString *const __apiCancelVIP;
+
 @interface LINMyVipCardVCTableViewController ()
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
-@property (strong, nonatomic) NSArray *shops;
+@property (strong, nonatomic) NSMutableArray *shops;
 @end
 
 @implementation LINMyVipCardVCTableViewController
@@ -166,6 +169,8 @@ extern NSString *const __id;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
             [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
 }
+
+
 - (IBAction)pop:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -188,7 +193,7 @@ extern NSString *const __id;
                 return;
             }
         }        NSLog(@"%@", dic);
-        self.shops = dic[@"success"];
+        self.shops = [dic[@"success"] mutableCopy];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
@@ -210,10 +215,46 @@ extern NSString *const __id;
                 return;
             }
         }        NSLog(@"%@", dic);
-        self.shops = dic[@"success"][@"like"];
+        self.shops = [dic[@"success"][@"like"] mutableCopy];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)deleteLikeWithShop:(NSDictionary *)shop{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiDeleteLike params:@{@"shopid":shop[@"id"]} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSNumber *errorCode = dic[@"error"];
+        if ([errorCode intValue] == 0) {
+            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+            [rootVC loginCompletion:^{
+                [self deleteLikeWithShop:shop];
+            }failed:nil];
+            return;
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        //  [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    [self.engine enqueueOperation:op];
+}
+
+- (void)cancelVIPWithShop:(NSDictionary *)shop{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiCancelVIP params:@{@"shopid":shop[@"id"]} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSNumber *errorCode = dic[@"error"];
+        if ([errorCode intValue] == 0) {
+            LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+            [rootVC loginCompletion:^{
+                [self cancelVIPWithShop:shop];
+            }failed:nil];
+            return;
+        }
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        //  [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     [self.engine enqueueOperation:op];
 }

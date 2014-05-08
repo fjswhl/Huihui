@@ -12,6 +12,7 @@
 #import "MKNetworkKit.h"
 #import "MBProgressHUD.h"
 #import "LINRootVC.h"
+#import "XXNavigationController.h"
 extern NSString *const __discount;
 extern NSString *const __grade_p;
 extern NSString *const __grade_pc;
@@ -61,7 +62,17 @@ NSString *const __apiEvaluate = @"index.php/Shop/evaluate";
     self.commentText.layer.borderWidth = 1;
     self.commentText.layer.borderColor = [UIColor preferredColor].CGColor;
     [self.commentText becomeFirstResponder];
+    
+    XXNavigationController *nav = (XXNavigationController *)self.navigationController;
+    [nav.panGestureRecognizer setEnabled:NO];
 }
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    XXNavigationController *nav = (XXNavigationController *)self.navigationController;
+    [nav.panGestureRecognizer setEnabled:YES];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -10,6 +10,8 @@
 #import "MKNetworkKit.h"
 #import <objc/runtime.h>
 #import "LINOrder.h"
+#import "LINRootVC.h"
+
 //{
 //    count = 27;
 //    orders =         (
@@ -211,7 +213,10 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
         [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         label.text = @"上拉加载更多";
-        self.loadMoreCellIsShown = NO;
+        if ([self.orderList count] > 0) {
+                    self.loadMoreCellIsShown = NO;
+        }
+
         self.pageCount++;
         
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -313,6 +318,10 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
         return 59;
     }
 }
+
+
+
+
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

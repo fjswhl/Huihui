@@ -1020,17 +1020,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lr1-zt-l5H" customClass="RatingView">
-                                <rect key="frame" x="228" y="86" width="72" height="16"/>
+                                <rect key="frame" x="222" y="86" width="78" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Amf-aV-zZs" customClass="RatingView">
-                                <rect key="frame" x="228" y="115" width="72" height="16"/>
+                                <rect key="frame" x="222" y="115" width="78" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tbb-Ua-Hu0" customClass="RatingView">
-                                <rect key="frame" x="228" y="144" width="72" height="16"/>
+                                <rect key="frame" x="222" y="144" width="78" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -2553,7 +2553,7 @@
         <scene sceneID="P0O-Qr-4rN">
             <objects>
                 <tableViewController id="Brg-nU-7EQ" customClass="LINLogInVC" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="u71-BA-MjD">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="u71-BA-MjD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -2648,6 +2648,7 @@
                     <connections>
                         <outlet property="jumpForgetPwd" destination="pF7-AW-Ajr" id="IxK-X7-MqV"/>
                         <outlet property="jumpSignUp" destination="SGb-PC-Jy8" id="ohi-kA-ODr"/>
+                        <outlet property="loginButton" destination="feW-Sw-4wY" id="K7M-aG-wuo"/>
                         <outlet property="phoneNumberForm" destination="Y0f-Xo-Pdt" id="2wv-0Y-fRq"/>
                         <outlet property="pwdForm" destination="eDN-Xc-XMN" id="Jq1-vv-Iz1"/>
                         <segue destination="NGe-EE-K1C" kind="push" identifier="logToSign" id="c80-TE-K55"/>
@@ -2782,7 +2783,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3kf-bX-tJi"/>
         <segue reference="4U0-cX-Ne7"/>
+        <segue reference="c80-TE-K55"/>
     </inferredMetricsTieBreakers>
 </document>
