@@ -17,7 +17,7 @@
 #import "LINComplainTableViewController.h"
 #import "LINShowAllVC.h"
 #import "LINReserveTableViewController.h"
-
+#import <ShareSDK/ShareSDK.h>
 //
 //{
 //    success =     {
@@ -197,6 +197,7 @@ NSString *const __type = @"type";
         }
         NSDictionary *detail = [completedOperation responseJSON];
         self.shopDetail = [detail[@"success"] mutableCopy];
+
         NSLog(@"%@", self.shopDetail);
         
         //self.privilegeLabel.text = self.shopDetail[__discount];
@@ -341,16 +342,15 @@ NSString *const __type = @"type";
         return;
     }
     
-    NSMutableArray *titles = [NSMutableArray new];
+    NSMutableArray *titles = [@[@"分享给朋友"] mutableCopy];
+    
+    
     if ([self isLiked]) {
         [titles addObject:@"取消收藏"];
     }else{
         [titles addObject:@"加入收藏"];
     }
     
-    if ([self isReserve]) {
-        [titles insertObject:@"预定美食" atIndex:0];
-    }
     if (self.isVip) {
         [titles addObject:@"删除此会员卡"];
     }
@@ -367,12 +367,7 @@ NSString *const __type = @"type";
 
 - (void)navBarActionSheet:(LINNavBarActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)index{
     NSLog(@"%i", index);
-    if ([self isReserve]) {
-        if (index == 0) {
-            [actionSheet dismissAnimated:YES completion:^{
-                [self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
-            }];
-        }
+
         if (index == 1) {           /*          收藏          */
             if ([self isLiked]) {
                 [actionSheet dismissAnimated:YES completion:^{
@@ -388,28 +383,11 @@ NSString *const __type = @"type";
                 [self cancelVIP];
                 [self fetchDetailInfo];
             }];
-
-        }
-        
-    }else{
-        if (index == 0) {           /*          收藏          */
-            if ([self isLiked]) {
-                [actionSheet dismissAnimated:YES completion:^{
-                    [self deleteLike];
-                }];
-            }else{
-                [actionSheet dismissAnimated:YES completion:^{
-                    [self addLike];
-                }];
-            }
-        }else if (index == 1){          /*          删除会员卡       */
+        }else if (index == 0){
             [actionSheet dismissAnimated:YES completion:^{
-                [self cancelVIP];
-                [self fetchDetailInfo];
+                [self share];
             }];
-
         }
-    }
 }
 
 #pragma mark - Actionsheet Delegate
@@ -574,7 +552,7 @@ NSString *const __type = @"type";
 //    }
     
     id deVC = segue.destinationViewController;
-    [deVC setValue:self.aShop forKey:@"AShop"];
+    [deVC setValue:self.shopDetail forKey:@"AShop"];
 }
 
 #pragma mark -
@@ -593,6 +571,39 @@ NSString *const __type = @"type";
     }
     return false;
 }
+
+
+- (void)share{
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"tubiao"  ofType:@"png"];
+    
+    NSString *content = [NSString stringWithFormat:@"我在'%@'享受各种优惠,你也值得拥有!", self.aShop[@"shopname"]];
+    
+    id<ISSContent> publishContent = [ShareSDK content:content
+                                       defaultContent:content
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:content
+                                                  url:@"http://xdhuihui.sinaapp.com"
+                                          description:content
+                                            mediaType:SSPublishContentMediaTypeNews];
+    
+    [ShareSDK showShareActionSheet:nil
+                         shareList:[ShareSDK getShareListWithType:ShareTypeWeixiTimeline,ShareTypeQQSpace, ShareTypeRenren, ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeWeixiSession, nil]
+                           content:publishContent
+                     statusBarTips:NO
+                       authOptions:nil
+                      shareOptions:nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    NSLog(@"分享成功");
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                }
+                            }];
+}
+
 
 
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LINReserveTableViewController : UITableViewController
-@property (weak, nonatomic) NSDictionary *aShop;
+@property (weak, nonatomic) NSMutableDictionary *aShop;
 @end

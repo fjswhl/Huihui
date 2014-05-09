@@ -200,8 +200,11 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
         _dicForPost = [NSMutableDictionary new];
         if (self.userInfo) {
                 NSNumber *schoolid = self.userInfo[@"schoolid"];
+            if ([schoolid integerValue] != 0) {
                 [_dicForPost setValue:schoolid forKey:@"schoolid"];
-            if (![self.userInfo[@"building"] isEqualToString:@"0"] && ![self.userInfo[@"buildingarea"] isEqualToString:@"0"]  && ![self.userInfo[@"houseid"] isEqualToString:@"0"]){
+            }
+
+            if (![self.userInfo[@"building"] isEqualToString:@""] && ![self.userInfo[@"buildingarea"] isEqualToString:@""]  && ![self.userInfo[@"houseid"] isEqualToString:@"0"]){
                 [_dicForPost setValue:self.userInfo[@"building"] forKey:@"building"];
                 [_dicForPost setValue:self.userInfo[@"buildingarea"] forKey:@"buildingarea"];
                 [_dicForPost setValue:self.userInfo[@"houseid"] forKey:@"houseid"];
@@ -584,6 +587,7 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
 //
 
 - (BOOL)verifyPostDic{
+    NSLog(@"%@", self.dicForPost);
     if (self.dicForPost[@"building"] && self.dicForPost[@"buildingarea"] && self.dicForPost[@"houseid"] && self.dicForPost[@"schoolid"]) {
         return true;
     }
@@ -592,7 +596,7 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
 
 - (IBAction)postProfile:(id)sender {
     if (![self verifyPostDic]) {
-        [MBProgressHUD showTextHudToView:self.view text:@"带*号的是必填项"];
+        [MBProgressHUD showTextHudToView:self.view text:@"必选项没填完呢"];
         
         return;
     }

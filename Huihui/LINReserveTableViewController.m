@@ -38,6 +38,9 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.aShop[@"reserve"] = [self.aShop[@"reserve"] stringByReplacingOccurrencesOfString:@"\\n" withString:@"\r"];
+    
     UIEdgeInsets tableViewIndicatorEdgeInsets = self.tableView.scrollIndicatorInsets;
     tableViewIndicatorEdgeInsets.bottom = -47;
     self.tableView.scrollIndicatorInsets = tableViewIndicatorEdgeInsets;
@@ -171,7 +174,7 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
         self.foods = dic[@"success"][@"goods"];
-        NSLog(@"%@", self.foods);
+//        NSLog(@"%@", self.foods);
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.view];
@@ -215,9 +218,27 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
 }
 #pragma mark - Table view data source
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        NSString *discountDetail = self.aShop[@"reserve"];
+        
+        CGSize constraint = CGSizeMake(280, 20000);
+        CGSize size = [discountDetail boundingRectWithSize:constraint options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13]} context:nil].size;
+        return size.height + 15;
+    }
+    
+    return height;
+    
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section == 1) {
         return @"美食列表";
+    }else if (section == 0){
+        return @"送餐说明";
     }
     return nil;
 }
@@ -285,7 +306,7 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     
     NSString *title = @"亲你还没完善个人资料, 请到个人中心填写宿舍信息";
     if (louhao && quhao && sushehao) {
-           title = [NSString stringWithFormat:@"订单总价:%@元\n您的地址:%@%@%@\n请确认一下提交订单的时间, 不在该商家接受订餐时间范围内的订单将会被忽略!", self.totalPriceLabel.text, userInfo[@"building"], userInfo[@"buildingarea"], userInfo[@"houseid"]];
+           title = [NSString stringWithFormat:@"订单总价:%@元\n您的地址:%@%@%@\n", self.totalPriceLabel.text, userInfo[@"building"], userInfo[@"buildingarea"], userInfo[@"houseid"]];
     }
 
     

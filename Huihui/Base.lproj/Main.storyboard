@@ -980,7 +980,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Q2g-co-uU6">
-                        <barButtonItem key="rightBarButtonItem" image="more_right_button.png" id="S77-hK-oHt">
+                        <barButtonItem key="rightBarButtonItem" image="ico-to-do-list.png" id="S77-hK-oHt">
                             <connections>
                                 <action selector="revealMore:" destination="IYO-L1-2r4" id="iLo-UB-EWz"/>
                             </connections>
@@ -2887,19 +2887,19 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="说明:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k9m-aJ-pt7">
-                                            <rect key="frame" x="20" y="15" width="47" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="0d1-jb-ihH">
+                                            <rect key="frame" x="20" y="7" width="280" height="37"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="165" translatesAutoresizingMaskIntoConstraints="NO" id="0d1-jb-ihH">
-                                            <rect key="frame" x="135" y="2" width="165" height="47"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="0d1-jb-ihH" secondAttribute="bottom" constant="7" id="T4X-Ib-ekD"/>
+                                        <constraint firstItem="0d1-jb-ihH" firstAttribute="leading" secondItem="TEY-S5-hz2" secondAttribute="leading" constant="20" id="bDU-2E-7ZQ"/>
+                                        <constraint firstItem="0d1-jb-ihH" firstAttribute="top" secondItem="TEY-S5-hz2" secondAttribute="top" constant="7" id="dpX-0r-oRZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="0d1-jb-ihH" secondAttribute="trailing" constant="20" id="psZ-HE-mFB"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="food" id="tpe-KY-pkr">
@@ -2971,7 +2971,7 @@
         <image name="ic_is_vip_large.png" width="100" height="100"/>
         <image name="ic_like.png" width="15" height="15"/>
         <image name="ic_liked.png" width="15" height="15"/>
-        <image name="more_right_button.png" width="22" height="16"/>
+        <image name="ico-to-do-list.png" width="18" height="10"/>
         <image name="phone_64.png" width="32" height="32"/>
         <image name="placeholder.png" width="150" height="125"/>
         <image name="tab1.png" width="19" height="22"/>
