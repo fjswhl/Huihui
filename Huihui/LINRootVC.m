@@ -234,6 +234,7 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
     [UIView animateWithDuration:0.4f animations:^{
             self.tabBar.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.tabBar.frame));
     }];
+    self.isHidden = YES;
 
 }
 
@@ -241,6 +242,7 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
     [UIView animateWithDuration:0.4f animations:^{
         self.tabBar.transform = CGAffineTransformIdentity;
     }];
+    self.isHidden = NO;
 }
 @end
 

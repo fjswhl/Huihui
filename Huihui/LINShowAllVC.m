@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "RatingView.h"
 #import "MBProgressHUD.h"
+#import "LINRootVC.h"
 extern NSString *const __shopname;
 extern NSString *const __discount;
 extern NSString *const __location;
@@ -60,6 +61,12 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
+    UIEdgeInsets tableViewEdgeInsets = self.tableView.contentInset;
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if (rootVC.isHidden) {
+        tableViewEdgeInsets.bottom = -50;
+    }
+    self.tableView.contentInset = tableViewEdgeInsets;
 
 }
 

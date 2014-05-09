@@ -132,6 +132,13 @@ NSString *const __type = @"type";
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchDetailInfo) forControlEvents:UIControlEventValueChanged];
    //                 [self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
+    
+    UIEdgeInsets tableViewEdgeInsets = self.tableView.contentInset;
+    LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+    if (rootVC.isHidden) {
+        tableViewEdgeInsets.bottom = -50;
+    }
+    self.tableView.contentInset = tableViewEdgeInsets;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

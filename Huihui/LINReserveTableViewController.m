@@ -42,6 +42,10 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     tableViewIndicatorEdgeInsets.bottom = -47;
     self.tableView.scrollIndicatorInsets = tableViewIndicatorEdgeInsets;
     
+    UIEdgeInsets tableViewContentInsets = self.tableView.contentInset;
+    tableViewContentInsets.bottom = -47;
+    self.tableView.contentInset = tableViewContentInsets;
+    
     
     self.navigationController.toolbarHidden = NO;
     self.navigationController.toolbar.transform = CGAffineTransformMakeTranslation(0, 49);

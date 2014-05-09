@@ -23,6 +23,8 @@
 @property (strong, nonatomic) NSString *userPwd;
 @property (strong, nonatomic) NSDictionary *userInfo;
 @property (weak, nonatomic) id<LINRootVCDelegate> rootVCdelegate;
+
+@property (assign, nonatomic) BOOL isHidden;
 //              vc:用于从登入界面登入时,登入成功后弹到root
 
 /**
