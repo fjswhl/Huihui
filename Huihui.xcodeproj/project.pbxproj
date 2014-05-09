@@ -136,6 +136,14 @@
 		3E395D6D191B3AC300A580AC /* ShareSDKiPhoneSimpleShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E395D2F191B3AC200A580AC /* ShareSDKiPhoneSimpleShareViewUI.framework */; };
 		3E395D6E191B3AC300A580AC /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E395D30191B3AC200A580AC /* ShareSDKShareActionSheet.framework */; };
 		3E395D70191B3D9000A580AC /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E395D6F191B3D9000A580AC /* TencentOpenAPI.framework */; };
+		3E395D81191D175000A580AC /* CXAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D73191D175000A580AC /* CXAlertBackgroundWindow.m */; };
+		3E395D82191D175000A580AC /* CXAlertButtonContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D75191D175000A580AC /* CXAlertButtonContainerView.m */; };
+		3E395D83191D175000A580AC /* CXAlertButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D77191D175000A580AC /* CXAlertButtonItem.m */; };
+		3E395D84191D175000A580AC /* CXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D79191D175000A580AC /* CXAlertView.m */; };
+		3E395D85191D175000A580AC /* CXAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D7B191D175000A580AC /* CXAlertViewController.m */; };
+		3E395D86191D175000A580AC /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D7D191D175000A580AC /* LFDisplayBridge.m */; };
+		3E395D87191D175000A580AC /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D7F191D175000A580AC /* LFGlassView.m */; };
+		3E395D8A191D1B6700A580AC /* UIAlertView+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D89191D1B6700A580AC /* UIAlertView+Block.m */; };
 		3E483F3918E1D1370053EB93 /* LINShowAllVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3818E1D1370053EB93 /* LINShowAllVC.m */; };
 		3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3C18E31D460053EB93 /* LINActivityVC.m */; };
 		3E483F4718E32FFF0053EB93 /* pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F4018E32FFF0053EB93 /* pinyin.m */; };
@@ -600,6 +608,23 @@
 		3E395D2F191B3AC200A580AC /* ShareSDKiPhoneSimpleShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPhoneSimpleShareViewUI.framework; sourceTree = "<group>"; };
 		3E395D30191B3AC200A580AC /* ShareSDKShareActionSheet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKShareActionSheet.framework; sourceTree = "<group>"; };
 		3E395D6F191B3D9000A580AC /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		3E395D72191D175000A580AC /* CXAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertBackgroundWindow.h; sourceTree = "<group>"; };
+		3E395D73191D175000A580AC /* CXAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertBackgroundWindow.m; sourceTree = "<group>"; };
+		3E395D74191D175000A580AC /* CXAlertButtonContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonContainerView.h; sourceTree = "<group>"; };
+		3E395D75191D175000A580AC /* CXAlertButtonContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertButtonContainerView.m; sourceTree = "<group>"; };
+		3E395D76191D175000A580AC /* CXAlertButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertButtonItem.h; sourceTree = "<group>"; };
+		3E395D77191D175000A580AC /* CXAlertButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertButtonItem.m; sourceTree = "<group>"; };
+		3E395D78191D175000A580AC /* CXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertView.h; sourceTree = "<group>"; };
+		3E395D79191D175000A580AC /* CXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertView.m; sourceTree = "<group>"; };
+		3E395D7A191D175000A580AC /* CXAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXAlertViewController.h; sourceTree = "<group>"; };
+		3E395D7B191D175000A580AC /* CXAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXAlertViewController.m; sourceTree = "<group>"; };
+		3E395D7C191D175000A580AC /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
+		3E395D7D191D175000A580AC /* LFDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDisplayBridge.m; sourceTree = "<group>"; };
+		3E395D7E191D175000A580AC /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
+		3E395D7F191D175000A580AC /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
+		3E395D80191D175000A580AC /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
+		3E395D88191D1B6700A580AC /* UIAlertView+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Block.h"; sourceTree = "<group>"; };
+		3E395D89191D1B6700A580AC /* UIAlertView+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Block.m"; sourceTree = "<group>"; };
 		3E483F3718E1D1370053EB93 /* LINShowAllVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShowAllVC.h; sourceTree = "<group>"; };
 		3E483F3818E1D1370053EB93 /* LINShowAllVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShowAllVC.m; sourceTree = "<group>"; };
 		3E483F3B18E31D460053EB93 /* LINActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINActivityVC.h; sourceTree = "<group>"; };
@@ -1007,6 +1032,8 @@
 				3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */,
 				3E395CC71919E50800A580AC /* LINNavBarActionSheet.h */,
 				3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */,
+				3E395D88191D1B6700A580AC /* UIAlertView+Block.h */,
+				3E395D89191D1B6700A580AC /* UIAlertView+Block.m */,
 				3E15C10C18DFE97800F6512F /* Huihui */,
 				3E15C12B18DFE97800F6512F /* HuihuiTests */,
 				3E15C10518DFE97800F6512F /* Frameworks */,
@@ -1026,6 +1053,7 @@
 		3E15C10518DFE97800F6512F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E395D71191D175000A580AC /* CXAlertView */,
 				3E395D6F191B3D9000A580AC /* TencentOpenAPI.framework */,
 				3EA95C3F19111FFE0042901D /* MBProgressHUD.h */,
 				3EA95C4019111FFE0042901D /* MBProgressHUD.m */,
@@ -1459,6 +1487,28 @@
 				3E395D30191B3AC200A580AC /* ShareSDKShareActionSheet.framework */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		3E395D71191D175000A580AC /* CXAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				3E395D72191D175000A580AC /* CXAlertBackgroundWindow.h */,
+				3E395D73191D175000A580AC /* CXAlertBackgroundWindow.m */,
+				3E395D74191D175000A580AC /* CXAlertButtonContainerView.h */,
+				3E395D75191D175000A580AC /* CXAlertButtonContainerView.m */,
+				3E395D76191D175000A580AC /* CXAlertButtonItem.h */,
+				3E395D77191D175000A580AC /* CXAlertButtonItem.m */,
+				3E395D78191D175000A580AC /* CXAlertView.h */,
+				3E395D79191D175000A580AC /* CXAlertView.m */,
+				3E395D7A191D175000A580AC /* CXAlertViewController.h */,
+				3E395D7B191D175000A580AC /* CXAlertViewController.m */,
+				3E395D7C191D175000A580AC /* LFDisplayBridge.h */,
+				3E395D7D191D175000A580AC /* LFDisplayBridge.m */,
+				3E395D7E191D175000A580AC /* LFGlassView.h */,
+				3E395D7F191D175000A580AC /* LFGlassView.m */,
+				3E395D80191D175000A580AC /* LiveFrost.h */,
+			);
+			path = CXAlertView;
 			sourceTree = "<group>";
 		};
 		3E483F3A18E31D1F0053EB93 /* Activity */ = {
@@ -2220,6 +2270,7 @@
 				3E15C19B18DFF19900F6512F /* MJRefreshHeaderView.m in Sources */,
 				3E15C16818DFF18E00F6512F /* UIImage+WebP.m in Sources */,
 				3E483F4D18E41E330053EB93 /* BZGFormField.m in Sources */,
+				3E395D84191D175000A580AC /* CXAlertView.m in Sources */,
 				3E15C1A018E01CEC00F6512F /* RatingView.m in Sources */,
 				3E15C16918DFF18E00F6512F /* UIImageView+WebCache.m in Sources */,
 				3E15C15E18DFF18E00F6512F /* SDImageCache.m in Sources */,
@@ -2231,9 +2282,11 @@
 				3E15C15C18DFF18E00F6512F /* MKAnnotationView+WebCache.m in Sources */,
 				3E8B16D218F6F1DC00883E22 /* IntroView.m in Sources */,
 				3E395C761918B46F00A580AC /* LINCompleteProfileTableViewController.m in Sources */,
+				3E395D87191D175000A580AC /* LFGlassView.m in Sources */,
 				3E15C19818DFF19900F6512F /* MJRefreshBaseView.m in Sources */,
 				3E15C16018DFF18E00F6512F /* SDWebImageDecoder.m in Sources */,
 				3E483F6A18E428CE0053EB93 /* QCheckBox.m in Sources */,
+				3E395D82191D175000A580AC /* CXAlertButtonContainerView.m in Sources */,
 				3E5DED5918E4976F00D5A59A /* UIHyperlinksButton.m in Sources */,
 				3E15C19A18DFF19900F6512F /* MJRefreshFooterView.m in Sources */,
 				3ECAC66E18FC0BEE008A849F /* LINSearchTableViewController.m in Sources */,
@@ -2249,6 +2302,7 @@
 				3E6CC74C18F824F6002B7375 /* LINMyVipCardVCTableViewController.m in Sources */,
 				3E15C16218DFF18E00F6512F /* SDWebImageDownloaderOperation.m in Sources */,
 				3E15C1A418E01F9900F6512F /* Model.xcdatamodeld in Sources */,
+				3E395D86191D175000A580AC /* LFDisplayBridge.m in Sources */,
 				3E4E611619079C2500982652 /* LINActivityParentViewController.m in Sources */,
 				3E483F4818E32FFF0053EB93 /* POAPinyin.m in Sources */,
 				3E395CCC1919F08F00A580AC /* LINReserveTableViewController.m in Sources */,
@@ -2263,9 +2317,11 @@
 				3E4E61191907B1A300982652 /* LINMoodWallViewController.m in Sources */,
 				3E483F7118E4538C0053EB93 /* LINSignUpStep3VC.m in Sources */,
 				3E395CC91919E50900A580AC /* LINNavBarActionSheet.m in Sources */,
+				3E395D8A191D1B6700A580AC /* UIAlertView+Block.m in Sources */,
 				3E15C19918DFF19900F6512F /* MJRefreshConst.m in Sources */,
 				3ECAC68F18FE91E0008A849F /* LINShowCommentTableViewController.m in Sources */,
 				3E49F75D18F4F00D001309D1 /* LINCommentVC.m in Sources */,
+				3E395D81191D175000A580AC /* CXAlertBackgroundWindow.m in Sources */,
 				3E483F5E18E422250053EB93 /* RMStep.m in Sources */,
 				3E483F5C18E422250053EB93 /* RMStepsController.m in Sources */,
 				3E15C16518DFF18E00F6512F /* UIButton+WebCache.m in Sources */,
@@ -2278,6 +2334,7 @@
 				3E4E6435190E1F6300982652 /* XXNavigationController.m in Sources */,
 				3E15C16618DFF18E00F6512F /* UIImage+GIF.m in Sources */,
 				3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */,
+				3E395D83191D175000A580AC /* CXAlertButtonItem.m in Sources */,
 				3ECAC67B18FD7B51008A849F /* LINPushAdviceTableViewController.m in Sources */,
 				3E15C18318DFF19400F6512F /* NSData+MKBase64.m in Sources */,
 				3E483F5D18E422250053EB93 /* RMStepsBar.m in Sources */,
@@ -2286,6 +2343,7 @@
 				3E49F76018F5741F001309D1 /* UIColor+LINColor.m in Sources */,
 				3E395CCF1919FD2700A580AC /* LINGood.m in Sources */,
 				3E15C11318DFE97800F6512F /* main.m in Sources */,
+				3E395D85191D175000A580AC /* CXAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
