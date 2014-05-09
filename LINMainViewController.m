@@ -257,6 +257,7 @@ NSString *const __id = @"id";
 //        [shopImage setImage:nil];
 //    }
   //  [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
+    NSLog(@"%@", aShop);
     shopNameLabel.text = aShop[__shopname];
     discountLabel.text = aShop[__discount];
     locationLabel.text = aShop[__location];

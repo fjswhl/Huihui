@@ -11,6 +11,8 @@
 #import <ShareSDK/ShareSDK.h>
 #import <QQConnection/QQConnection.h>
 #import <QZoneConnection/QZoneConnection.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 #import "NSString+Md5.h"
 @implementation LINAppDelegate
@@ -46,7 +48,9 @@
     [ShareSDK registerApp:@"1a912d3d0aba"];
     [ShareSDK connectSinaWeiboWithAppKey:@"3210166262" appSecret:@"d78c2f7097539b2de04496017df4d596" redirectUri:@"http://xdhuihui.sinaapp.com"];
     [ShareSDK connectTencentWeiboWithAppKey:@"801490222" appSecret:@"417df257cf65e79468cb9248e3939b47" redirectUri:@"http://xdhuihui.sinaapp.com"];
-//    [ShareSDK connectQZoneWithAppKey:@"101044706" appSecret:@"91e6e28b8e1945ac1d603179151642a4" qqApiInterfaceCls:[] tencentOAuthCls:<#(__unsafe_unretained Class)#>];
+
+    [ShareSDK connectQZoneWithAppKey:@"101044706" appSecret:@"91e6e28b8e1945ac1d603179151642a4" qqApiInterfaceCls:[QQApiInterface class] tencentOAuthCls:[TencentOAuth class]];
+
     [ShareSDK connectRenRenWithAppKey:@"6abd134b79e84e8b88bfd8554effb386" appSecret:@"d92a0ca22bd24939be08df727ebcfa61"];
     [ShareSDK connectWeChatTimelineWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];
     [ShareSDK connectWeChatSessionWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];

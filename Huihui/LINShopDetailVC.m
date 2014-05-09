@@ -15,6 +15,9 @@
 #import "MBProgressHUD.h"
 #import "LINNavBarActionSheet.h"
 #import "LINComplainTableViewController.h"
+#import "LINShowAllVC.h"
+#import "LINReserveTableViewController.h"
+
 //
 //{
 //    success =     {
@@ -88,6 +91,7 @@ NSString *const __type = @"type";
 
 @property (nonatomic) BOOL needUpdateTableViewHeight;
 
+@property (strong, nonatomic) IBOutlet UIView *headerContainerView;
 
 @property (strong, nonatomic) LINNavBarActionSheet *navBarActionSheet;
 
@@ -110,6 +114,9 @@ NSString *const __type = @"type";
 {
     [super viewDidLoad];
    // NSLog(@"%@", self.aShop);
+
+    
+    
     [self fetchDetailInfo];
     [self.grade_p setUserInteractionEnabled:NO];
     [self.grade_pc setUserInteractionEnabled:NO];
@@ -123,7 +130,7 @@ NSString *const __type = @"type";
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchDetailInfo) forControlEvents:UIControlEventValueChanged];
-    
+   //                 [self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -132,6 +139,18 @@ NSString *const __type = @"type";
         [self.navBarActionSheet dismissAnimated:NO];
     }
 }
+
+//- (void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//    NSInteger index = [self.navigationController.viewControllers indexOfObject:self] - 1;
+//    LINShowAllVC *shopDetail = self.navigationController.viewControllers[index];
+//    if ([shopDetail.type isEqualToString: @"4"]) {
+//        LINReserveTableViewController *reserveVC = [self.storyboard instantiateViewControllerWithIdentifier:@"reserveVC"];
+//        [reserveVC setAShop:self.aShop];
+//        [self.navigationController pushViewController:reserveVC animated:NO];
+//        //[self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
+//    }
+//}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -195,6 +214,9 @@ NSString *const __type = @"type";
         [self.tableView reloadData];
         [self checkIsVip];
         [self fetchComments];
+        
+        
+
         
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];

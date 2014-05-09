@@ -79,9 +79,13 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
     [self.logoutButton.layer setBorderColor:[UIColor preferredColor].CGColor];
     
     if (self.userInfo) {
-        self.louhaoTextField.text = self.userInfo[@"building"];
-        self.quhaoTextField.text = self.userInfo[@"buildingarea"];
-        self.sushehaoTextField.text = self.userInfo[@"houseid"];
+        if (![self.userInfo[@"building"] isEqualToString:@"0"] && ![self.userInfo[@"buildingarea"] isEqualToString:@"0"]  && ![self.userInfo[@"houseid"] isEqualToString:@"0"]) {
+            self.louhaoTextField.text = self.userInfo[@"building"];
+            self.quhaoTextField.text = self.userInfo[@"buildingarea"];
+            self.sushehaoTextField.text = self.userInfo[@"houseid"];
+        }
+        
+
         [self.avatarImageView setImageWithURL:[NSURL URLWithString:self.userInfo[@"pic"]]];
         
         NSNumber *schoolid = self.userInfo[@"schoolid"];

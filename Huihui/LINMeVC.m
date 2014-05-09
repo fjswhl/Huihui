@@ -70,8 +70,10 @@ extern NSString *const __apiGetProfile;
     [super viewWillAppear:animated];
     [self.tableView selectRowAtIndexPath:nil animated:YES scrollPosition:UITableViewScrollPositionNone];
     if ([self.vipCardN.text isEqualToString: @""]) {
-                [self updateUIWhenLoginOrOut];
+        [self updateUIWhenLoginOrOut];
     }
+
+
 
 }
 
@@ -166,10 +168,10 @@ extern NSString *const __apiGetProfile;
         return;
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     MKNetworkOperation *op = [self.engine operationWithPath:__apiUserNumOfSVG params:nil httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        [hud hide:YES];
+ //       [hud hide:YES];
         if (self.refreshControl.refreshing == YES) {
             [self.refreshControl endRefreshing];
         }
@@ -228,7 +230,7 @@ extern NSString *const __apiGetProfile;
         
         
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        [hud hide:YES];
+  //      [hud hide:YES];
         [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     [self.engine enqueueOperation:op];

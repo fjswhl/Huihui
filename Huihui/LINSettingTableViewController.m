@@ -100,16 +100,16 @@
 - (void)share{
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"tubiao"  ofType:@"png"];
     
-    id<ISSContent> publishContent = [ShareSDK content:@"这是一条测试1"
-                                       defaultContent:@"这是一条测试2"
+    id<ISSContent> publishContent = [ShareSDK content:@"汇惠,面向学生群体的电子会员卡APP,小伙伴们快来下载把~"
+                                       defaultContent:@"汇惠,面向学生群体的电子会员卡APP,小伙伴们快来下载把~"
                                                 image:[ShareSDK imageWithPath:imagePath]
-                                                title:@"汇惠-汇你所需,惠及你我!"
+                                                title:@"汇惠,面向学生群体的电子会员卡APP,小伙伴们快来下载把~"
                                                   url:@"http://xdhuihui.sinaapp.com"
-                                          description:@"这是一条测试3"
+                                          description:@"汇惠,面向学生群体的电子会员卡APP,小伙伴们快来下载把~"
                                             mediaType:SSPublishContentMediaTypeNews];
     
     [ShareSDK showShareActionSheet:nil
-                         shareList:[ShareSDK getShareListWithType:ShareTypeWeixiTimeline, nil]
+                         shareList:[ShareSDK getShareListWithType:ShareTypeWeixiTimeline,ShareTypeQQSpace, ShareTypeRenren, ShareTypeSinaWeibo, ShareTypeTencentWeibo, ShareTypeWeixiSession, nil]
                            content:publishContent
                      statusBarTips:NO
                        authOptions:nil

@@ -191,9 +191,14 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
 
 
 - (void)fetchOrderWithPage:(NSInteger)page{
+
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.orderList count] inSection:0]];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
+    
+//    if ([label.text isEqualToString:@"没有更多了"]) {
+//        return;
+//    }
     label.text = @"正在加载...";
     
     MKNetworkOperation *op = [self.engine operationWithPath:__apiFetchOrder params:@{
@@ -213,8 +218,10 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
         [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         label.text = @"上拉加载更多";
-        if ([self.orderList count] > 0) {
+        if ([orders count] > 0) {
                     self.loadMoreCellIsShown = NO;
+        }else{
+            label.text = @"没有更多了";
         }
 
         self.pageCount++;
