@@ -90,6 +90,7 @@ NSString *const __type = @"type";
 @property (strong, nonatomic) IBOutlet UIImageView *vipImgView;
 
 @property (nonatomic) BOOL needUpdateTableViewHeight;
+@property (nonatomic) BOOL needUpdateReserveCell;
 
 @property (strong, nonatomic) IBOutlet UIView *headerContainerView;
 
@@ -211,6 +212,7 @@ NSString *const __type = @"type";
         [self.grade_s displayRating:[self.shopDetail[__grade_s] floatValue]];
         
         self.needUpdateTableViewHeight = true;
+        self.needUpdateReserveCell = true;
         [self.tableView reloadData];
         [self checkIsVip];
         [self fetchComments];
@@ -254,9 +256,20 @@ NSString *const __type = @"type";
 
 #pragma mark - tableview delegate
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        if (self.needUpdateReserveCell && [self isReserve]) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }else{
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    if (indexPath.section == 0 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
+    if (indexPath.section == 1 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         cell.textLabel.text = self.shopDetail[__discount_detail];
@@ -265,7 +278,7 @@ NSString *const __type = @"type";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1 && indexPath.section == 1) {           //点击我要点评
+    if (indexPath.row == 1 && indexPath.section == 2) {           //点击我要点评
 
 //        if (self.isVip == NO) {
 //            [self becomeVip];
@@ -278,17 +291,19 @@ NSString *const __type = @"type";
             [MBProgressHUD showTextHudToView:self.view text:@"请先登入"];
             //[self postComment];
         }
-    }else if (indexPath.section == 2 && indexPath.row == 0){            //点击我要投诉
+    }else if (indexPath.section == 3 && indexPath.row == 0){            //点击我要投诉
         [self performSegueWithIdentifier:@"shopDetailVCToComplainVC" sender:nil];
-    }else if (indexPath.section == 1 && indexPath.row == 0){
+    }else if (indexPath.section == 2 && indexPath.row == 0){
         [self performSegueWithIdentifier:@"showdetailvctocommentvc" sender:nil];
+    }else if (indexPath.section == 0 && indexPath.row == 0){
+        [self performSegueWithIdentifier:@"detailVCToReserve" sender:nil];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat height = [super tableView:tableView heightForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == 0 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
+    if (indexPath.section == 1 && indexPath.row == 1 && self.needUpdateTableViewHeight == true) {
         NSString *discountDetail = self.shopDetail[__discount_detail];
         
         CGSize constraint = CGSizeMake(280, 20000);
