@@ -22,6 +22,8 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
 
 @property (strong, nonatomic) NSMutableDictionary *orderForPost;
 @property (strong, nonatomic) UILabel *totalPriceLabel;
+
+@property (strong, nonatomic) NSMutableArray *amountArray;
 @end
 
 @implementation LINReserveTableViewController
@@ -157,6 +159,16 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     return _orderForPost;
 }
 
+- (NSMutableArray *)amountArray{
+    if (!_amountArray) {
+        _amountArray = [NSMutableArray new];
+        for (int i = 0; i < [self.foods count]; i++) {
+            [_amountArray addObject:@(0)];
+        }
+    }
+    return _amountArray;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -271,6 +283,19 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
         
         goodNameLabel.text = aGood.goodName;
         priceLabel.text = [NSString stringWithFormat:@"￥ %@", aGood.price];
+        
+        
+        /*          如果数量为0,隐藏数量的标签      */
+        UILabel *mountLabel = (UILabel *)[cell.contentView viewWithTag:3];
+        
+        NSNumber *amount = self.amountArray[indexPath.row];
+        mountLabel.text = [NSString stringWithFormat:@"%@", amount];
+        
+        if ([mountLabel.text isEqualToString:@"0"]) {
+            mountLabel.alpha = 0;
+        }else{
+            mountLabel.alpha = 1;
+        }
         return cell;
     }
     return nil;
@@ -284,7 +309,14 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     
     LINGood *good = [[LINGood alloc] initWithDictionary: self.foods[indexPath.row]];
     [self.orderForPost setValue:mountLabel.text forKey:[NSString stringWithFormat:@"%@", good.goodId]];
+    self.amountArray[indexPath.row] = @([mountLabel.text integerValue]);
+    
     self.totalPriceLabel.text = [NSString stringWithFormat:@"%li",(long)([_totalPriceLabel.text integerValue] + [good.price integerValue])];
+    if (mountLabel.alpha == 0) {
+        [UIView animateWithDuration:0.3 animations:^{
+            mountLabel.alpha = 1.0f;
+        }];
+    }
     
 }
 
@@ -296,7 +328,7 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
         [MBProgressHUD showTextHudToView:self.view text:@"你还没选择任何美食哦"];
         return;
     }
-    
+    NSLog(@"%@", self.orderForPost);
     
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     NSDictionary *userInfo = rootVC.userInfo;

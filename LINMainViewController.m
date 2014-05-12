@@ -512,7 +512,7 @@ NSString *const __id           = @"id";
         }
         
         NSArray *st = [dic[@"success"] objectForKey:@"shops"];
-        NSLog(@"%@", st);
+       // NSLog(@"%@", st);
         [self.shops addObjectsFromArray:st];
         
            // NSLog(@"%@", self.shops);
