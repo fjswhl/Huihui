@@ -145,6 +145,7 @@
 		3E395D87191D175000A580AC /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D7F191D175000A580AC /* LFGlassView.m */; };
 		3E395D8A191D1B6700A580AC /* UIAlertView+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D89191D1B6700A580AC /* UIAlertView+Block.m */; };
 		3E395D8C191D424700A580AC /* ico-to-do-list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E395D8B191D424700A580AC /* ico-to-do-list@2x.png */; };
+		3E395D8F191D4FBA00A580AC /* SlideDeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E395D8E191D4FBA00A580AC /* SlideDeleteCell.m */; };
 		3E483F3918E1D1370053EB93 /* LINShowAllVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3818E1D1370053EB93 /* LINShowAllVC.m */; };
 		3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F3C18E31D460053EB93 /* LINActivityVC.m */; };
 		3E483F4718E32FFF0053EB93 /* pinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E483F4018E32FFF0053EB93 /* pinyin.m */; };
@@ -627,6 +628,8 @@
 		3E395D88191D1B6700A580AC /* UIAlertView+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Block.h"; sourceTree = "<group>"; };
 		3E395D89191D1B6700A580AC /* UIAlertView+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Block.m"; sourceTree = "<group>"; };
 		3E395D8B191D424700A580AC /* ico-to-do-list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list@2x.png"; sourceTree = "<group>"; };
+		3E395D8D191D4FBA00A580AC /* SlideDeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideDeleteCell.h; sourceTree = "<group>"; };
+		3E395D8E191D4FBA00A580AC /* SlideDeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideDeleteCell.m; sourceTree = "<group>"; };
 		3E483F3718E1D1370053EB93 /* LINShowAllVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShowAllVC.h; sourceTree = "<group>"; };
 		3E483F3818E1D1370053EB93 /* LINShowAllVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShowAllVC.m; sourceTree = "<group>"; };
 		3E483F3B18E31D460053EB93 /* LINActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINActivityVC.h; sourceTree = "<group>"; };
@@ -1036,6 +1039,8 @@
 				3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */,
 				3E395D88191D1B6700A580AC /* UIAlertView+Block.h */,
 				3E395D89191D1B6700A580AC /* UIAlertView+Block.m */,
+				3E395D8D191D4FBA00A580AC /* SlideDeleteCell.h */,
+				3E395D8E191D4FBA00A580AC /* SlideDeleteCell.m */,
 				3E15C10C18DFE97800F6512F /* Huihui */,
 				3E15C12B18DFE97800F6512F /* HuihuiTests */,
 				3E15C10518DFE97800F6512F /* Frameworks */,
@@ -2288,6 +2293,7 @@
 				3E395C761918B46F00A580AC /* LINCompleteProfileTableViewController.m in Sources */,
 				3E395D87191D175000A580AC /* LFGlassView.m in Sources */,
 				3E15C19818DFF19900F6512F /* MJRefreshBaseView.m in Sources */,
+				3E395D8F191D4FBA00A580AC /* SlideDeleteCell.m in Sources */,
 				3E15C16018DFF18E00F6512F /* SDWebImageDecoder.m in Sources */,
 				3E483F6A18E428CE0053EB93 /* QCheckBox.m in Sources */,
 				3E395D82191D175000A580AC /* CXAlertButtonContainerView.m in Sources */,

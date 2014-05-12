@@ -20,16 +20,16 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import "LINRootVC.h"
-NSString *const apiGuessULike = @"index.php/Shop/guessULike";
+NSString *const apiGuessULike  = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
-NSString *const __shopname = @"shopname";
-NSString *const __discount = @"discount";
-NSString *const __location = @"location";
-NSString *const __phone = @"phone";
-NSString *const __grade = @"grade";
-NSString *const __pic = @"pic";
-NSString *const __id = @"id";
+NSString *const __shopname     = @"shopname";
+NSString *const __discount     = @"discount";
+NSString *const __location     = @"location";
+NSString *const __phone        = @"phone";
+NSString *const __grade        = @"grade";
+NSString *const __pic          = @"pic";
+NSString *const __id           = @"id";
 
 
 @interface LINMainViewController ()<UIScrollViewDelegate, UISearchBarDelegate>
@@ -512,7 +512,7 @@ NSString *const __id = @"id";
         }
         
         NSArray *st = [dic[@"success"] objectForKey:@"shops"];
-        
+        NSLog(@"%@", st);
         [self.shops addObjectsFromArray:st];
         
            // NSLog(@"%@", self.shops);

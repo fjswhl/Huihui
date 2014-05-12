@@ -13,6 +13,7 @@
 #import "LINRootVC.h"
 #import "MBProgressHUD.h"
 #import <objc/runtime.h>
+#import "SlideDeleteCell.h"
 NSString *const __apiMyVip = @"index.php/Shop/myVIP";
 NSString *const __apiMyLike = @"index.php/User/fetchLike";
 
@@ -27,7 +28,7 @@ extern NSString *const __id;
 extern NSString *const __apiDeleteLike;
 extern NSString *const __apiCancelVIP;
 
-@interface LINMyVipCardVCTableViewController ()
+@interface LINMyVipCardVCTableViewController ()<SlideDeleteCellDelegate>
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
 @property (strong, nonatomic) NSMutableArray *shops;
@@ -93,8 +94,8 @@ extern NSString *const __apiCancelVIP;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *cellIdentifider = @"shopCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider];
-    
+    SlideDeleteCell *cell = (SlideDeleteCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifider];
+    cell.delegate = self;
     
     UIView *contentView = [cell.contentView viewWithTag:999];
     static char contentViewKey;
@@ -175,6 +176,22 @@ extern NSString *const __apiCancelVIP;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)slideToDeleteCell:(SlideDeleteCell *)slideDeleteCell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:slideDeleteCell];
+    NSDictionary *aShop = self.shops[indexPath.row];
+    if ([self.type integerValue] == 0) {
+        [self cancelVIPWithShop:aShop];
+    }else{
+        [self deleteLikeWithShop:aShop];
+    }
+    
+    [self.shops removeObjectAtIndex:indexPath.row];
+    
+    
+    
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+}
 
 #pragma mark - Server
 

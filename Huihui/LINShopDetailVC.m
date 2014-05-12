@@ -197,8 +197,8 @@ NSString *const __type = @"type";
         }
         NSDictionary *detail = [completedOperation responseJSON];
         self.shopDetail = [detail[@"success"] mutableCopy];
-
-        NSLog(@"%@", self.shopDetail);
+        
+      //  NSLog(@"%@", self.shopDetail);
         
         //self.privilegeLabel.text = self.shopDetail[__discount];
         self.discountLabel.text = self.shopDetail[__discount];
@@ -206,9 +206,9 @@ NSString *const __type = @"type";
         self.introLabel.text = self.shopDetail[__intro];
         self.locationLabel.text = self.shopDetail[__location];
         self.contactLabel.text = self.aShop[__master];
-        self.contactMethodLabel.text = self.aShop[__phone];
-        [self.shopPic setImageWithURL:[NSURL URLWithString:self.aShop[__pic]]];
-        
+        self.contactMethodLabel.text = self.shopDetail[__phone];
+        [self.shopPic setImageWithURL:[NSURL URLWithString:self.shopDetail[__pic]]];
+        NSLog(@"%@", self.shopDetail[__pic]);
         
         if (!self.grade_p.s1) {
             [self.grade_p setImagesDeselected:@"0.png" partlySelected:@"1.png" fullSelected:@"2.png" andDelegate:nil];
@@ -317,6 +317,11 @@ NSString *const __type = @"type";
         CGSize constraint = CGSizeMake(280, 20000);
         CGSize size = [discountDetail boundingRectWithSize:constraint options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
         return size.height + 15;
+    }else if (indexPath.section == 2 && indexPath.row == 3 && self.needUpdateTableViewHeight == true){
+        NSString *intro = self.shopDetail[__intro];
+        CGSize constraint = CGSizeMake(280, 20000);
+        CGSize size = [intro boundingRectWithSize:constraint options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+        return size.height + 20;
     }
 
     return height;
