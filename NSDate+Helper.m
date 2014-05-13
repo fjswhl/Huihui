@@ -19,8 +19,10 @@
 + (NSString *)timeFlagWithDate:(NSDate *)date{
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:date];
     NSString *result = nil;
-    
-    if (timeInterval < 60 * 60) { /*        分钟          */
+    if (timeInterval < 60) {
+        
+        result = [NSString stringWithFormat:@"%i秒前", (int)timeInterval];
+    }else if (timeInterval < 60 * 60) { /*        分钟          */
         int minute = ((int)timeInterval) / 60;
         result = [NSString stringWithFormat:@"%i分钟前", minute];
     }else if (timeInterval < 60 * 60 * 24){

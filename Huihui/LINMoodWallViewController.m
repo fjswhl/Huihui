@@ -96,6 +96,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"校园圈";
     self.pageCount = 1;
    // [self fetchMoodWithPage:self.pageCount];
 }
@@ -104,6 +105,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     [super viewWillAppear:animated];
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     [rootVC showTabbarAnimated:YES];
+    
     
 }
 
@@ -201,12 +203,12 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     [self performSegueWithIdentifier:@"moodWallToShowComment" sender:indexPath];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    cell.alpha = 0;
-    [UIView animateWithDuration:0.4 animations:^{
-        cell.alpha = 1;
-    }];
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    cell.alpha = 0.3;
+//    [UIView animateWithDuration:0.7 animations:^{
+//        cell.alpha = 1;
+//    }];
+//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
 //    if (self.scrollViewDidScrollFlag) {
@@ -279,7 +281,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         NSRange range;
         range.location = (self.pageCount - 1) * 5;
         range.length = [st count];
-        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationFade];
         
         self.loadMoreViewIsShown = false;
         self.pageCount++;

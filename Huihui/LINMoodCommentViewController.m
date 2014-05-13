@@ -18,9 +18,13 @@ NSString *const __apiNewComment = @"index.php/Mood/newcomment";
 extern NSString *const __apiThumbUp;
 extern NSString *const __apiThumbDown;
 
-@interface LINMoodCommentViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface LINMoodCommentViewController ()<UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIView *toolBar;
+@property (strong, nonatomic) IBOutlet UITextView *textView;
+@property (strong, nonatomic) IBOutlet UIButton *postCommentButton;
+@property (strong, nonatomic) IBOutlet UILabel *textViewPlaceHolder;
+
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
@@ -51,15 +55,20 @@ extern NSString *const __apiThumbDown;
     // Do any additional setup after loading the view.
     [self fetchComment];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupUI{
+
 }
 
 #pragma mark - Getter
@@ -159,6 +168,19 @@ extern NSString *const __apiThumbDown;
     return nil;
 }
 
+#pragma mark - TextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView{
+    
+    if ([[[textView.text stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"　" withString:@""] isEqualToString:@""]) {
+        [self.postCommentButton setEnabled:NO];
+        [self.textViewPlaceHolder setHidden:NO];
+    }else{
+        [self.postCommentButton setEnabled:YES];
+        [self.textViewPlaceHolder setHidden:YES];
+    }
+}
+
 #pragma mark - KVO and Notification
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -192,6 +214,9 @@ extern NSString *const __apiThumbDown;
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
+    if (self.keyboardIsShown) {
+        return;
+    }
     [UIView animateWithDuration:animationDuration animations:^{
         CGRect frame = self.toolBar.frame;
         frame.origin.y -= keyboardRect.size.height;
@@ -217,6 +242,35 @@ extern NSString *const __apiThumbDown;
     }];
     self.keyboardHeight = 0;
     self.keyboardIsShown = false;
+}
+
+- (void)keyboardFrameWillChange:(NSNotification *)notification{
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect keyboardRect = [aValue CGRectValue];
+    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
+    
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    if (keyboardRect.size.height > self.keyboardHeight) {
+        [UIView animateWithDuration:animationDuration animations:^{
+            CGRect frame = self.toolBar.frame;
+            frame.origin.y = frame.origin.y - (keyboardRect.size.height - self.keyboardHeight);
+            self.toolBar.frame = frame;
+        }];
+    }else{
+        [UIView animateWithDuration:animationDuration animations:^{
+            CGRect frame = self.toolBar.frame;
+            frame.origin.y = frame.origin.y + (self.keyboardHeight - keyboardRect.size.height);
+            self.toolBar.frame = frame;
+        }];
+    }
+
+    self.keyboardIsShown = true;
+    self.keyboardHeight = keyboardRect.size.height;
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification{
@@ -267,6 +321,7 @@ extern NSString *const __apiThumbDown;
 }
 
 
+#pragma mark - UI Related
 - (void)thumbupButtonTapped:(id)sender{
     UIButton *button = sender;
     
@@ -285,6 +340,30 @@ extern NSString *const __apiThumbDown;
         [self thumbupWithMood:self.mood];
     }
 }
+
+- (void)commentButtonTapped:(id)sender{
+    [self.textView becomeFirstResponder];
+}
+
+- (IBAction)postComment:(id)sender {
+    if ([[[self.textView.text stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"　" withString:@""] isEqualToString:@""]) {
+        NSLog(@"内容不能为空");
+        return;
+    }else{
+        MKNetworkOperation *op = [self.engine operationWithPath:__apiNewComment params:@{@"content":[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"moodid":self.mood.moodId} httpMethod:@"POST"];
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            NSDictionary *dic = [completedOperation responseJSON];
+            NSLog(@"%@", dic);
+            [self fetchComment];
+            [self.textView resignFirstResponder];
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+#warning wait
+        }];
+        [self.engine enqueueOperation:op];
+    }
+    
+}
+
 /*
 #pragma mark - Navigation
 
