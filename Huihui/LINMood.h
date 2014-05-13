@@ -6,15 +6,7 @@
 //  Copyright (c) 2014年 Lin. All rights reserved.
 //
 
-//                    {
-//                        bg = "-3549200";
-//                        content = "%E5%90%83%E9%A5%AD%E3%80%82%E3%80%82%E3%80%82";
-//                        id = 61;
-//                        isthumbup = no;
-//                        numofcomment = 0;
-//                        numofthumbup = 1;
-//                        time = 1399888637;
-//                    },
+
 
 #import <Foundation/Foundation.h>
 
@@ -23,5 +15,11 @@
 
 @property (strong, nonatomic) UIColor *bgColor;
 @property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSNumber *moodId;
+@property (strong, nonatomic) NSString *isthumbup;
+@property (strong, nonatomic) NSNumber *numofcomment;
+@property (strong, nonatomic) NSNumber *numofthumbup;
+@property (strong, nonatomic) NSDate *date;
 
+- (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

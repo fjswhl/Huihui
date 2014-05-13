@@ -414,6 +414,9 @@
 		3EE210B919211DB8008E4027 /* UIColor+MLPFlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210B819211DB8008E4027 /* UIColor+MLPFlatColors.m */; };
 		3EE210BC19211DC8008E4027 /* LINTextureBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */; };
 		3EE210BF192131B0008E4027 /* LINMood.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210BE192131B0008E4027 /* LINMood.m */; };
+		3EE210C219222EA1008E4027 /* LINMoodCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210C119222EA1008E4027 /* LINMoodCommentViewController.m */; };
+		3EE210C51922355A008E4027 /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210C41922355A008E4027 /* NSDate+Helper.m */; };
+		3EE210C819223BCF008E4027 /* LINMoodComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210C719223BCF008E4027 /* LINMoodComment.m */; };
 		3EF4AEF418E534AF00376DC6 /* LINRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF318E534AF00376DC6 /* LINRootVC.m */; };
 		3EF4AEF718E56D9A00376DC6 /* NSString+Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */; };
 /* End PBXBuildFile section */
@@ -939,6 +942,12 @@
 		3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINTextureBoardView.m; sourceTree = "<group>"; };
 		3EE210BD192131B0008E4027 /* LINMood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMood.h; sourceTree = "<group>"; };
 		3EE210BE192131B0008E4027 /* LINMood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMood.m; sourceTree = "<group>"; };
+		3EE210C019222EA1008E4027 /* LINMoodCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMoodCommentViewController.h; sourceTree = "<group>"; };
+		3EE210C119222EA1008E4027 /* LINMoodCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMoodCommentViewController.m; sourceTree = "<group>"; };
+		3EE210C31922355A008E4027 /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Helper.h"; sourceTree = "<group>"; };
+		3EE210C41922355A008E4027 /* NSDate+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Helper.m"; sourceTree = "<group>"; };
+		3EE210C619223BCF008E4027 /* LINMoodComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMoodComment.h; sourceTree = "<group>"; };
+		3EE210C719223BCF008E4027 /* LINMoodComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMoodComment.m; sourceTree = "<group>"; };
 		3EF4AEF218E534AF00376DC6 /* LINRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINRootVC.h; sourceTree = "<group>"; };
 		3EF4AEF318E534AF00376DC6 /* LINRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINRootVC.m; sourceTree = "<group>"; };
 		3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Md5.h"; sourceTree = "<group>"; };
@@ -1291,6 +1300,8 @@
 			children = (
 				3E395CC0191924F400A580AC /* VPImageCropperVC */,
 				3E2908C3190E5657003052B8 /* Button */,
+				3EE210C31922355A008E4027 /* NSDate+Helper.h */,
+				3EE210C41922355A008E4027 /* NSDate+Helper.m */,
 			);
 			name = "Handy Class";
 			sourceTree = "<group>";
@@ -1924,14 +1935,26 @@
 		3EE210B6192118AE008E4027 /* MoodWall */ = {
 			isa = PBXGroup;
 			children = (
+				3EE210C919223BD4008E4027 /* Model */,
 				3E4E61171907B1A300982652 /* LINMoodWallViewController.h */,
 				3E4E61181907B1A300982652 /* LINMoodWallViewController.m */,
 				3EE210BA19211DC8008E4027 /* LINTextureBoardView.h */,
 				3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */,
-				3EE210BD192131B0008E4027 /* LINMood.h */,
-				3EE210BE192131B0008E4027 /* LINMood.m */,
+				3EE210C019222EA1008E4027 /* LINMoodCommentViewController.h */,
+				3EE210C119222EA1008E4027 /* LINMoodCommentViewController.m */,
 			);
 			name = MoodWall;
+			sourceTree = "<group>";
+		};
+		3EE210C919223BD4008E4027 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3EE210BD192131B0008E4027 /* LINMood.h */,
+				3EE210BE192131B0008E4027 /* LINMood.m */,
+				3EE210C619223BCF008E4027 /* LINMoodComment.h */,
+				3EE210C719223BCF008E4027 /* LINMoodComment.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		3EF4AEF818E5769400376DC6 /* Login */ = {
@@ -2296,6 +2319,7 @@
 				3E15C18518DFF19400F6512F /* NSDictionary+RequestEncoding.m in Sources */,
 				3E6CC74F18FAAC81002B7375 /* LINPickerSchoolViewController.m in Sources */,
 				3E15C16318DFF18E00F6512F /* SDWebImageManager.m in Sources */,
+				3EE210C51922355A008E4027 /* NSDate+Helper.m in Sources */,
 				3E15C16118DFF18E00F6512F /* SDWebImageDownloader.m in Sources */,
 				3ECAC68018FE4E70008A849F /* LINComplainTableViewController.m in Sources */,
 				3E15C18418DFF19400F6512F /* NSDate+RFC1123.m in Sources */,
@@ -2350,6 +2374,7 @@
 				3E395CD3191A7DC600A580AC /* LINMyOrderTableViewController.m in Sources */,
 				3E15C11718DFE97800F6512F /* LINAppDelegate.m in Sources */,
 				3E4E61191907B1A300982652 /* LINMoodWallViewController.m in Sources */,
+				3EE210C219222EA1008E4027 /* LINMoodCommentViewController.m in Sources */,
 				3E483F7118E4538C0053EB93 /* LINSignUpStep3VC.m in Sources */,
 				3E395CC91919E50900A580AC /* LINNavBarActionSheet.m in Sources */,
 				3E395D8A191D1B6700A580AC /* UIAlertView+Block.m in Sources */,
@@ -2378,6 +2403,7 @@
 				3E15C18B18DFF19400F6512F /* Reachability.m in Sources */,
 				3E49F76018F5741F001309D1 /* UIColor+LINColor.m in Sources */,
 				3E395CCF1919FD2700A580AC /* LINGood.m in Sources */,
+				3EE210C819223BCF008E4027 /* LINMoodComment.m in Sources */,
 				3E15C11318DFE97800F6512F /* main.m in Sources */,
 				3E395D85191D175000A580AC /* CXAlertViewController.m in Sources */,
 			);
