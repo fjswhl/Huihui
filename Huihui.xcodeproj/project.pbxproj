@@ -411,6 +411,9 @@
 		3ED1978A18FEBDCC00ED231C /* 欢迎叶面5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED1978918FEBDCC00ED231C /* 欢迎叶面5@2x.png */; };
 		3ED1978C18FEC0B100ED231C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED1978B18FEC0B100ED231C /* SystemConfiguration.framework */; };
 		3ED1979318FED4AC00ED231C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ED1979218FED4AC00ED231C /* MessageUI.framework */; };
+		3EE210B919211DB8008E4027 /* UIColor+MLPFlatColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210B819211DB8008E4027 /* UIColor+MLPFlatColors.m */; };
+		3EE210BC19211DC8008E4027 /* LINTextureBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */; };
+		3EE210BF192131B0008E4027 /* LINMood.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE210BE192131B0008E4027 /* LINMood.m */; };
 		3EF4AEF418E534AF00376DC6 /* LINRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF318E534AF00376DC6 /* LINRootVC.m */; };
 		3EF4AEF718E56D9A00376DC6 /* NSString+Md5.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */; };
 /* End PBXBuildFile section */
@@ -930,6 +933,12 @@
 		3ED1978918FEBDCC00ED231C /* 欢迎叶面5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "欢迎叶面5@2x.png"; sourceTree = "<group>"; };
 		3ED1978B18FEC0B100ED231C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3ED1979218FED4AC00ED231C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		3EE210B719211DB8008E4027 /* UIColor+MLPFlatColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MLPFlatColors.h"; sourceTree = "<group>"; };
+		3EE210B819211DB8008E4027 /* UIColor+MLPFlatColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MLPFlatColors.m"; sourceTree = "<group>"; };
+		3EE210BA19211DC8008E4027 /* LINTextureBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINTextureBoardView.h; sourceTree = "<group>"; };
+		3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINTextureBoardView.m; sourceTree = "<group>"; };
+		3EE210BD192131B0008E4027 /* LINMood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINMood.h; sourceTree = "<group>"; };
+		3EE210BE192131B0008E4027 /* LINMood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINMood.m; sourceTree = "<group>"; };
 		3EF4AEF218E534AF00376DC6 /* LINRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINRootVC.h; sourceTree = "<group>"; };
 		3EF4AEF318E534AF00376DC6 /* LINRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINRootVC.m; sourceTree = "<group>"; };
 		3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Md5.h"; sourceTree = "<group>"; };
@@ -1289,6 +1298,8 @@
 		3E2908C3190E5657003052B8 /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				3EE210B719211DB8008E4027 /* UIColor+MLPFlatColors.h */,
+				3EE210B819211DB8008E4027 /* UIColor+MLPFlatColors.m */,
 				3E2908C0190E5653003052B8 /* ColorButton.h */,
 				3E2908C1190E5653003052B8 /* ColorButton.m */,
 				3E395C6C19168A9500A580AC /* UIButton+Color.h */,
@@ -1521,12 +1532,11 @@
 		3E483F3A18E31D1F0053EB93 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				3EE210B6192118AE008E4027 /* MoodWall */,
 				3E483F3B18E31D460053EB93 /* LINActivityVC.h */,
 				3E483F3C18E31D460053EB93 /* LINActivityVC.m */,
 				3E4E611419079C2500982652 /* LINActivityParentViewController.h */,
 				3E4E611519079C2500982652 /* LINActivityParentViewController.m */,
-				3E4E61171907B1A300982652 /* LINMoodWallViewController.h */,
-				3E4E61181907B1A300982652 /* LINMoodWallViewController.m */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -1909,6 +1919,19 @@
 				3ECBFE94190EA2C100F91A5C /* widget_line.png */,
 			);
 			path = "drawable-hdpi";
+			sourceTree = "<group>";
+		};
+		3EE210B6192118AE008E4027 /* MoodWall */ = {
+			isa = PBXGroup;
+			children = (
+				3E4E61171907B1A300982652 /* LINMoodWallViewController.h */,
+				3E4E61181907B1A300982652 /* LINMoodWallViewController.m */,
+				3EE210BA19211DC8008E4027 /* LINTextureBoardView.h */,
+				3EE210BB19211DC8008E4027 /* LINTextureBoardView.m */,
+				3EE210BD192131B0008E4027 /* LINMood.h */,
+				3EE210BE192131B0008E4027 /* LINMood.m */,
+			);
+			name = MoodWall;
 			sourceTree = "<group>";
 		};
 		3EF4AEF818E5769400376DC6 /* Login */ = {
@@ -2311,10 +2334,12 @@
 				3E395C6E19168A9500A580AC /* UIButton+Color.m in Sources */,
 				3E6CC74C18F824F6002B7375 /* LINMyVipCardVCTableViewController.m in Sources */,
 				3E15C16218DFF18E00F6512F /* SDWebImageDownloaderOperation.m in Sources */,
+				3EE210BF192131B0008E4027 /* LINMood.m in Sources */,
 				3E15C1A418E01F9900F6512F /* Model.xcdatamodeld in Sources */,
 				3E395D86191D175000A580AC /* LFDisplayBridge.m in Sources */,
 				3E4E611619079C2500982652 /* LINActivityParentViewController.m in Sources */,
 				3E483F4818E32FFF0053EB93 /* POAPinyin.m in Sources */,
+				3EE210B919211DB8008E4027 /* UIColor+MLPFlatColors.m in Sources */,
 				3E395CCC1919F08F00A580AC /* LINReserveTableViewController.m in Sources */,
 				3E15C1AD18E06B7900F6512F /* LINShopDetailVC.m in Sources */,
 				3E483F5218E41EA20053EB93 /* LINSignUpVC.m in Sources */,
@@ -2331,6 +2356,7 @@
 				3E15C19918DFF19900F6512F /* MJRefreshConst.m in Sources */,
 				3ECAC68F18FE91E0008A849F /* LINShowCommentTableViewController.m in Sources */,
 				3E49F75D18F4F00D001309D1 /* LINCommentVC.m in Sources */,
+				3EE210BC19211DC8008E4027 /* LINTextureBoardView.m in Sources */,
 				3E395D81191D175000A580AC /* CXAlertBackgroundWindow.m in Sources */,
 				3E483F5E18E422250053EB93 /* RMStep.m in Sources */,
 				3E483F5C18E422250053EB93 /* RMStepsController.m in Sources */,

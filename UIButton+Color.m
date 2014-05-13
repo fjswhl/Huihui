@@ -13,6 +13,10 @@
     [self setBackgroundImage:[self resizableImageWithColor:color] forState:UIControlStateNormal];
 }
 
+- (void)setBackgroundImageWithColor:(UIColor *)color forState:(UIControlState)state{
+    [self setBackgroundImage:[self resizableImageWithColor:color] forState:state];
+}
+
 - (UIImage *)resizableImageWithColor:(UIColor *)color{
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(1,1), YES, 0.0);
     

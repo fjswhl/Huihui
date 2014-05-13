@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (Color)
-- (void)setBackgroundImageWithColor:(UIColor *)color;
 
+- (void)setBackgroundImageWithColor:(UIColor *)color;
+- (void)setBackgroundImageWithColor:(UIColor *)color forState:(UIControlState)state;
 @end
