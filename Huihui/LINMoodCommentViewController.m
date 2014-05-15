@@ -155,13 +155,14 @@ extern NSString *const __apiThumbDown;
         LINMoodComment *aComment = [[LINMoodComment alloc] initWithDictionary:self.commentArray[indexPath.row]];
         commentContentLabel.text = aComment.content;
         
-        additionInfoLabel.text = [NSString stringWithFormat:@"%li楼  ", (long)(indexPath.row + 1)];
+        additionInfoLabel.text = [NSString stringWithFormat:@"%li楼  ", (long)([self.commentArray count] - indexPath.row)];
         additionInfoLabel.text = [additionInfoLabel.text stringByAppendingString:[NSDate timeFlagWithDate:aComment.date]];
         if ([aComment.isMe integerValue] == 1) {
             additionInfoLabel.text = [additionInfoLabel.text stringByAppendingString:@"  我"];
             commentContentLabel.textColor = [UIColor preferredColor];
         }else{
             additionInfoLabel.text = [additionInfoLabel.text stringByAppendingString:@"  朋友"];
+            commentContentLabel.textColor = [UIColor blackColor];
         }
         return cell;
     }
@@ -286,6 +287,7 @@ extern NSString *const __apiThumbDown;
         /**
          *  error == 2 的话表示没有评论
          */
+        self.commentArray = [NSMutableArray new];
         [self.commentArray addObjectsFromArray:dic[@"success"][@"list"]];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -295,6 +297,7 @@ extern NSString *const __apiThumbDown;
 }
 
 - (void)thumbupWithMood:(LINMood *)mood{
+    mood.isthumbup = @"yes";
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbUp
                                                      params:@{@"moodid":mood.moodId}
                                                  httpMethod:@"POST"];
@@ -308,6 +311,7 @@ extern NSString *const __apiThumbDown;
 }
 
 - (void)thumbDownWithMood:(LINMood *)mood{
+    mood.isthumbup = @"no";
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbDown
                                                      params:@{@"moodid":mood.moodId}
                                                  httpMethod:@"POST"];
@@ -356,6 +360,7 @@ extern NSString *const __apiThumbDown;
             NSLog(@"%@", dic);
             [self fetchComment];
             [self.textView resignFirstResponder];
+            self.textView.text = @"";
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 #warning wait
         }];

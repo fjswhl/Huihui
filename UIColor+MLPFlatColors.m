@@ -242,6 +242,61 @@
     return color;
 }
 
-
++ (NSInteger)intergerFromUIColor:(UIColor *)color{
+    CGFloat red;
+    CGFloat green;
+    CGFloat blue;
+    CGFloat alpha;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    red *= 255;
+    green *= 255;
+    blue *= 255;
+    alpha *= 255;
+    return ((int)alpha << 24) + ((int)red << 16) + ((int)green << 8) + ((int)blue);
+}
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

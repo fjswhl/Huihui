@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface LINMoodWallViewController : UIViewController
+@property (nonatomic) NSInteger pageCount;
+@property (strong, nonatomic) NSMutableArray *moodArray;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
+- (void)fetchMoodWithPage:(NSInteger)page;
 @end

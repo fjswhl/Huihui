@@ -213,7 +213,29 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
+        NSLog(@"%@", dic);
+        id errorCode = dic[@"error"];
         [hud hide:YES];
+        NSString *errorInfo = nil;
+        if (errorCode) {
+            if ([errorCode integerValue] == 1 || [errorCode isEqualToString:@"1"]) {
+                errorInfo = @"个人信息不完整, 请到个人中心完善宿舍信息";
+            }else if ([errorInfo integerValue] == 2 || [errorCode isEqualToString:@"2"]){
+                errorInfo = @"订餐数目超出, 限制3个";
+            }else if ([errorInfo integerValue] == 3 || [errorCode isEqualToString:@"3"]){
+                errorInfo = @"商品或商家不存在";
+            }else if ([errorInfo integerValue] == 4 || [errorCode isEqualToString:@"4"]){
+                errorInfo = @"不在订餐时间段内";
+            }else if ([errorInfo integerValue] == 5 || [errorCode isEqualToString:@"5"]){
+                errorInfo = @"您层有过不诚信记录,已被列入黑名单,请联系管理员";
+            }
+
+            [MBProgressHUD showTextHudToView:self.view text:errorInfo];
+            return;
+        }
+
+        
+
         [MBProgressHUD showTextHudToView:self.view text:@"订单已成功提交!"];
         double delayInSeconds = 1.6;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -328,6 +350,8 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
         [MBProgressHUD showTextHudToView:self.view text:@"你还没选择任何美食哦"];
         return;
     }
+    
+    
     NSLog(@"%@", self.orderForPost);
     
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
@@ -335,6 +359,12 @@ NSString *const __apiReserve = @"index.php/Order/reserve";
     id louhao = userInfo[@"building"];
     id quhao = userInfo[@"buildingarea"];
     id sushehao = userInfo[@"houseid"];
+    
+    if ([[NSString stringWithFormat:@"%@%@%@", louhao, quhao, sushehao] isEqualToString:@"000"] || (!louhao) || !(quhao) || !(sushehao) || [[NSString stringWithFormat:@"%@%@%@", louhao, quhao, sushehao] isEqualToString:@""]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"亲你还没完善个人资料, 请到个人中心填写宿舍信息" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil];
+        [alertView show];
+        return;
+    }
     
     NSString *title = @"亲你还没完善个人资料, 请到个人中心填写宿舍信息";
     if (louhao && quhao && sushehao) {

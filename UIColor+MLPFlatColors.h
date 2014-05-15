@@ -25,6 +25,8 @@
 
 @interface UIColor (MLPFlatColors)
 
++ (NSInteger)intergerFromUIColor:(UIColor *)color;
+
 + (UIColor *)flatRedColor;
 + (UIColor *)flatDarkRedColor;
 

@@ -83,7 +83,7 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
     
     NSLog(@"%@", self.userInfo);
     
-    if ([self.userInfo[@"pic"] rangeOfString:@"png"].location != NSNotFound) {
+    if ([self.userInfo[@"pic"] rangeOfString:@"png"].location != NSNotFound || [self.userInfo[@"pic"] rangeOfString:@"jpg"].location != NSNotFound) {
         self.avatarSetted = true;
     }
   //  self.tableViewRows = 8;

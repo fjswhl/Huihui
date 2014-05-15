@@ -64,6 +64,8 @@
 #import "LINMood.h"
 #import <objc/runtime.h>
 #import "LINRootVC.h"
+#import "LINPostMoodViewController.h"
+#import "NSDate+Helper.h"
 
 NSString *const __apiFetchMood = @"index.php/Mood/fetchmood";
 NSString *const __apiThumbUp = @"index.php/Mood/thumbup";
@@ -73,12 +75,16 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 @property (strong, nonatomic) MKNetworkEngine *engine;
 
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadMoreIndicator;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSMutableArray *moodArray;
 
-@property (nonatomic) NSInteger pageCount;
+
+
+
 @property (nonatomic) BOOL loadMoreViewIsShown;
+
+@property (strong, nonatomic) UITableViewController *tbvc;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (nonatomic) BOOL refreshFlag;
 @end
 
 @implementation LINMoodWallViewController
@@ -109,12 +115,35 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    UIEdgeInsets edgeInsets = self.tableView.contentInset;
+    NSLog(@"%@", NSStringFromUIEdgeInsets(edgeInsets));
+        edgeInsets.top = 64.0f;
+    edgeInsets.bottom = 49.0f;
+        self.tableView.contentInset = edgeInsets;
+    self.tableView.separatorInset = edgeInsets;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)addRefreshControl{
+    self.tbvc = [UITableViewController new];
+    [self.tbvc setAutomaticallyAdjustsScrollViewInsets:NO];
+    [self.tbvc setEdgesForExtendedLayout:UIRectEdgeNone];
+    self.tbvc.tableView = self.tableView;
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    self.tbvc.refreshControl = self.refreshControl;
+}
+
+- (void)refresh:(id)sender{
+    self.refreshFlag = true;
+    [self fetchMoodWithPage:1];
+}
 #pragma mark - Getter
 - (MKNetworkEngine *)engine{
     if (!_engine) {
@@ -130,29 +159,39 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     }
     return _moodArray;
 }
-#pragma mark - KVO and Notification
-
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"backgroundColor"]){
-        UIView *contentView = object;
+//#pragma mark - KVO and Notification
+//
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//    if ([keyPath isEqualToString:@"backgroundColor"]){
+//        UIView *contentView = object;
+////        CGFloat saturation;
+////        CGFloat brightness;
+////        CGFloat red;
+////        CGFloat green;
+////        CGFloat blue;
+////   //     [textView.backgroundColor getHue:NULL saturation:&saturation brightness:&brightness alpha:NULL];
+//        UILabel *label = (UILabel *)[contentView viewWithTag:1];
+////        
+////        [contentView.backgroundColor getRed:&red green:&green blue:&blue alpha:NULL];
+////        if ((red + green + blue) * 255 > 200) {
+////            label.textColor = [UIColor whiteColor];
+////        }else{
+////            label.textColor = [UIColor blackColor];
+////        }
+//        
 //        CGFloat saturation;
-//        CGFloat brightness;
-        CGFloat red;
-        CGFloat green;
-        CGFloat blue;
-   //     [textView.backgroundColor getHue:NULL saturation:&saturation brightness:&brightness alpha:NULL];
-        UILabel *label = (UILabel *)[contentView viewWithTag:1];
-        
-        [contentView.backgroundColor getRed:&red green:&green blue:&blue alpha:NULL];
-        if ((red + green + blue) * 255 > 200) {
-            label.textColor = [UIColor whiteColor];
-        }else{
-            label.textColor = [UIColor blackColor];
-        }
-    }
-}
+//        [contentView.backgroundColor getHue:NULL saturation:&saturation brightness:NULL alpha:NULL];
+//        if (saturation >= 0.5) {
+//            label.textColor = [UIColor whiteColor];
+//        }else{
+//            label.textColor = [UIColor blackColor];
+//        }
+//    }
+//}
 
 #pragma mark - TableView
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -164,7 +203,13 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"secretCell"];
-    LINMood *mood = [[LINMood alloc] initWithDictionary:self.moodArray[indexPath.row]];
+    
+    LINMood *mood = nil;
+    if ([self.moodArray[indexPath.row] isKindOfClass:[LINMood class]]) {
+        mood = self.moodArray[indexPath.row];
+    }else{
+        mood = [[LINMood alloc] initWithDictionary:self.moodArray[indexPath.row]];
+    }
     
     
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
@@ -180,7 +225,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     NSString *setted = objc_getAssociatedObject(cell, &cellKey);
     if (!setted) {
         objc_setAssociatedObject(cell, &cellKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        [cell.contentView addObserver:self forKeyPath:@"backgroundColor" options:(NSKeyValueObservingOptionNew) context:NULL];
+        //[cell.contentView addObserver:self forKeyPath:@"backgroundColor" options:(NSKeyValueObservingOptionNew) context:NULL];
         [thumbupButton addTarget:self action:@selector(thumbupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [commentButton addTarget:self action:@selector(commentButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -188,13 +233,21 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     
     cell.contentView.backgroundColor = mood.bgColor;
     
-    timeLabel.text = [self timeFlagWithDate:mood.date];
+    timeLabel.text = [NSDate timeFlagWithDate:mood.date];
     [thumbupButton setTitle:[NSString stringWithFormat:@"%@", mood.numofthumbup] forState:UIControlStateNormal];
     [commentButton setTitle:[NSString stringWithFormat:@"%@", mood.numofcomment] forState:UIControlStateNormal];
     if ([mood.isthumbup isEqualToString:@"no"]) {
         thumbupButton.selected = NO;
     }else{
         thumbupButton.selected = YES;
+    }
+    
+    CGFloat saturation;
+    [cell.contentView.backgroundColor getHue:NULL saturation:&saturation brightness:NULL alpha:NULL];
+    if (saturation >= 0.5) {
+        label.textColor = [UIColor whiteColor];
+    }else{
+        label.textColor = [UIColor blackColor];
     }
     return cell;
 }
@@ -232,7 +285,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         float reload_distance = 10;
         if(y > h + reload_distance) {
             //NSLog(@"load more rows");
-            if (self.loadMoreViewIsShown == false) {
+            if (self.loadMoreViewIsShown == false && ![self.refreshControl isRefreshing]) {
                 self.loadMoreViewIsShown = true;
                 [self fetchMoodWithPage:self.pageCount];
             }
@@ -264,26 +317,52 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 #pragma mark - Server
 
 - (void)fetchMoodWithPage:(NSInteger)page{
+//    if (!self.refreshFlag && self.refreshControl && self.loadMoreViewIsShown == false) {
+//        return;
+//    }else{
+//        self.refreshFlag = false;
+//    }
+    
     MKNetworkOperation *op = [self.engine operationWithPath:__apiFetchMood params:@{@"length":@(5), @"page":@(page)} httpMethod:@"POST"];
     
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        if (page == 1 && !self.refreshControl) {
+            [self addRefreshControl];
+        }
+        if (page == 1) {
+            self.pageCount = page;
+            self.moodArray = [NSMutableArray new];
+            [self.tableView reloadData];
+        }
+        
+        self.loadMoreViewIsShown = false;
+        
         NSDictionary *dic = [completedOperation responseJSON];
         
         NSArray *st = dic[@"success"][@"list"];
-//        NSDictionary *d = st[0];
-//        
-//        NSString *string = d[@"isthumbup"];
-//        NSLog(@"%@", [string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
-//        NSLog(@"%@", dic);
-        
+
         [self.moodArray addObjectsFromArray:st];
         
         NSRange range;
         range.location = (self.pageCount - 1) * 5;
         range.length = [st count];
-        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationFade];
         
-        self.loadMoreViewIsShown = false;
+        if ([self.refreshControl isRefreshing]) {
+            [self.refreshControl endRefreshing];
+        }
+   //     NSLog(@"%@", [self indexPathsForRange:range]);
+        
+        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        if (!self.refreshControl.refreshing) {
+//            NSLog(@"%@", [self indexPathsForRange:range]);
+//            [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationFade];
+//        }else{
+//            [self.tableView reloadData];
+//            [self.refreshControl endRefreshing];
+//
+//        }
+
+
         self.pageCount++;
 
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -294,6 +373,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 }
 
 - (void)thumbupWithMood:(LINMood *)mood{
+    mood.isthumbup = @"yes";
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbUp
                                                      params:@{@"moodid":mood.moodId}
                                                  httpMethod:@"POST"];
@@ -307,6 +387,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 }
 
 - (void)thumbDownWithMood:(LINMood *)mood{
+    mood.isthumbup = @"no";
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbDown
                                                      params:@{@"moodid":mood.moodId}
                                                  httpMethod:@"POST"];
@@ -344,6 +425,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     
 }
 
+#pragma mark -
 
 - (void)thumbupButtonTapped:(id)sender{
     UIButton *button = sender;
@@ -364,6 +446,14 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         NSString *buttonTitle = [button titleForState:UIControlStateNormal];
         [button setTitle:[NSString stringWithFormat:@"%li",(long)([buttonTitle integerValue] + 1) ]  forState:UIControlStateSelected];
         [self thumbupWithMood:mood];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            button.imageView.transform = CGAffineTransformMakeScale(2.0, 2.0);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.3 animations:^{
+                button.imageView.transform = CGAffineTransformIdentity;
+            }];
+        }];
     }
 }
 
@@ -371,6 +461,10 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     
 }
 
+- (IBAction)newMoodButton:(id)sender {
+    LINPostMoodViewController *postMoodVC = [self.storyboard instantiateViewControllerWithIdentifier:@"postMoodVC"];
+    [self presentViewController:postMoodVC animated:YES completion:nil];
+}
 
 #pragma mark - Segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
