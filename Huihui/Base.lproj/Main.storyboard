@@ -18,6 +18,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="7UO-2R-YPL" kind="relationship" relationship="viewControllers" id="xsU-r5-Tly"/>
+                        <segue destination="WrM-fN-5rh" kind="relationship" relationship="viewControllers" id="o0k-l0-6ig"/>
                         <segue destination="saA-fc-Fs5" kind="relationship" relationship="viewControllers" id="ALc-C5-YpH"/>
                         <segue destination="YMK-gE-baw" kind="relationship" relationship="viewControllers" id="9XL-7F-H4C"/>
                     </connections>
@@ -406,8 +407,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4YK-SU-uM1">
-                                                    <rect key="frame" x="20" y="7" width="280" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4YK-SU-uM1">
+                                                    <rect key="frame" x="20" y="7" width="280" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
@@ -425,7 +426,7 @@
                                                 <constraint firstItem="zod-Ui-8Nv" firstAttribute="leading" secondItem="uBn-C5-ivG" secondAttribute="leading" constant="32" id="6yo-yg-kFa"/>
                                                 <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="zod-Ui-8Nv" secondAttribute="trailing" constant="190" id="8dx-XV-Orx"/>
                                                 <constraint firstItem="4YK-SU-uM1" firstAttribute="leading" secondItem="uBn-C5-ivG" secondAttribute="leading" constant="20" id="PKc-ox-qXp"/>
-                                                <constraint firstItem="zod-Ui-8Nv" firstAttribute="top" secondItem="4YK-SU-uM1" secondAttribute="bottom" constant="8" id="QjK-eJ-hBc"/>
+                                                <constraint firstItem="zod-Ui-8Nv" firstAttribute="top" secondItem="4YK-SU-uM1" secondAttribute="bottom" constant="3" id="QjK-eJ-hBc"/>
                                                 <constraint firstItem="4YK-SU-uM1" firstAttribute="top" secondItem="uBn-C5-ivG" secondAttribute="top" constant="7" id="eWd-qh-zHz"/>
                                                 <constraint firstAttribute="trailing" secondItem="4YK-SU-uM1" secondAttribute="trailing" constant="20" id="o78-IN-o7w"/>
                                             </constraints>
@@ -1215,7 +1216,7 @@
                                                         <action selector="becomVipButtonPressed:" destination="IYO-L1-2r4" eventType="touchUpInside" id="jcH-R3-gXB"/>
                                                     </connections>
                                                 </button>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg_is_vip.9.png" translatesAutoresizingMaskIntoConstraints="NO" id="wEk-lu-oGP">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg_is_vip.png" translatesAutoresizingMaskIntoConstraints="NO" id="wEk-lu-oGP">
                                                     <rect key="frame" x="178" y="13" width="92" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1764,7 +1765,7 @@
                                 <rect key="frame" x="115" y="80" width="90" height="90"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="汇惠1.0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-wg-gkC">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="汇惠1.1.1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-wg-gkC">
                                 <rect key="frame" x="131" y="178" width="58" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -3314,7 +3315,7 @@
     <resources>
         <image name="back.png" width="480" height="126"/>
         <image name="back_button_inverse.png" width="12" height="25"/>
-        <image name="bg_is_vip.9.png" width="202" height="102"/>
+        <image name="bg_is_vip.png" width="101" height="51"/>
         <image name="delete.png" width="16" height="16"/>
         <image name="has_comment.png" width="15" height="15"/>
         <image name="ic_is_vip_large.png" width="100" height="100"/>
@@ -3342,7 +3343,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="DVf-KW-dYd"/>
         <segue reference="3kf-bX-tJi"/>
-        <segue reference="4U0-cX-Ne7"/>
     </inferredMetricsTieBreakers>
 </document>

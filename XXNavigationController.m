@@ -57,9 +57,9 @@ static CGFloat min_distance = 100;// 最小回弹距离
 	// Do any additional setup after loading the view.
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self
                                                                                  action:@selector(paningGestureReceive:)];
-    self.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.view.layer.shadowOffset = CGSizeMake(-2, 0);
-    self.view.layer.shadowOpacity = 0.3;
+//    self.view.layer.shadowColor = [UIColor blackColor].CGColor;
+//    self.view.layer.shadowOffset = CGSizeMake(-2, 0);
+//    self.view.layer.shadowOpacity = 0.3;
     
   //  [self.panGestureRecognizer delaysTouchesBegan];
     [self.view addGestureRecognizer:self.panGestureRecognizer];

@@ -111,7 +111,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     [super viewWillAppear:animated];
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     [rootVC showTabbarAnimated:YES];
-    
+    [self.tableView reloadData];
     
 }
 
@@ -236,7 +236,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     timeLabel.text = [NSDate timeFlagWithDate:mood.date];
     [thumbupButton setTitle:[NSString stringWithFormat:@"%@", mood.numofthumbup] forState:UIControlStateNormal];
     [commentButton setTitle:[NSString stringWithFormat:@"%@", mood.numofcomment] forState:UIControlStateNormal];
-    if ([mood.isthumbup isEqualToString:@"no"]) {
+    if ([mood.isthumbup isEqualToString:@"no"] || mood.isthumbup == nil) {
         thumbupButton.selected = NO;
     }else{
         thumbupButton.selected = YES;
@@ -340,8 +340,13 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         NSDictionary *dic = [completedOperation responseJSON];
         
         NSArray *st = dic[@"success"][@"list"];
+        
+        for (NSDictionary *aMood in st) {
+            NSMutableDictionary *mutableMood = [aMood mutableCopy];
+            [self.moodArray addObject:mutableMood];
+        }
 
-        [self.moodArray addObjectsFromArray:st];
+        //[self.moodArray addObjectsFromArray:st];
         
         NSRange range;
         range.location = (self.pageCount - 1) * 5;
@@ -352,7 +357,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         }
    //     NSLog(@"%@", [self indexPathsForRange:range]);
         
-        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationFade];
 //        if (!self.refreshControl.refreshing) {
 //            NSLog(@"%@", [self indexPathsForRange:range]);
 //            [self.tableView insertRowsAtIndexPaths:[self indexPathsForRange:range] withRowAnimation:UITableViewRowAnimationFade];
@@ -372,10 +377,12 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     
 }
 
-- (void)thumbupWithMood:(LINMood *)mood{
-    mood.isthumbup = @"yes";
+- (void)thumbupWithMood:(NSMutableDictionary *)mood{
+    mood[@"isthumbup"] = @"yes";
+    NSNumber *numOfThumbU = mood[@"numofthumbup"];
+    mood[@"numofthumbup"] = @([numOfThumbU integerValue] + 1);
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbUp
-                                                     params:@{@"moodid":mood.moodId}
+                                                     params:@{@"moodid":mood[@"id"]}
                                                  httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
@@ -386,10 +393,12 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     [self.engine enqueueOperation:op];
 }
 
-- (void)thumbDownWithMood:(LINMood *)mood{
-    mood.isthumbup = @"no";
+- (void)thumbDownWithMood:(NSMutableDictionary *)mood{
+    mood[@"isthumbup"] = @"no";
+    NSNumber *numOfThumbU = mood[@"numofthumbup"];
+    mood[@"numofthumbup"] = @([numOfThumbU integerValue] - 1);
     MKNetworkOperation *op = [self.engine operationWithPath:__apiThumbDown
-                                                     params:@{@"moodid":mood.moodId}
+                                                     params:@{@"moodid":mood[@"id"]}
                                                  httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
@@ -431,7 +440,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     UIButton *button = sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview.superview.superview;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    LINMood *mood = [[LINMood alloc] initWithDictionary: self.moodArray[indexPath.row]];
+    NSMutableDictionary *mood =  self.moodArray[indexPath.row];
     
    // [self thumbupWithMood:mood];
    // NSLog(@"%@", mood.moodId);
@@ -458,7 +467,7 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
 }
 
 - (void)commentButtonTapped:(id)sender{
-    
+    [self performSegueWithIdentifier:@"moodWallToShowComment" sender:sender];
 }
 
 - (IBAction)newMoodButton:(id)sender {
@@ -471,11 +480,22 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
     LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
     [rootVC hideTabbarAnimated:YES];
     if ([segue.identifier isEqualToString:@"moodWallToShowComment"]) {
-        NSIndexPath *indexPath = sender;
-        id vc = segue.destinationViewController;
-        LINMood *mood = [[LINMood alloc] initWithDictionary:self.moodArray[indexPath.row]];
-        NSLog(@"%@", mood.moodId);
-        [vc setValue:mood forKey:@"mood"];
+        if ([sender isKindOfClass:[NSIndexPath class]]) {
+            NSIndexPath *indexPath = sender;
+            id vc = segue.destinationViewController;
+            //        LINMood *mood = [[LINMood alloc] initWithDictionary:self.moodArray[indexPath.row]];
+            //        NSLog(@"%@", mood.moodId);
+            [vc setValue:self.moodArray[indexPath.row] forKey:@"mood"];
+        }else if ([sender isKindOfClass:[UIButton class]]){
+            UIButton *button = sender;
+            UITableViewCell *cell = (UITableViewCell *)button.superview.superview.superview.superview;
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+           // NSMutableDictionary *mood =  self.moodArray[indexPath.row];
+            id vc = segue.destinationViewController;
+            [vc setValue:self.moodArray[indexPath.row] forKey:@"mood"];
+            [vc setValue:@(1) forKeyPath:@"needInstantComment"];
+        }
+
     }
 }
 @end

@@ -61,6 +61,7 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,14 +137,16 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
               //  NSLog(@"%@", NSStringFromCGRect(frame));
                 self.textureBoardView.frame = frame;
             }
+                        NSLog(@"%@", NSStringFromCGRect(self.textureBoardView.frame));
         }];
     }else{
         [UIView animateWithDuration:animationDuration animations:^{
             CGRect frame = self.toolBar.frame;
             frame.origin.y = frame.origin.y + (self.keyboardHeight - keyboardRect.size.height);
             self.toolBar.frame = frame;
-            
+                        NSLog(@"%@", NSStringFromCGRect(self.textureBoardView.frame));
         }];
+        
     }
     
     self.keyboardIsShown = true;
@@ -174,7 +177,7 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
             self.textureBoardView.frame = frame;
             frame = self.toolBar.frame;
             frame.origin.y += (self.bottomView.frame.size.height - self.textureBoardView.frame.size.height);
-                        NSLog(@"%@", NSStringFromCGRect(frame));
+                        NSLog(@"%@", NSStringFromCGRect(self.textureBoardView.frame));
             self.toolBar.frame = frame;
         }
     }];
@@ -184,6 +187,10 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
 
 - (void)keyboardDidHide:(NSNotification *)notification{
     
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification{
+    self.textureBoardIsShown = NO;
 }
 
 #pragma mark - 
@@ -262,6 +269,7 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
     MKNetworkOperation *op = [self.engine operationWithPath:__apiNewMood params:@{@"content":[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                                                                                   @"bg":bgCode} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+#warning TODO :ERROR HANDLEING
         NSDictionary *dic = [completedOperation responseJSON];
         NSLog(@"%@", dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {

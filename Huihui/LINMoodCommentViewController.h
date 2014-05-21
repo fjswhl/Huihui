@@ -10,6 +10,6 @@
 #import "LINMood.h"
 @interface LINMoodCommentViewController : UIViewController
 
-@property (strong, nonatomic) LINMood *mood;
-
+@property (weak, nonatomic) NSMutableDictionary *mood;
+@property (strong, nonatomic) NSNumber *needInstantComment;
 @end
