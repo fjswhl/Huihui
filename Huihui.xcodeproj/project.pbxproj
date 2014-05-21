@@ -179,6 +179,12 @@
 		3E8B16D018F6F1DC00883E22 /* IntroControll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B16CB18F6F1DC00883E22 /* IntroControll.m */; };
 		3E8B16D118F6F1DC00883E22 /* IntroModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B16CD18F6F1DC00883E22 /* IntroModel.m */; };
 		3E8B16D218F6F1DC00883E22 /* IntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B16CF18F6F1DC00883E22 /* IntroView.m */; };
+		3E9BC8F3192CA29B00FDE576 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9BC8F2192CA29B00FDE576 /* UIImage+ColorImage.m */; };
+		3E9BC8F8192CA47A00FDE576 /* 美食2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9BC8F4192CA47A00FDE576 /* 美食2@2x.png */; };
+		3E9BC8F9192CA47A00FDE576 /* 生活服务2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9BC8F5192CA47A00FDE576 /* 生活服务2@2x.png */; };
+		3E9BC8FA192CA47A00FDE576 /* 娱乐2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9BC8F6192CA47A00FDE576 /* 娱乐2@2x.png */; };
+		3E9BC8FB192CA47A00FDE576 /* 外卖@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9BC8F7192CA47A00FDE576 /* 外卖@2x.png */; };
+		3E9BC8FE192CED0900FDE576 /* titlebutton2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9BC8FD192CED0900FDE576 /* titlebutton2@2x.png */; };
 		3EA95C4119111FFE0042901D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EA95C4019111FFE0042901D /* MBProgressHUD.m */; };
 		3ECAC66E18FC0BEE008A849F /* LINSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECAC66D18FC0BEE008A849F /* LINSearchTableViewController.m */; };
 		3ECAC67218FCF5CF008A849F /* LINSettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECAC67118FCF5CF008A849F /* LINSettingTableViewController.m */; };
@@ -490,10 +496,10 @@
 		3E15C1A718E042DE00F6512F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
 		3E15C1AB18E06B7900F6512F /* LINShopDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINShopDetailVC.h; sourceTree = "<group>"; };
 		3E15C1AC18E06B7900F6512F /* LINShopDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LINShopDetailVC.m; sourceTree = "<group>"; };
-		3E290825190E4AC7003052B8 /* 预定@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "预定@2x.png"; sourceTree = "<group>"; };
-		3E290826190E4AC7003052B8 /* 美食@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "美食@2x.png"; sourceTree = "<group>"; };
-		3E290827190E4AC7003052B8 /* 生活@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "生活@2x.png"; sourceTree = "<group>"; };
-		3E290828190E4AC7003052B8 /* 休闲@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "休闲@2x.png"; sourceTree = "<group>"; };
+		3E290825190E4AC7003052B8 /* 预定@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "预定@2x.png"; path = "../预定@2x.png"; sourceTree = "<group>"; };
+		3E290826190E4AC7003052B8 /* 美食@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "美食@2x.png"; path = "../美食@2x.png"; sourceTree = "<group>"; };
+		3E290827190E4AC7003052B8 /* 生活@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "生活@2x.png"; path = "../生活@2x.png"; sourceTree = "<group>"; };
+		3E290828190E4AC7003052B8 /* 休闲@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "休闲@2x.png"; path = "../休闲@2x.png"; sourceTree = "<group>"; };
 		3E2908C0190E5653003052B8 /* ColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorButton.h; sourceTree = "<group>"; };
 		3E2908C1190E5653003052B8 /* ColorButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorButton.m; sourceTree = "<group>"; };
 		3E395C6C19168A9500A580AC /* UIButton+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Color.h"; sourceTree = "<group>"; };
@@ -666,6 +672,13 @@
 		3E8B16CD18F6F1DC00883E22 /* IntroModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroModel.m; sourceTree = "<group>"; };
 		3E8B16CE18F6F1DC00883E22 /* IntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroView.h; sourceTree = "<group>"; };
 		3E8B16CF18F6F1DC00883E22 /* IntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroView.m; sourceTree = "<group>"; };
+		3E9BC8F1192CA29B00FDE576 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; };
+		3E9BC8F2192CA29B00FDE576 /* UIImage+ColorImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorImage.m"; sourceTree = "<group>"; };
+		3E9BC8F4192CA47A00FDE576 /* 美食2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "美食2@2x.png"; path = "../美食2@2x.png"; sourceTree = "<group>"; };
+		3E9BC8F5192CA47A00FDE576 /* 生活服务2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "生活服务2@2x.png"; path = "../生活服务2@2x.png"; sourceTree = "<group>"; };
+		3E9BC8F6192CA47A00FDE576 /* 娱乐2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "娱乐2@2x.png"; path = "../娱乐2@2x.png"; sourceTree = "<group>"; };
+		3E9BC8F7192CA47A00FDE576 /* 外卖@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "外卖@2x.png"; path = "../外卖@2x.png"; sourceTree = "<group>"; };
+		3E9BC8FD192CED0900FDE576 /* titlebutton2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titlebutton2@2x.png"; sourceTree = "<group>"; };
 		3EA95C3F19111FFE0042901D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		3EA95C4019111FFE0042901D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3ECAC66C18FC0BEE008A849F /* LINSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LINSearchTableViewController.h; sourceTree = "<group>"; };
@@ -960,14 +973,8 @@
 				3E2908BF190E55D9003052B8 /* Handy Class */,
 				3E4E6433190E1F6300982652 /* XXNavigationController.h */,
 				3E4E6434190E1F6300982652 /* XXNavigationController.m */,
-				3E49F75E18F5741F001309D1 /* UIColor+LINColor.h */,
-				3E49F75F18F5741F001309D1 /* UIColor+LINColor.m */,
-				3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */,
-				3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */,
 				3E395CC71919E50800A580AC /* LINNavBarActionSheet.h */,
 				3E395CC81919E50800A580AC /* LINNavBarActionSheet.m */,
-				3E395D88191D1B6700A580AC /* UIAlertView+Block.h */,
-				3E395D89191D1B6700A580AC /* UIAlertView+Block.m */,
 				3E395D8D191D4FBA00A580AC /* SlideDeleteCell.h */,
 				3E395D8E191D4FBA00A580AC /* SlideDeleteCell.m */,
 				3E15C10C18DFE97800F6512F /* Huihui */,
@@ -1213,6 +1220,12 @@
 				3E2908C3190E5657003052B8 /* Button */,
 				3EE210C31922355A008E4027 /* NSDate+Helper.h */,
 				3EE210C41922355A008E4027 /* NSDate+Helper.m */,
+				3E395D88191D1B6700A580AC /* UIAlertView+Block.h */,
+				3E395D89191D1B6700A580AC /* UIAlertView+Block.m */,
+				3E49F75E18F5741F001309D1 /* UIColor+LINColor.h */,
+				3E49F75F18F5741F001309D1 /* UIColor+LINColor.m */,
+				3EF4AEF518E56D9A00376DC6 /* NSString+Md5.h */,
+				3EF4AEF618E56D9A00376DC6 /* NSString+Md5.m */,
 			);
 			name = "Handy Class";
 			sourceTree = "<group>";
@@ -1226,6 +1239,8 @@
 				3E2908C1190E5653003052B8 /* ColorButton.m */,
 				3E395C6C19168A9500A580AC /* UIButton+Color.h */,
 				3E395C6D19168A9500A580AC /* UIButton+Color.m */,
+				3E9BC8F1192CA29B00FDE576 /* UIImage+ColorImage.h */,
+				3E9BC8F2192CA29B00FDE576 /* UIImage+ColorImage.m */,
 			);
 			name = Button;
 			sourceTree = "<group>";
@@ -1498,11 +1513,8 @@
 				3E395CC51919E3C500A580AC /* more_right_button@2x.png */,
 				3E395C721917E9E400A580AC /* back_button@2x.png */,
 				3E395C771918B8DA00A580AC /* back_button_inverse@2x.png */,
+				3E9BC8FC192CA49D00FDE576 /* 类别图标 */,
 				3ECBFDE1190EA2C000F91A5C /* drawable-hdpi */,
-				3E290825190E4AC7003052B8 /* 预定@2x.png */,
-				3E290826190E4AC7003052B8 /* 美食@2x.png */,
-				3E290827190E4AC7003052B8 /* 生活@2x.png */,
-				3E290828190E4AC7003052B8 /* 休闲@2x.png */,
 				3E4E6431190BFEAF00982652 /* tubiao.png */,
 				3ED1978918FEBDCC00ED231C /* 欢迎叶面5@2x.png */,
 				3ECAC68418FE860B008A849F /* lanrentruku */,
@@ -1510,6 +1522,7 @@
 				3ECAC67318FD7835008A849F /* tab1@2x.png */,
 				3ECAC67418FD7835008A849F /* tab2@2x.png */,
 				3ECAC67518FD7835008A849F /* tab3@2x.png */,
+				3E9BC8FD192CED0900FDE576 /* titlebutton2@2x.png */,
 				3E6CC75218FBA931002B7375 /* titlebutton@2x.png */,
 				3E6CC74818F82386002B7375 /* ic_is_vip_large.png */,
 				3E6CC74618F81985002B7375 /* button_back_bg@2x.png */,
@@ -1555,6 +1568,22 @@
 				3E8B16CF18F6F1DC00883E22 /* IntroView.m */,
 			);
 			path = IntroControll;
+			sourceTree = "<group>";
+		};
+		3E9BC8FC192CA49D00FDE576 /* 类别图标 */ = {
+			isa = PBXGroup;
+			children = (
+				3E290825190E4AC7003052B8 /* 预定@2x.png */,
+				3E290826190E4AC7003052B8 /* 美食@2x.png */,
+				3E290827190E4AC7003052B8 /* 生活@2x.png */,
+				3E290828190E4AC7003052B8 /* 休闲@2x.png */,
+				3E9BC8F4192CA47A00FDE576 /* 美食2@2x.png */,
+				3E9BC8F5192CA47A00FDE576 /* 生活服务2@2x.png */,
+				3E9BC8F6192CA47A00FDE576 /* 娱乐2@2x.png */,
+				3E9BC8F7192CA47A00FDE576 /* 外卖@2x.png */,
+			);
+			name = "类别图标";
+			path = "drawable-hdpi";
 			sourceTree = "<group>";
 		};
 		3ECAC66F18FCF5BF008A849F /* More */ = {
@@ -1905,6 +1934,7 @@
 				3ECBFF15190EA2C100F91A5C /* qianggou_btn_pressed.9.png in Resources */,
 				3ECBFF02190EA2C100F91A5C /* mm_listitem_pressed.9.png in Resources */,
 				3E395C7119168C0C00A580AC /* Main_v2.storyboard in Resources */,
+				3E9BC8F9192CA47A00FDE576 /* 生活服务2@2x.png in Resources */,
 				3ECBFF11190EA2C100F91A5C /* prefresh_list_cutline.png in Resources */,
 				3E15C11F18DFE97800F6512F /* Images.xcassets in Resources */,
 				3ECBFF2A190EA2C100F91A5C /* switch_slider.png in Resources */,
@@ -1923,6 +1953,7 @@
 				3ECBFEC7190EA2C100F91A5C /* ic_add.png in Resources */,
 				3ECBFF3F190EA2C100F91A5C /* top_tab_left_selected.9.png in Resources */,
 				3ECBFEC2190EA2C100F91A5C /* food.png in Resources */,
+				3E9BC8F8192CA47A00FDE576 /* 美食2@2x.png in Resources */,
 				3ECBFF0B190EA2C100F91A5C /* mm_title_btn_qrcode_normal.png in Resources */,
 				3ECBFF01190EA2C100F91A5C /* mm_listitem_normal.9.png in Resources */,
 				3ECBFE9B190EA2C100F91A5C /* addfavourite.png in Resources */,
@@ -1950,6 +1981,7 @@
 				3ED1978A18FEBDCC00ED231C /* 欢迎叶面5@2x.png in Resources */,
 				3ECBFF25190EA2C100F91A5C /* submit_order_count.9.png in Resources */,
 				3E8B16AF18F6E16300883E22 /* tabs_team_unselected@2x.png in Resources */,
+				3E9BC8FA192CA47A00FDE576 /* 娱乐2@2x.png in Resources */,
 				3ECBFEA1190EA2C100F91A5C /* bg_edit_deal_map_unselected.9.png in Resources */,
 				3E290829190E4AC7003052B8 /* 预定@2x.png in Resources */,
 				3ECBFEE4190EA2C100F91A5C /* ic_rating_star_small_on.png in Resources */,
@@ -2005,6 +2037,7 @@
 				3ECBFF3D190EA2C100F91A5C /* title_btn_function.png in Resources */,
 				3ECBFE95190EA2C100F91A5C /* abs__ic_search_api_holo_light.png in Resources */,
 				3ECBFED1190EA2C100F91A5C /* ic_leave_org_normal.png in Resources */,
+				3E9BC8FB192CA47A00FDE576 /* 外卖@2x.png in Resources */,
 				3ECBFEBE190EA2C100F91A5C /* divider_goods_info.9.png in Resources */,
 				3ECBFF04190EA2C100F91A5C /* mm_submenu_normal.png in Resources */,
 				3ECBFEE8190EA2C100F91A5C /* ic_tips_new.png in Resources */,
@@ -2071,6 +2104,7 @@
 				3ECBFEF9190EA2C100F91A5C /* list_img_none.png in Resources */,
 				3ECBFF43190EA2C100F91A5C /* tuan.png in Resources */,
 				3ECBFEB7190EA2C100F91A5C /* clock_normal.png in Resources */,
+				3E9BC8FE192CED0900FDE576 /* titlebutton2@2x.png in Resources */,
 				3ECBFED4190EA2C100F91A5C /* ic_long_text_bg_selected.9.png in Resources */,
 				3ECBFEF1190EA2C100F91A5C /* img_time.png in Resources */,
 				3ECBFF1E190EA2C100F91A5C /* splash1.jpg in Resources */,
@@ -2240,6 +2274,7 @@
 				3E8B16D118F6F1DC00883E22 /* IntroModel.m in Sources */,
 				3E4E6435190E1F6300982652 /* XXNavigationController.m in Sources */,
 				3E15C16618DFF18E00F6512F /* UIImage+GIF.m in Sources */,
+				3E9BC8F3192CA29B00FDE576 /* UIImage+ColorImage.m in Sources */,
 				3E483F3D18E31D460053EB93 /* LINActivityVC.m in Sources */,
 				3E395D83191D175000A580AC /* CXAlertButtonItem.m in Sources */,
 				3ECAC67B18FD7B51008A849F /* LINPushAdviceTableViewController.m in Sources */,

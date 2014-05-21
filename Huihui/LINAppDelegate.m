@@ -15,6 +15,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 #import "NSString+Md5.h"
+#import "UIColor+LINColor.h"
 @implementation LINAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -29,10 +30,12 @@
 //    }
     
     //  设置默认的schoolid
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]
-                                                           }];
+//    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]
+//                                                           }];
 //    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back_button.png"]];
 //    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back_button.png"]];
+    [[UINavigationBar appearance] setTintColor:[UIColor preferredColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     if (![ud valueForKey:@"schoolid"]) {
@@ -43,7 +46,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showImgOnlyWhenWifi"];
     }
     
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     
     [ShareSDK registerApp:@"1a912d3d0aba"];
     [ShareSDK connectSinaWeiboWithAppKey:@"3210166262" appSecret:@"d78c2f7097539b2de04496017df4d596" redirectUri:@"http://xdhuihui.sinaapp.com"];

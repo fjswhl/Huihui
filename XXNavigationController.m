@@ -7,6 +7,9 @@
 //
 
 #import "XXNavigationController.h"
+#import "UIColor+LINColor.h"
+#import "UIImage+ColorImage.h"
+
 
 #define KEY_WINDOW  [[UIApplication sharedApplication]keyWindow]
 #define MainScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -63,6 +66,13 @@ static CGFloat min_distance = 100;// 最小回弹距离
     
   //  [self.panGestureRecognizer delaysTouchesBegan];
     [self.view addGestureRecognizer:self.panGestureRecognizer];
+    
+    UIImageView *hairLineImageView = [self findHairlineImageViewUnder:self.navigationBar];
+    hairLineImageView.hidden = YES;
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 44, 320, 1)];
+    imgView.image = [UIImage resizableImageWithColor:[UIColor preferredColor]];
+    [self.navigationBar addSubview:imgView];
 }
 
 // override the pop method
@@ -257,6 +267,19 @@ static CGFloat min_distance = 100;// 最小回弹距离
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 @end

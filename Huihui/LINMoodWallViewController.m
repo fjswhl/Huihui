@@ -228,8 +228,13 @@ NSString *const __apiThumbDown = @"index.php/Mood/thumbdown";
         //[cell.contentView addObserver:self forKeyPath:@"backgroundColor" options:(NSKeyValueObservingOptionNew) context:NULL];
         [thumbupButton addTarget:self action:@selector(thumbupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [commentButton addTarget:self action:@selector(commentButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
+        [thumbupButton setImage:[[UIImage imageNamed:@"ic_like"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [commentButton setImage:[[UIImage imageNamed:@"has_comment"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     }
+    
+//    /*          根据背景颜色微调一下底部的view       */
+//    UIView *bottomContainerView = [cell.contentView viewWithTag:999];
+//
     
     cell.contentView.backgroundColor = mood.bgColor;
     
