@@ -423,8 +423,10 @@ extern NSString *const __apiThumbDown;
             NSDictionary *dic = [completedOperation responseJSON];
             NSLog(@"%@", dic);
             [self fetchComment];
-
-
+            /*          刷新评论数量      */
+            NSNumber *numOfComment = self.mood[@"numofcomment"];
+            self.mood[@"numofcomment"] = @([numOfComment integerValue] + 1);
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
             [MBProgressHUD showNetworkErrorToView:self.view];
         }];
