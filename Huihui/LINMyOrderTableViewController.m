@@ -11,7 +11,7 @@
 #import <objc/runtime.h>
 #import "LINOrder.h"
 #import "LINRootVC.h"
-
+#import "MBProgressHUD.h"
 //{
 //    count = 27;
 //    orders =         (
@@ -132,8 +132,9 @@
 
 
 NSString *const __apiFetchOrder = @"index.php/Order/fetch";
+NSString *const __apiDeleteOrder = @"index.php/Order/delete";
 
-@interface LINMyOrderTableViewController ()
+@interface LINMyOrderTableViewController ()<UIActionSheetDelegate>
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
 
@@ -141,6 +142,9 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
 
 @property (nonatomic) NSInteger pageCount;
 @property (nonatomic) BOOL loadMoreCellIsShown;
+
+@property (strong, nonatomic) NSIndexPath *indexPathForDelete;
+@property (nonatomic) NSInteger orderidForDelete;
 
 @end
 
@@ -233,6 +237,57 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
     [self.engine enqueueOperation:op];
 }
 
+- (void)deleteOrderWithOrderid:(NSInteger)orderid success:(void (^)(void))successblock failed:(void (^)(void))failedblock{
+    NSLog(@"%@", @(orderid));
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiDeleteOrder params:@{@"orderid":@(orderid)} httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+      //  NSLog(@"%@", dic);
+        NSNumber *errorCode = dic[@"error"];
+     //   NSLog(@"%@", errorCode);
+//        if([errorCode integerValue] == 0){
+//                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+//                [rootVC loginCompletion:^{
+//                    [self deleteOrderWithOrderid:orderid success:successblock failed:failedblock];
+//                }failed:nil];
+//            
+//            if(failedblock){
+//                failedblock();
+//            }
+//                return;
+//        }
+        
+        NSString *st = nil;
+        if(errorCode){
+            if([errorCode integerValue] == 1){
+                st = @"该订单不存在";
+            }else if ([errorCode integerValue] == 2){
+                st = @"订餐时间截止，禁止删除";
+            }else if ([errorCode integerValue] == 0){
+                LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
+                [rootVC loginCompletion:^{
+                    [self deleteOrderWithOrderid:orderid success:successblock failed:failedblock];
+                }failed:nil];
+            }
+            [MBProgressHUD showTextHudToView:self.view text:st];
+            if(failedblock){
+                failedblock();
+            }
+            return;
+        }
+        
+        [MBProgressHUD showTextHudToView:self.view text:@"订单删除成功"];
+        if(successblock){
+            successblock();
+        }
+        
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        [MBProgressHUD showNetworkErrorToView:self.view];
+    }];
+    
+    [self.engine enqueueOperation:op];
+}
+
 - (NSArray *)indexPathsForRange:(NSRange)range{
     NSMutableArray *result = [NSMutableArray new];
     for (int i = range.location; i < (range.location + range.length); i++) {
@@ -269,6 +324,9 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
     }
     
 }
+
+
+#pragma mark - tableview delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -315,6 +373,8 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
     mountLabel.text = [NSString stringWithFormat:@"%@份", aOrder.amount];
     timeLabel.text = aOrder.createTime;
     
+    NSLog(@"%@", aOrder.goodid);
+    
     return cell;
 }
 
@@ -325,6 +385,29 @@ NSString *const __apiFetchOrder = @"index.php/Order/fetch";
         return 59;
     }
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UIActionSheet *actionsheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除此订单" otherButtonTitles: nil];
+    LINOrder *order = [[LINOrder alloc] initWithDictionary:self.orderList[indexPath.row]];
+    
+    self.orderidForDelete = [order.orderid integerValue];
+    
+    self.indexPathForDelete = indexPath;
+    [actionsheet showInView:self.view];
+}
+
+#pragma mark - Actionsheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex == actionSheet.destructiveButtonIndex){
+        [self deleteOrderWithOrderid:self.orderidForDelete success:^{
+            [self.orderList removeObjectAtIndex:self.indexPathForDelete.row];
+            [self.tableView deleteRowsAtIndexPaths:@[self.indexPathForDelete] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+        } failed:nil];
+    }
+}
+
 
 
 

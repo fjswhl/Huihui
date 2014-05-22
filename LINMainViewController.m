@@ -20,6 +20,7 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import "LINRootVC.h"
+#import "UIButton+Color.h"
 NSString *const apiGuessULike  = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 
@@ -85,6 +86,9 @@ NSString *const __id           = @"id";
     [self fetchGuessUlikeShopListWithPage:@"1"];
     
     [self setupUI];
+    
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
   //  [self setHidesBottomBarWhenPushed:YES];
     // 修改searchbar的取消按钮
 
@@ -117,10 +121,20 @@ NSString *const __id           = @"id";
 }
 
 - (void)setupUI{
-    [self.foodButton setBackgroundImageWithColor:[UIColor whiteColor]];
-        [self.entertainmentButton setBackgroundImageWithColor:[UIColor whiteColor]];
-        [self.lifeButton setBackgroundImageWithColor:[UIColor whiteColor]];
-        [self.bookButton setBackgroundImageWithColor:[UIColor whiteColor]];
+    [self.foodButton setBackgroundImageWithColor:[UIColor whiteColor] forState:(UIControlStateNormal | UIControlStateHighlighted)];
+        [self.entertainmentButton setBackgroundImageWithColor:[UIColor whiteColor] forState:(UIControlStateNormal | UIControlStateHighlighted)];
+     //   [self.entertainmentButton setBackgroundImageWithColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [self.lifeButton setBackgroundImageWithColor:[UIColor whiteColor] forState:(UIControlStateNormal | UIControlStateHighlighted)];
+        [self.bookButton setBackgroundImageWithColor:[UIColor whiteColor] forState:(UIControlStateNormal | UIControlStateHighlighted)];
+
+}
+
+- (void)refresh:(id)sender{
+    self.loadMoreCellIsShown = YES;
+    self.pageCount = 1;
+    self.shops = [NSMutableArray new];
+    [self.tableView reloadData];
+    [self fetchGuessUlikeShopListWithPage:@"1"];
 }
 #pragma mark - getter
 - (MKNetworkEngine *)engine{
@@ -300,6 +314,10 @@ NSString *const __id           = @"id";
         [label sizeToFit];
         label.center = CGPointMake(40, CGRectGetMidY(view.frame));
         [view addSubview:label];
+        view.clipsToBounds = NO;
+//        view.layer.shadowColor = [UIColor blackColor].CGColor;
+//        view.layer.shadowOffset = CGSizeMake(0, -10);
+//        view.layer.shadowOpacity = 0.3;
         return view;
     }
     return nil;
@@ -497,7 +515,7 @@ NSString *const __id           = @"id";
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
     label.text = @"正在加载...";
     UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:2];
-    [indicator startAnimating];
+  //  [indicator startAnimating];
     
     NSNumber *schoolid = [[NSUserDefaults standardUserDefaults] valueForKey:@"schoolid"];
     
@@ -517,7 +535,7 @@ NSString *const __id           = @"id";
         
            // NSLog(@"%@", self.shops);
         
-        [indicator stopAnimating];
+   //     [indicator stopAnimating];
         
         NSRange range;
         range.location = (self.pageCount - 1) * 5;
@@ -528,6 +546,10 @@ NSString *const __id           = @"id";
         self.loadMoreCellIsShown = NO;
         self.pageCount++;
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        
+        if(self.refreshControl.isRefreshing){
+            [self.refreshControl endRefreshing];
+        }
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.navigationController.view];
     }];
