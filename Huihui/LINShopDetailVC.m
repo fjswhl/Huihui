@@ -96,6 +96,8 @@ NSString *const __type = @"type";
 
 @property (strong, nonatomic) LINNavBarActionSheet *navBarActionSheet;
 
+
+
 @end
 
 @implementation LINShopDetailVC
@@ -198,7 +200,7 @@ NSString *const __type = @"type";
         NSDictionary *detail = [completedOperation responseJSON];
         self.shopDetail = [detail[@"success"] mutableCopy];
         
-      //  NSLog(@"%@", self.shopDetail);
+        //NSLog(@"%@", self.shopDetail);
         
         //self.privilegeLabel.text = self.shopDetail[__discount];
         self.discountLabel.text = self.shopDetail[__discount];
@@ -242,7 +244,7 @@ NSString *const __type = @"type";
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         
         NSDictionary *dic = [completedOperation responseJSON];
-        NSLog(@"%@", dic);
+       // NSLog(@"%@", dic);
         NSNumber *count = dic[@"success"][@"count"];
         if ([count integerValue] > 0) {
             self.commentCount.text = [NSString stringWithFormat:@"共有%@人评论", count];
@@ -263,6 +265,7 @@ NSString *const __type = @"type";
 
 
 #pragma mark - tableview delegate
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {

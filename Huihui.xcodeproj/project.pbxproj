@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E014B34192F9181002A8DE8 /* 发送(1).png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B2C192F9181002A8DE8 /* 发送(1).png */; };
+		3E014B35192F9181002A8DE8 /* 分享.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B2D192F9181002A8DE8 /* 分享.png */; };
+		3E014B36192F9181002A8DE8 /* 更新75.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B2E192F9181002A8DE8 /* 更新75.png */; };
+		3E014B37192F9181002A8DE8 /* 关于.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B2F192F9181002A8DE8 /* 关于.png */; };
+		3E014B38192F9181002A8DE8 /* 评分(1).png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B30192F9181002A8DE8 /* 评分(1).png */; };
+		3E014B39192F9181002A8DE8 /* 清除缓存(1).png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B31192F9181002A8DE8 /* 清除缓存(1).png */; };
+		3E014B3A192F9181002A8DE8 /* 意见反馈75.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B32192F9181002A8DE8 /* 意见反馈75.png */; };
+		3E014B3B192F9181002A8DE8 /* WIFI [转换].png in Resources */ = {isa = PBXBuildFile; fileRef = 3E014B33192F9181002A8DE8 /* WIFI [转换].png */; };
 		3E15C10718DFE97800F6512F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E15C10618DFE97800F6512F /* Foundation.framework */; };
 		3E15C10918DFE97800F6512F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E15C10818DFE97800F6512F /* CoreGraphics.framework */; };
 		3E15C10B18DFE97800F6512F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E15C10A18DFE97800F6512F /* UIKit.framework */; };
@@ -408,6 +416,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E014B2C192F9181002A8DE8 /* 发送(1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "发送(1).png"; sourceTree = "<group>"; };
+		3E014B2D192F9181002A8DE8 /* 分享.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "分享.png"; sourceTree = "<group>"; };
+		3E014B2E192F9181002A8DE8 /* 更新75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "更新75.png"; sourceTree = "<group>"; };
+		3E014B2F192F9181002A8DE8 /* 关于.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关于.png"; sourceTree = "<group>"; };
+		3E014B30192F9181002A8DE8 /* 评分(1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "评分(1).png"; sourceTree = "<group>"; };
+		3E014B31192F9181002A8DE8 /* 清除缓存(1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "清除缓存(1).png"; sourceTree = "<group>"; };
+		3E014B32192F9181002A8DE8 /* 意见反馈75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "意见反馈75.png"; sourceTree = "<group>"; };
+		3E014B33192F9181002A8DE8 /* WIFI [转换].png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WIFI [转换].png"; sourceTree = "<group>"; };
 		3E15C10318DFE97800F6512F /* Huihui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Huihui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E15C10618DFE97800F6512F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3E15C10818DFE97800F6512F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -967,6 +983,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E014B2B192F8EF7002A8DE8 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				3E014B2C192F9181002A8DE8 /* 发送(1).png */,
+				3E014B2D192F9181002A8DE8 /* 分享.png */,
+				3E014B2E192F9181002A8DE8 /* 更新75.png */,
+				3E014B2F192F9181002A8DE8 /* 关于.png */,
+				3E014B30192F9181002A8DE8 /* 评分(1).png */,
+				3E014B31192F9181002A8DE8 /* 清除缓存(1).png */,
+				3E014B32192F9181002A8DE8 /* 意见反馈75.png */,
+				3E014B33192F9181002A8DE8 /* WIFI [转换].png */,
+			);
+			name = More;
+			sourceTree = "<group>";
+		};
 		3E15C0FA18DFE97800F6512F = {
 			isa = PBXGroup;
 			children = (
@@ -1509,6 +1540,7 @@
 		3E8B16A718F6E14200883E22 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				3E014B2B192F8EF7002A8DE8 /* More */,
 				3E395D8B191D424700A580AC /* ico-to-do-list@2x.png */,
 				3E395CC51919E3C500A580AC /* more_right_button@2x.png */,
 				3E395C721917E9E400A580AC /* back_button@2x.png */,
@@ -1950,10 +1982,12 @@
 				3ECBFEFB190EA2C100F91A5C /* login_pwd_edittext_bg_normal@2x.png in Resources */,
 				3E4E6432190BFEAF00982652 /* tubiao.png in Resources */,
 				3ECBFE9C190EA2C100F91A5C /* addfavourite_added.png in Resources */,
+				3E014B39192F9181002A8DE8 /* 清除缓存(1).png in Resources */,
 				3ECBFEC7190EA2C100F91A5C /* ic_add.png in Resources */,
 				3ECBFF3F190EA2C100F91A5C /* top_tab_left_selected.9.png in Resources */,
 				3ECBFEC2190EA2C100F91A5C /* food.png in Resources */,
 				3E9BC8F8192CA47A00FDE576 /* 美食2@2x.png in Resources */,
+				3E014B34192F9181002A8DE8 /* 发送(1).png in Resources */,
 				3ECBFF0B190EA2C100F91A5C /* mm_title_btn_qrcode_normal.png in Resources */,
 				3ECBFF01190EA2C100F91A5C /* mm_listitem_normal.9.png in Resources */,
 				3ECBFE9B190EA2C100F91A5C /* addfavourite.png in Resources */,
@@ -1991,6 +2025,7 @@
 				3ECBFF41190EA2C100F91A5C /* top_tab_right_selected.9.png in Resources */,
 				3ECAC67718FD7835008A849F /* tab2@2x.png in Resources */,
 				3E8B16C218F6E38000883E22 /* food1.png in Resources */,
+				3E014B3B192F9181002A8DE8 /* WIFI [转换].png in Resources */,
 				3ECBFEB8190EA2C100F91A5C /* comment@2x.png in Resources */,
 				3ECBFEC4190EA2C100F91A5C /* goods_detail_listitem_footer.9.png in Resources */,
 				3ECBFF08190EA2C100F91A5C /* mm_title_btn_keyboard_normal.png in Resources */,
@@ -2039,11 +2074,13 @@
 				3ECBFED1190EA2C100F91A5C /* ic_leave_org_normal.png in Resources */,
 				3E9BC8FB192CA47A00FDE576 /* 外卖@2x.png in Resources */,
 				3ECBFEBE190EA2C100F91A5C /* divider_goods_info.9.png in Resources */,
+				3E014B35192F9181002A8DE8 /* 分享.png in Resources */,
 				3ECBFF04190EA2C100F91A5C /* mm_submenu_normal.png in Resources */,
 				3ECBFEE8190EA2C100F91A5C /* ic_tips_new.png in Resources */,
 				3ECBFEEA190EA2C100F91A5C /* img_address.png in Resources */,
 				3ECBFF3A190EA2C100F91A5C /* text_clear_pressed.png in Resources */,
 				3ECBFEA9190EA2C100F91A5C /* checkbox_on.png in Resources */,
+				3E014B37192F9181002A8DE8 /* 关于.png in Resources */,
 				3ECBFEEC190EA2C100F91A5C /* img_favorites.png in Resources */,
 				3E8B16BC18F6E1E600883E22 /* ads3.png in Resources */,
 				3ECAC67618FD7835008A849F /* tab1@2x.png in Resources */,
@@ -2058,6 +2095,7 @@
 				3ECBFEBD190EA2C100F91A5C /* default_ptr_rotate.png in Resources */,
 				3ECBFF27190EA2C100F91A5C /* support_ok.png in Resources */,
 				3ECBFEF8190EA2C100F91A5C /* life.png in Resources */,
+				3E014B3A192F9181002A8DE8 /* 意见反馈75.png in Resources */,
 				3ECBFF1F190EA2C100F91A5C /* splash2.jpg in Resources */,
 				3E15C1AA18E042DE00F6512F /* 0.png in Resources */,
 				3ECBFF38190EA2C100F91A5C /* tabs_wall_unselected.png in Resources */,
@@ -2066,6 +2104,7 @@
 				3ECAC68A18FE8750008A849F /* call_btn_normal.png in Resources */,
 				3E15C1A918E042DE00F6512F /* 1.png in Resources */,
 				3E15C19718DFF19900F6512F /* MJRefresh.bundle in Resources */,
+				3E014B38192F9181002A8DE8 /* 评分(1).png in Resources */,
 				3ECBFE9A190EA2C100F91A5C /* add_order.png in Resources */,
 				3ECBFF28190EA2C100F91A5C /* switch_off.png in Resources */,
 				3ECBFEFD190EA2C100F91A5C /* login_username_edittext_bg_normal@2x.png in Resources */,
@@ -2157,6 +2196,7 @@
 				3E483F6918E428CE0053EB93 /* checkbox1_unchecked@2x.png in Resources */,
 				3ECBFF17190EA2C100F91A5C /* search_bar_edit_pressed.9.png in Resources */,
 				3ECBFF00190EA2C100F91A5C /* mm_listitem_grey_normal.9.png in Resources */,
+				3E014B36192F9181002A8DE8 /* 更新75.png in Resources */,
 				3ECBFEF0190EA2C100F91A5C /* img_pick_color@2x.png in Resources */,
 				3ECBFEE2190EA2C100F91A5C /* ic_rating_star_large_on.png in Resources */,
 				3ECBFEAF190EA2C100F91A5C /* choose_item_selected.png in Resources */,

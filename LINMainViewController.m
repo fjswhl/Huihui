@@ -20,6 +20,7 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import "LINRootVC.h"
+#import "UIColor+LINColor.h"
 #import "UIButton+Color.h"
 NSString *const apiGuessULike  = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
@@ -220,17 +221,37 @@ NSString *const __id           = @"id";
     
     static NSString *cellIdentifider = @"shopCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifider];
-    
-    
     UIView *contentView = [cell.contentView viewWithTag:999];
-    static char contentViewKey;
-    NSString *setted = objc_getAssociatedObject(contentView, &contentViewKey);
-    if (!setted) {
-        objc_setAssociatedObject(contentView, &contentViewKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        contentView.layer.borderColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0f].CGColor;
-        contentView.layer.borderWidth = 1;
-        contentView.layer.cornerRadius = 2;
+    
+    /**
+     *  lineView. 只加在第一个cell上
+     */
+
+    if (indexPath.row == 0) {
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        lineView.backgroundColor = [UIColor preferredColor];
+        lineView.tag = 987;
+        
+        UIView *v = [cell.contentView viewWithTag:987];
+        if (!v) {
+            [cell.contentView addSubview:lineView];
+        }
+    }else{
+        UIView *v = [cell.contentView viewWithTag:987];
+        if (v) {
+            [v removeFromSuperview];
+        }
     }
+    
+
+//    static char contentViewKey;
+//    NSString *setted = objc_getAssociatedObject(contentView, &contentViewKey);
+//    if (!setted) {
+//        objc_setAssociatedObject(contentView, &contentViewKey, @"0", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//        contentView.layer.borderColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0f].CGColor;
+//        contentView.layer.borderWidth = 1;
+//        contentView.layer.cornerRadius = 2;
+//    }
 
 
     UILabel *shopNameLabel = (UILabel *)[contentView viewWithTag:1];
@@ -251,7 +272,6 @@ NSString *const __id           = @"id";
 
 
     NSDictionary *aShop = self.shops[indexPath.row];
-    
 //    [shopImage setImage:nil];
 //    if ([aShop[@"pic"] rangeOfString:@"png"].location != NSNotFound) {
 //        NSLog(@"%@", aShop[__pic]);
@@ -297,7 +317,7 @@ NSString *const __id           = @"id";
     if (indexPath.row == [self.shops count]) {
         return 43.0f;
     }
-    return 90.0f;
+    return 85.0f;
 }
 #pragma mark - TableView Delegate
 
@@ -307,7 +327,8 @@ NSString *const __id           = @"id";
     }
     if (section == 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 26)];
-        view.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:0.87];
+        //view.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:0.87];
+        view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.87];
         UILabel *label = [UILabel new];
         label.font = [UIFont systemFontOfSize:14.0f];
         label.text = @"猜你喜欢";
@@ -318,6 +339,7 @@ NSString *const __id           = @"id";
 //        view.layer.shadowColor = [UIColor blackColor].CGColor;
 //        view.layer.shadowOffset = CGSizeMake(0, -10);
 //        view.layer.shadowOpacity = 0.3;
+
         return view;
     }
     return nil;

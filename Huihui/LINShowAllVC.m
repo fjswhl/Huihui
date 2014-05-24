@@ -34,6 +34,8 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 @property (strong, nonatomic) NSArray *shopsInSchool;
 @property (strong, nonatomic) NSArray *shopsOutSchool;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *preferredOption;
+
+@property (nonatomic) BOOL needShowNoShopsView;
 @end
 
 @implementation LINShowAllVC
@@ -88,6 +90,33 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
 }
 
 #pragma mark - Table view data source
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        if (self.needShowNoShopsView) {
+            UIView *noCommentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 504)];
+            noCommentView.backgroundColor = [UIColor whiteColor];
+            UILabel *label = [UILabel new];
+            label.textColor = [UIColor lightGrayColor];
+            label.text = @"暂时没有商家";
+            [label sizeToFit];
+            label.layer.position = noCommentView.layer.position;
+            [noCommentView addSubview:label];
+            return noCommentView;
+        }
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        if (self.needShowNoShopsView) {
+            return 504;
+        }
+    }
+    return 0;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -183,10 +212,16 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
             self.shopsInSchool = nil;
             [self.tableView reloadData];
             self.shopsInSchool = dic[@"success"][@"shops"];
+            if ([self.shopsInSchool count] == 0) {
+                self.needShowNoShopsView = true;
+            }
         }else if (option == LINShowAllVCOptionOutschool){
             self.shopsOutSchool = nil;
             [self.tableView reloadData];
             self.shopsOutSchool = dic[@"success"][@"shops"];
+            if ([self.shopsOutSchool count] == 0) {
+                self.needShowNoShopsView = true;
+            }
         }
     /*         延迟0.5秒重载表示图(因为在网络好的情况下, 不延迟的话会出现稍微的卡顿)           */
         double delayInSeconds = 0.3;
@@ -213,6 +248,9 @@ NSString *const __apiShopFetchAll = @"index.php/Shop/fetchAll";
     if ((self.shopsInSchool == nil && (sender.selectedSegmentIndex + 1) == 1) || (self.shopsOutSchool == nil && (sender.selectedSegmentIndex + 1) == 2)) {
         [self fetchAllShopWithOptions:sender.selectedSegmentIndex + 1];
     }else{
+        if ((sender.selectedSegmentIndex == 0 && [self.shopsInSchool count] > 0) || (sender.selectedSegmentIndex == 1 && [self.shopsOutSchool count] > 0)) {
+            self.needShowNoShopsView = false;
+        }
         [self.tableView reloadData];
     }
 }

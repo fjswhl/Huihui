@@ -24,9 +24,9 @@ static char operationArrayKey;
         return;
     }
 //    NSLog(@"%@", [url absoluteString]);
-    if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
+//    if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
             [self setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
-    }
+//    }
 
 
 
@@ -42,9 +42,9 @@ static char operationArrayKey;
         return;
     }
     //    NSLog(@"%@", [url absoluteString]);
-    if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
+//    if ([[url absoluteString] rangeOfString:@".png"].location != NSNotFound || [[url absoluteString] rangeOfString:@".jpg"].location != NSNotFound) {
         [self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
-    }
+//    }
 
 }
 
