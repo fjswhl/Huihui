@@ -22,8 +22,11 @@
 #import "LINRootVC.h"
 #import "UIColor+LINColor.h"
 #import "UIButton+Color.h"
+
 NSString *const apiGuessULike  = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
+NSString *const __apiAdlist = @"index.php/More/adlist";
+
 
 NSString *const __shopname     = @"shopname";
 NSString *const __discount     = @"discount";
@@ -62,6 +65,15 @@ NSString *const __id           = @"id";
 @property (strong, nonatomic) IBOutlet ColorButton *entertainmentButton;
 @property (strong, nonatomic) IBOutlet ColorButton *lifeButton;
 @property (strong, nonatomic) IBOutlet ColorButton *bookButton;
+
+
+
+/**
+ *  处理广告的时候, 会存储一个NSUserDefault. @"adsVersion" ,如果检测出adsVersion大于之前的, 则下载新广告;
+ */
+@property (strong, nonatomic) NSMutableArray *adsArray;
+@property (strong, nonatomic) NSMutableArray *adsURLArray;
+@property (strong, nonatomic) NSMutableArray *adsModelArray;
 @end
 
 @implementation LINMainViewController
@@ -83,13 +95,25 @@ NSString *const __id           = @"id";
     self.loadMoreCellIsShown = YES;
     self.pageCount = 1;
     [self updateTitleButton];
-    
+
     [self fetchGuessUlikeShopListWithPage:@"1"];
     
     [self setupUI];
     
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    
+    [self fetchAdListSuccess:^{
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        for (int i = 0; i < [self.adsURLArray count]; i++) {
+            [manager downloadWithURL:self.adsURLArray[i] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                if (image) {
+                    IntroModel *model = self.adsModelArray[i];
+                    model.image = image;
+                }
+            }];
+        }
+    } failed:nil];
   //  [self setHidesBottomBarWhenPushed:YES];
     // 修改searchbar的取消按钮
 
@@ -184,6 +208,28 @@ NSString *const __id           = @"id";
     }
     return _pickSchoolVC;
 }
+
+- (NSMutableArray *)adsArray{
+    if (!_adsArray) {
+        _adsArray = [NSMutableArray new];
+    }
+    return _adsArray;
+}
+
+- (NSMutableArray *)adsURLArray{
+    if (!_adsURLArray) {
+        _adsURLArray = [NSMutableArray new];
+    }
+    return _adsURLArray;
+}
+
+- (NSMutableArray *)adsModelArray{
+    if (!_adsModelArray) {
+        _adsModelArray = [NSMutableArray new];
+    }
+    return _adsModelArray;
+}
+
 #pragma mark - TableView Datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -291,7 +337,7 @@ NSString *const __id           = @"id";
 //        [shopImage setImage:nil];
 //    }
   //  [shopImage setImageWithURL:[NSURL URLWithString:aShop[__pic]]];
-    NSLog(@"%@", aShop);
+    //NSLog(@"%@", aShop);
     shopNameLabel.text = aShop[__shopname];
     discountLabel.text = aShop[__discount];
     locationLabel.text = aShop[__location];
@@ -588,6 +634,37 @@ NSString *const __id           = @"id";
 }
 
 
+- (void)fetchAdListSuccess:(void (^)(void))successBlock failed:(void (^)(void))failedBlock{
+    MKNetworkOperation *op = [self.engine operationWithPath:__apiAdlist params:nil httpMethod:@"POST"];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *dic = [completedOperation responseJSON];
+        NSLog(@"%@", dic);
+        if (dic[@"error"]) {
+            if (failedBlock) {
+                failedBlock();
+            }
+            return;
+        }
+        
+        NSDictionary *ads = dic[@"success"];
+        NSArray *keys = [ads allKeys];
+        for (NSString *key in keys) {
+            if ([key isEqualToString:@"version"]) {
+                continue;
+            }
+            NSString *urlString = ads[key];
+            [self.adsURLArray addObject:[NSURL URLWithString:urlString]];
+        }
+        if (successBlock) {
+            successBlock();
+        }
+        
+    } errorHandler:nil];
+    
+    [self.engine enqueueOperation:op];
+}
+
+
 #pragma mark - Sague
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     LINRootVC *rootVC = (LINRootVC *) self.tabBarController;
@@ -700,7 +777,9 @@ NSString *const __id           = @"id";
     IntroModel *model1 = [[IntroModel alloc] initWithTitle:nil description:@"汇你所需,惠及你我" image:@"广告1.png"];
     IntroModel *model2 = [[IntroModel alloc] initWithTitle:nil description:@"一步注册,即享优惠" image:@"广告2.png"];
     IntroModel *model3 = [[IntroModel alloc]initWithTitle:nil description:@"预享实惠,推荐汇惠" image:@"广告3.png"];
-    IntroControll *c = [[IntroControll alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.adView.frame), CGRectGetHeight(self.adView.frame)) pages:@[model1,model2,model3]];
+    
+    self.adsModelArray = [@[model1, model2, model3] mutableCopy];
+    IntroControll *c = [[IntroControll alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.adView.frame), CGRectGetHeight(self.adView.frame)) pages:self.adsModelArray];
     c.layer.shadowColor = [UIColor blackColor].CGColor;
     c.layer.shadowOffset = CGSizeMake(2, 2);
     c.layer.shadowOpacity = 0.2f;

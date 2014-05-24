@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LINMainViewController.m"
-            timestampString = "422633337.790065"
+            timestampString = "422636878.368236"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
-            landmarkName = "-tableView:viewForHeaderInSection:"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -918,6 +918,22 @@
             startingLineNumber = "113"
             endingLineNumber = "113"
             landmarkName = "-tableView:heightForHeaderInSection:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Huihui/LINCommentVC.m"
+            timestampString = "422637934.481647"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-postComment:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

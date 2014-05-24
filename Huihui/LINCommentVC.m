@@ -120,7 +120,6 @@ NSString *const __apiEvaluate = @"index.php/Shop/evaluate";
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary *dic = [completedOperation responseJSON];
         [hud hide:YES];
-        
         if (dic[@"error"]) {
             NSNumber *errorCode = dic[@"error"];
             if ([errorCode intValue] == 0) {

@@ -1549,7 +1549,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="清除缓存(1).png" translatesAutoresizingMaskIntoConstraints="NO" id="1fJ-0O-EKg">
-                                                    <rect key="frame" x="20" y="6" width="32" height="32"/>
+                                                    <rect key="frame" x="19" y="6" width="32" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -1902,11 +1902,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我的电子会员卡" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ho5-3l-HLS">
-                                                    <rect key="frame" x="20" y="11" width="119" height="21"/>
+                                                    <rect key="frame" x="58" y="11" width="119" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="我的电子会员卡.png" translatesAutoresizingMaskIntoConstraints="NO" id="KEz-dp-zmb">
+                                                    <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPH-AK-iHY">
                                                     <rect key="frame" x="245" y="11" width="42" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1916,6 +1920,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="55" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zMS-ix-Z69">
                                         <rect key="frame" x="0.0" y="260" width="320" height="44"/>
@@ -1925,11 +1930,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我的收藏" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R4v-CV-g3h">
-                                                    <rect key="frame" x="20" y="11" width="68" height="21"/>
+                                                    <rect key="frame" x="58" y="11" width="68" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="我的收藏.png" translatesAutoresizingMaskIntoConstraints="NO" id="i0q-Gy-Pgx">
+                                                    <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecO-YB-Ukq">
                                                     <rect key="frame" x="245" y="11" width="42" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1939,6 +1948,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="55" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="rhn-yk-h1X">
                                         <rect key="frame" x="0.0" y="304" width="320" height="44"/>
@@ -1948,11 +1958,15 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我的订单" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kbx-qy-Bx0">
-                                                    <rect key="frame" x="20" y="11" width="68" height="21"/>
+                                                    <rect key="frame" x="58" y="11" width="68" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="我的订单.png" translatesAutoresizingMaskIntoConstraints="NO" id="jJI-SH-jtO">
+                                                    <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nzB-Gj-7Hz">
                                                     <rect key="frame" x="245" y="11" width="42" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3329,7 +3343,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="WIFI [转换].png" width="75" height="75"/>
+        <image name="WIFI [转换].png" width="37" height="37"/>
         <image name="back.png" width="480" height="126"/>
         <image name="back_button_inverse.png" width="12" height="25"/>
         <image name="bg_is_vip.png" width="101" height="51"/>
@@ -3348,16 +3362,19 @@
         <image name="tab3.png" width="25" height="25"/>
         <image name="tabs_more_unselected.png" width="24" height="24"/>
         <image name="titlebutton2.png" width="13" height="7"/>
-        <image name="关于.png" width="75" height="75"/>
-        <image name="分享.png" width="75" height="75"/>
+        <image name="关于.png" width="37" height="37"/>
+        <image name="分享.png" width="37" height="37"/>
         <image name="外卖.png" width="75" height="75"/>
         <image name="娱乐2.png" width="75" height="75"/>
-        <image name="意见反馈75.png" width="75" height="75"/>
+        <image name="意见反馈75.png" width="37" height="37"/>
+        <image name="我的收藏.png" width="78" height="79"/>
+        <image name="我的电子会员卡.png" width="78" height="78"/>
+        <image name="我的订单.png" width="77" height="79"/>
         <image name="欢迎叶面5.png" width="94" height="87"/>
-        <image name="清除缓存(1).png" width="75" height="75"/>
+        <image name="清除缓存(1).png" width="37" height="37"/>
         <image name="生活服务2.png" width="75" height="75"/>
         <image name="美食2.png" width="75" height="75"/>
-        <image name="评分(1).png" width="75" height="75"/>
+        <image name="评分(1).png" width="37" height="37"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
