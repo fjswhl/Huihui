@@ -9,8 +9,8 @@
 #ifndef Huihui_Addrmacro_h
 #define Huihui_Addrmacro_h
 
-//#define __HOSTNAME__            @"dev.huihuixinxi.com"
+#define __HOSTNAME__            @"dev.huihuixinxi.com"
 //#define __HOSTNAME__            @"xdhuihui.sinaapp.com"
-#define __HOSTNAME__            @"server.huihuixinxi.com"
+//#define __HOSTNAME__            @"server.huihuixinxi.com"
 #define __SCHOOLID__            @"schoolid"
 #endif
