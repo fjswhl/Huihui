@@ -58,6 +58,8 @@
  *
  *  @return void
  */
+
+- (void)fetchUserInfo;
 - (void)setLogged:(BOOL)logged;
 - (BOOL)logged;
 

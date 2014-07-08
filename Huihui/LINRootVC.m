@@ -11,6 +11,7 @@
 #import "NSString+Md5.h"
 #import "UIColor+LINColor.h"
 #import "MBProgressHUD.h"
+#import "LINMoodWallViewController.h"
 
 //  这里登入成功后会将用户名和密码保存进UserDefault
 //  key:phoneNumber  ,password
@@ -20,9 +21,12 @@ NSString *const __apiLogin = @"index.php/User/loadin";
 NSString *const __apiGetScretKey = @"index.php/User/getSecretKey";
 NSString *const __apiLogout = @"index.php/User/logout";
 NSString *const __apiGetProfile = @"index.php/User/getProfile";
-@interface LINRootVC ()
+@interface LINRootVC ()<UITabBarControllerDelegate>
 
 @property (weak, nonatomic) MKNetworkEngine *engine;
+
+
+//@property (strong, nonatomic) UIView *selectedView;
 @end
 
 @implementation LINRootVC
@@ -40,6 +44,7 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.delegate = self;
     self.tabBar.tintColor = [UIColor preferredColor];
     if ([self logged]) {
         [self loginWithName:self.userPhoneNumber password:self.userPwd completion:^{
@@ -55,6 +60,8 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
 //    if ([self logged]) {
 //        [self fetchUserInfo];
 //    }
+    
+    //[self.view addSubview:self.selectedView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,6 +111,14 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
     }
     return _userPwd;
 }
+
+//- (UIView *)selectedView{
+//    if (!_selectedView) {
+//        _selectedView = [[UIView alloc] initWithFrame:CGRectMake(0, 518, 80, 50)];
+//        _selectedView.backgroundColor = [UIColor preferredColor];
+//    }
+//    return _selectedView;
+//}
 
 - (BOOL)loginWithName:(NSString *)name password:(NSString *)password completion:(void (^)(void))block failed:(void (^)(void))failedBlock{
     [self.engine emptyCache];
@@ -185,7 +200,7 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
 - (BOOL)logout{
     MKNetworkOperation *op = [self.engine operationWithPath:__apiLogout params:nil httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        [self.rootVCdelegate userDidlogout];
+        ;
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         [MBProgressHUD showNetworkErrorToView:self.view];
     }];
@@ -231,7 +246,7 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
 }
 
 - (void)hideTabbarAnimated:(BOOL)animated{
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.25f animations:^{
             self.tabBar.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.tabBar.frame));
     }];
     self.isHidden = YES;
@@ -239,11 +254,35 @@ NSString *const __apiGetProfile = @"index.php/User/getProfile";
 }
 
 - (void)showTabbarAnimated:(BOOL)animated{
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.25f animations:^{
         self.tabBar.transform = CGAffineTransformIdentity;
     }];
     self.isHidden = NO;
 }
+
+#pragma mark - TabbarController Delegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
+    NSInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+    if (index == 1) {
+        if ([self logged]) {
+
+            return YES;
+        }
+        [MBProgressHUD showTextHudToView:self.view text:@"登入后才可使用校园圈"];
+        return NO;
+    }
+    return YES;
+}
+
+//- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+//    NSInteger index = [tabBarController.viewControllers indexOfObject:viewController];
+//    NSInteger x = index * 80;
+//    CGRect frame = self.selectedView.frame;
+//    frame.origin.x = x;
+//    self.selectedView.frame = frame;
+//    
+//}
 @end
 
 

@@ -23,6 +23,10 @@
 #import "UIColor+LINColor.h"
 #import "UIButton+Color.h"
 
+
+#define kAdsVersionUDKEY @"adsVersion"
+
+
 NSString *const apiGuessULike  = @"index.php/Shop/guessULike";
 NSString *const __apiGetSearch = @"index.php/Shop/getSearch";
 NSString *const __apiAdlist = @"index.php/More/adlist";
@@ -70,6 +74,7 @@ NSString *const __id           = @"id";
 
 /**
  *  处理广告的时候, 会存储一个NSUserDefault. @"adsVersion" ,如果检测出adsVersion大于之前的, 则下载新广告;
+ *  另一个adsImage ,用于存储已经下载的广告
  */
 @property (strong, nonatomic) NSMutableArray *adsArray;
 @property (strong, nonatomic) NSMutableArray *adsURLArray;
@@ -103,17 +108,59 @@ NSString *const __id           = @"id";
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     
-    [self fetchAdListSuccess:^{
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        for (int i = 0; i < [self.adsURLArray count]; i++) {
-            [manager downloadWithURL:self.adsURLArray[i] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+    /**
+     *  加载已经存储的广告
+     */
+//    NSArray *adsImg = [[NSUserDefaults standardUserDefaults] valueForKey:@"adsImage"];
+//    if (adsImg) {
+//        for (int i = 0; i < [adsImg count]; i++) {
+//            UIImage *img = adsImg[i];
+//            if (img) {
+//                IntroModel *model = self.adsModelArray[i];
+//                model.image = img;
+//            }
+//        }
+//    }
+    NSMutableArray *adsURLArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"adsURLArray"];
+    if (adsURLArray) {
+        SDWebImageDownloader *manager = [SDWebImageDownloader sharedDownloader];
+        
+        for (int i = 0; i < [adsURLArray count]; i++) {
+            [manager downloadImageWithURL:[NSURL URLWithString: adsURLArray[i]] options:0 progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                 if (image) {
                     IntroModel *model = self.adsModelArray[i];
                     model.image = image;
                 }
             }];
         }
+    }
+    
+    [self fetchAdListSuccess:^{
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        
+        //NSMutableArray *adsImgs = [NSMutableArray new];
+        NSMutableArray *arr = [@[@"123",@"456",@"789"] mutableCopy];
+        NSArray *arr1 = self.adsURLArray;
+        NSLog(@"%@", arr);
+        NSLog(@"%@", arr1);
+        [[NSUserDefaults standardUserDefaults] setObject:arr1 forKey:@"adsURLArray"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        for (int i = 0; i < [self.adsURLArray count]; i++) {
+            [manager downloadWithURL:[NSURL URLWithString: adsURLArray[i]] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                if (image) {
+                    IntroModel *model = self.adsModelArray[i];
+                    model.image = image;
+    
+                   // [adsImgs addObject:image];
+                }
+            }];
+        }
+        //[[NSUserDefaults standardUserDefaults] setValue:adsImgs forKey:@"adsImage"];
     } failed:nil];
+    
+    
+
   //  [self setHidesBottomBarWhenPushed:YES];
     // 修改searchbar的取消按钮
 
@@ -305,6 +352,10 @@ NSString *const __id           = @"id";
     UILabel *locationLabel = (UILabel *)[contentView viewWithTag:3];
     RatingView *ratingView = (RatingView *)[contentView viewWithTag:4];
     UIImageView *shopImage = (UIImageView *)[contentView viewWithTag:5];
+    UIImageView *vipFlag = (UIImageView *)[contentView viewWithTag:98];
+    UIImageView *bookFlag = (UIImageView *)[contentView viewWithTag:99];
+    
+    
     
     [cell.contentView sendSubviewToBack:ratingView];
     
@@ -353,6 +404,17 @@ NSString *const __id           = @"id";
     [shopImage setImage:[UIImage imageNamed:@"placeholder.png"]];
     [shopImage setImageWithURL:[NSURL URLWithString: aShop[__pic]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
+    if ([aShop[@"isreserve"] integerValue] == 1) {
+        bookFlag.hidden = NO;
+    }else{
+        bookFlag.hidden = YES;
+    }
+    
+    if ([aShop[@"isvip"] integerValue] == 1) {
+        vipFlag.hidden = NO;
+    }else{
+        vipFlag.hidden = YES;
+    }
     return cell;
 }
 
@@ -647,15 +709,30 @@ NSString *const __id           = @"id";
         }
         
         NSDictionary *ads = dic[@"success"];
+        
+        
+        NSNumber *oldVersion = [[NSUserDefaults standardUserDefaults] valueForKey:kAdsVersionUDKEY];
+        if (!oldVersion) {
+            oldVersion = @(0);
+        }
+        
+        NSNumber *newVersion = nil;
+        
         NSArray *keys = [ads allKeys];
         for (NSString *key in keys) {
             if ([key isEqualToString:@"version"]) {
+                newVersion = ads[key];
                 continue;
             }
             NSString *urlString = ads[key];
-            [self.adsURLArray addObject:[NSURL URLWithString:urlString]];
+            [self.adsURLArray addObject:urlString];
         }
-        if (successBlock) {
+        
+        /**
+         * 新广告的版本号大于旧版本的版本号的话, 就更新广告.
+         */
+        if (successBlock && ([newVersion integerValue] > [oldVersion integerValue])) {
+            [[NSUserDefaults standardUserDefaults] setValue:newVersion forKey:kAdsVersionUDKEY];
             successBlock();
         }
         

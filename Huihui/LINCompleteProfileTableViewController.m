@@ -517,9 +517,13 @@ NSString *const __apiCompleteProfile = @"index.php/User/completeProfile";
 
 
     }else if (actionSheet.tag == 1){
+        /**
+         *  log out
+         */
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
             LINRootVC *rootVC = (LINRootVC *)self.tabBarController;
             [rootVC setLogged:NO];
+            [rootVC logout];
             [self.navigationController popViewControllerAnimated:YES];
             NSInteger index = [[self.navigationController viewControllers] indexOfObject:self] - 1;
             LINMeVC *meVC = [[self.navigationController viewControllers] objectAtIndex:index];

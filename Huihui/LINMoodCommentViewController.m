@@ -416,6 +416,10 @@ extern NSString *const __apiThumbDown;
         return;
     }else{
         [self.textView resignFirstResponder];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"正在发表评论...";
         MKNetworkOperation *op = [self.engine operationWithPath:__apiNewComment params:@{@"content":[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], @"moodid":mood.moodId} httpMethod:@"POST"];
         self.textView.text = @"";
         self.textViewPlaceHolder.hidden = NO;
@@ -426,8 +430,10 @@ extern NSString *const __apiThumbDown;
             /*          刷新评论数量      */
             NSNumber *numOfComment = self.mood[@"numofcomment"];
             self.mood[@"numofcomment"] = @([numOfComment integerValue] + 1);
+            [hud hide:YES];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            [hud hide:YES];
             [MBProgressHUD showNetworkErrorToView:self.view];
         }];
         [self.engine enqueueOperation:op];

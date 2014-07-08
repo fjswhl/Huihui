@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "MKNetworkKit.h"
 #import "Addrmacro.h"
-@interface LINAppDelegate : UIResponder <UIApplicationDelegate>
+#import "GexinSdk.h"
+
+typedef enum {
+    SdkStatusStoped,
+    SdkStatusStarting,
+    SdkStatusStarted
+} SdkStatus;
+
+@interface LINAppDelegate : UIResponder <UIApplicationDelegate, GexinSdkDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 
 @property (strong, nonatomic) MKNetworkEngine *engine;
+
+@property (strong, nonatomic) GexinSdk *gexinPusher;
+@property (assign, nonatomic) SdkStatus sdkStatus;
+
 @end

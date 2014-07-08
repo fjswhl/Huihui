@@ -13,6 +13,7 @@
 #import "LINMoodWallViewController.h"
 #import "LINMood.h"
 #import "LINRootVC.h"
+#import "MBProgressHUD.h"
 NSString *const __apiNewMood = @"index.php/Mood/newmood";
 
 @interface LINPostMoodViewController ()<LINTextureBoardViewDelegate, UINavigationBarDelegate, UITextViewDelegate>
@@ -265,7 +266,7 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
 - (IBAction)postMood:(id)sender {
     
     NSString *bgCode = [NSString stringWithFormat:@"%li", (long)([UIColor intergerFromUIColor:self.textView.backgroundColor] - 10000)];
-    NSLog(@"%@", bgCode);
+   // NSLog(@"%@", bgCode);
     MKNetworkOperation *op = [self.engine operationWithPath:__apiNewMood params:@{@"content":[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
                                                                                   @"bg":bgCode} httpMethod:@"POST"];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
@@ -273,7 +274,7 @@ NSString *const __apiNewMood = @"index.php/Mood/newmood";
         NSDictionary *dic = [completedOperation responseJSON];
         NSLog(@"%@", dic);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-#warning wait
+        [MBProgressHUD showNetworkErrorToView:self.view];
     }];
     
     [self.engine enqueueOperation:op];

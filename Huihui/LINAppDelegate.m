@@ -15,7 +15,14 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
 #import "NSString+Md5.h"
+#import "LINRootVC.h"
 #import "UIColor+LINColor.h"
+
+
+#define kAppID        @"hvmv4Fas4p9xhvRRlLkdR"
+#define kAppKey       @"7HWeHER3gdApNBtWayDz46"
+#define kAppSecret    @"PrnDGpFils5EBhjbO4eaj9"
+#define kMasterSecret @"grZFkKzI278Eud5ZW1B6F3"
 @implementation LINAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -57,6 +64,14 @@
     [ShareSDK connectRenRenWithAppKey:@"6abd134b79e84e8b88bfd8554effb386" appSecret:@"d92a0ca22bd24939be08df727ebcfa61"];
     [ShareSDK connectWeChatTimelineWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];
     [ShareSDK connectWeChatSessionWithAppId:@"wx24e1c667b64ac6a3" wechatCls:[WXApi class]];
+    
+    /**
+     *  通知相关
+     */
+    [self startSdkWith:kAppID appKey:kAppKey appSecret:kAppSecret];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    application.applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
@@ -84,6 +99,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self stopSdk];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -91,7 +107,14 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    LINRootVC *rootVC = (LINRootVC *)self.window.rootViewController;
+    if ([rootVC logged] == YES) {
+        [rootVC loginCompletion:nil failed:nil];
+    }
+
+    
 }
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
@@ -102,6 +125,20 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    NSLog(@"deviceToken:%@", deviceToken);
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    if (_gexinPusher) {
+        [_gexinPusher registerDeviceToken:[token stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    }
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    NSLog(@"获得令牌失败");
+}
+
+
 
 #pragma mark - getter
 - (MKNetworkEngine *)engine{
@@ -161,6 +198,44 @@
 //
 //}
 
+#pragma mark - gexin SDK
+
+- (void)startSdkWith:(NSString *)appID appKey:(NSString *)appKey appSecret:(NSString *)appSecret{
+    if (!_gexinPusher) {
+        _sdkStatus = SdkStatusStoped;
+        _gexinPusher = [GexinSdk createSdkWithAppId:kAppID
+                                             appKey:kAppKey
+                                          appSecret:kAppSecret
+                                         appVersion:@"1.2.0"
+                                           delegate:self
+                                              error:nil];
+        if (!_gexinPusher) {
+            NSLog(@"gexinpusher failed");
+        }else{
+            _sdkStatus = SdkStatusStarting;
+        }
+    }
+}
+
+- (void)stopSdk{
+    if (_gexinPusher) {
+        [_gexinPusher destroy];
+        _gexinPusher = nil;
+        _sdkStatus = SdkStatusStoped;
+    }
+}
+
+- (void)setDeviceToken:(NSString *)aToken{
+    [_gexinPusher registerDeviceToken:aToken];
+}
+
+- (void)GexinSdkDidRegisterClient:(NSString *)clientId{
+    NSLog(@"gexin注册成功");
+}
+
+- (void)GexinSdkDidReceivePayload:(NSString *)payloadId fromApplication:(NSString *)appId{
+    
+}
 
 @end
 
